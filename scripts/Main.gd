@@ -1,6 +1,6 @@
 extends Node
 
-var hola = "Hello World"
+var hola = "Hello World 2"
 
 func _ready():
 	#test
