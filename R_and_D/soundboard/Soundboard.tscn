@@ -1,0 +1,111 @@
+[gd_scene load_steps=8 format=1]
+
+[ext_resource path="res://R_and_D/soundboard/fonts/amble/Amble-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://R_and_D/soundboard/scripts/soundboard.gd" type="Script" id=2]
+[ext_resource path="res://R_and_D/soundboard/sounds/lose money.wav" type="Sample" id=3]
+[ext_resource path="res://R_and_D/soundboard/sounds/pickup.wav" type="Sample" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+
+font/size = 23
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+
+font/size = 32
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 1 )
+
+[sub_resource type="SampleLibrary" id=3]
+
+"samples/lose money" = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
+samples/pickup = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
+
+[node name="Soundboard" type="Node"]
+
+[node name="Label" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 390.0
+margin/bottom = 101.0
+custom_fonts/font = SubResource( 1 )
+text = "This is for the paper prototype"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="vbox_container" type="VBoxContainer" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 26.0
+margin/top = 75.0
+margin/right = 276.0
+margin/bottom = 421.0
+alignment = 0
+script/script = ExtResource( 2 )
+
+[node name="pickup" type="MenuButton" parent="vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 250.0
+margin/bottom = 44.0
+custom_fonts/font = SubResource( 2 )
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Pickup"
+flat = true
+items = [  ]
+
+[node name="lose_money" type="MenuButton" parent="vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 48.0
+margin/right = 250.0
+margin/bottom = 92.0
+custom_fonts/font = SubResource( 2 )
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Lose Money"
+flat = true
+items = [  ]
+
+[node name="sample_player" type="SamplePlayer2D" parent="vbox_container"]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = SubResource( 3 )
+config/pitch_random = 0.0
+
+[connection signal="pressed" from="vbox_container/pickup" to="vbox_container" method="_on_pickup_pressed"]
+
+[connection signal="pressed" from="vbox_container/lose_money" to="vbox_container" method="_on_lose_money_pressed"]
+
+
