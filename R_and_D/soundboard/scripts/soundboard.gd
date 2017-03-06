@@ -14,3 +14,7 @@ func _on_pickup_pressed():
 
 func _on_lose_money_pressed():
 	sample_player.play("lose money")
+
+
+func _on_pickup_coin_pressed():
+	sample_player.play("pickup_coin")

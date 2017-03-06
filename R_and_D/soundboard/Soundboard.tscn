@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://R_and_D/soundboard/fonts/amble/Amble-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://R_and_D/soundboard/scripts/soundboard.gd" type="Script" id=2]
 [ext_resource path="res://R_and_D/soundboard/sounds/lose money.wav" type="Sample" id=3]
 [ext_resource path="res://R_and_D/soundboard/sounds/pickup.wav" type="Sample" id=4]
+[ext_resource path="res://R_and_D/soundboard/sounds/pickup_coin.wav" type="Sample" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -23,6 +24,7 @@ font/font = ExtResource( 1 )
 
 "samples/lose money" = { "db":0.0, "pitch":1.0, "sample":ExtResource( 3 ) }
 samples/pickup = { "db":0.0, "pitch":1.0, "sample":ExtResource( 4 ) }
+samples/pickup_coin = { "db":0.0, "pitch":1.0, "sample":ExtResource( 5 ) }
 
 [node name="Soundboard" type="Node"]
 
@@ -93,6 +95,25 @@ text = "Lose Money"
 flat = true
 items = [  ]
 
+[node name="pickup_coin" type="MenuButton" parent="vbox_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 96.0
+margin/right = 250.0
+margin/bottom = 140.0
+custom_fonts/font = SubResource( 2 )
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Pickup Coin"
+flat = true
+items = [  ]
+
 [node name="sample_player" type="SamplePlayer2D" parent="vbox_container"]
 
 params/volume_db = 0.0
@@ -107,5 +128,7 @@ config/pitch_random = 0.0
 [connection signal="pressed" from="vbox_container/pickup" to="vbox_container" method="_on_pickup_pressed"]
 
 [connection signal="pressed" from="vbox_container/lose_money" to="vbox_container" method="_on_lose_money_pressed"]
+
+[connection signal="pressed" from="vbox_container/pickup_coin" to="vbox_container" method="_on_pickup_coin_pressed"]
 
 
