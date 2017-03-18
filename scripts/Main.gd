@@ -4,5 +4,5 @@ var holar = "Hello World"
 
 func _ready():
 	#test
-	print(hola)
+	print("hola")
 	pass
