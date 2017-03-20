@@ -13,6 +13,11 @@ export (NodePath) var root_node
 
 var dots = []
 
+var inventory = {
+
+			"Notebook":[false,show_notebook()]
+}
+
 func _ready():
 	
 	if(root_node != null): root_node = get_node(root_node)
@@ -28,6 +33,9 @@ func _fixed_process(delta):
 	
 #	=><
 func _input(event):
+	
+	#if mouse is over areas where placing a go button is bad
+	if(root_node.can_place_movement_dot == false): return
 	
 	# sets the destination vector to the mouse position
 	if(Input.get_mouse_button_mask() == 1):
@@ -52,12 +60,10 @@ func _input(event):
 
 func move_player():
 	if(!can_move): return
-	
 	#reset move_vector so it dosent increas expentional
 	move_vector *= 0
 	
 	# move player tworeds destination 
-	
 	if(destination != null):
 		if(destination.x <= get_pos().x): move_vector += Vector2(-1,0)
 		if(destination.x >= get_pos().x): move_vector += Vector2(1,0)
@@ -82,3 +88,15 @@ func move_player():
 			
 		set_pos(Vector2(x,y))
 		set_pos(get_pos() + move_vector)
+		
+func is_in_inventory(item):
+	if(inventory.has(str(item))): return true
+	else: return false
+	
+func update_inventory(item):
+	inventory[item][0] = true
+	if(inventory[item][1] != null): inventory[item][1]
+	
+func show_notebook():
+	pass
+	

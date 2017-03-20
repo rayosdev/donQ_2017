@@ -1,9 +1,11 @@
+#				paper_level_01.gd
 extends Node
 
 var term
 var dialog_characters = []
 var dialog = {}
 
+var can_place_movement_dot = true
 
 var GAME_STATE = {
 	
@@ -82,8 +84,7 @@ func run_states_once():
 		
 		get_node("cutscene").is_active = true
 		get_node("cutscene").run()
-		pass
-		
+		pass	
 	pass
 		
 func switch_state_spesific_functions_off():
@@ -93,5 +94,21 @@ func switch_state_spesific_functions_off():
 	
 	get_node("cutscene").is_active = false
 	get_node("cutscene").run()
+	pass
+
+func inventory(item):
+	if(get_node("player").is_in_inventory(item)): 
+		get_node("player").update_inventory(item)
+		write_to_term("item added: " + str(item))
+	else: return "item: " + str(item) + "not found in inventory"
+	pass
 	
+func can_place_movement_dot_switch(state):
+	can_place_movement_dot = state
+	pass
 	
+func run_function(function):
+	print(function)
+	function[0]
+	
+

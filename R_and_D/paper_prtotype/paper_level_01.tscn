@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/paper_level_01-main_logic.gd" type="Script" id=1]
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=2]
@@ -6,7 +6,8 @@
 [ext_resource path="res://R_and_D/paper_prtotype/utils/dot.tscn" type="PackedScene" id=4]
 [ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/landlord.tscn" type="PackedScene" id=5]
 [ext_resource path="res://R_and_D/paper_prtotype/utils/mouse_drag_items.tscn" type="PackedScene" id=6]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=7]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/notepad_icon.tscn" type="PackedScene" id=7]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 
@@ -81,12 +82,27 @@ script/script = SubResource( 1 )
 
 [node name="mouse_drag_items" parent="." instance=ExtResource( 6 )]
 
-[node name="cutscene" parent="." instance=ExtResource( 7 )]
+[node name="ui" type="Node2D" parent="."]
+
+transform/pos = Vector2( 480, 289 )
+transform/scale = Vector2( 0.5, 0.5 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="notepad_icon" parent="ui" instance=ExtResource( 7 )]
+
+visibility/visible = false
+margin/left = 800.0
+margin/top = 352.0
+margin/right = 992.0
+margin/bottom = 566.0
+
+[node name="cutscene" parent="." instance=ExtResource( 8 )]
 
 root_node = NodePath("..")
 
 [node name="admin_mode" type="Node" parent="."]
 
+editor/display_folded = true
 script/script = SubResource( 2 )
 root_node = NodePath("..")
 
@@ -94,6 +110,14 @@ root_node = NodePath("..")
 
 script/script = SubResource( 3 )
 
+[connection signal="mouse_enter" from="term" to="." method="can_place_movement_dot_switch" binds= [ false ]]
+
+[connection signal="mouse_exit" from="term" to="." method="can_place_movement_dot_switch" binds= [ true ]]
+
 [connection signal="pressed" from="term/switch_states" to="term/switch_states" method="_on_switch_states_pressed"]
+
+[connection signal="mouse_enter" from="ui/notepad_icon" to="." method="can_place_movement_dot_switch" binds= [ false ]]
+
+[connection signal="mouse_exit" from="ui/notepad_icon" to="." method="can_place_movement_dot_switch" binds= [ true ]]
 
 
