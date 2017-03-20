@@ -21,9 +21,10 @@ transform/pos = Vector2( 783.971, 129.246 )
 transform/scale = Vector2( 0.663942, 0.599075 )
 texture = ExtResource( 1 )
 script/script = ExtResource( 2 )
-parant = null
+dot = null
+root_node = null
 
-[node name="personal_collison_area" type="Area2D" parent="." groups=[ "dragable", "player" ]]
+[node name="personal_collison_area" type="Area2D" parent="." groups=[ "player", "dragable" ]]
 
 input/pickable = true
 shapes/0/shape = SubResource( 1 )

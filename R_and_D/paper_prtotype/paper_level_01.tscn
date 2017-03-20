@@ -1,16 +1,27 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=11 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/paper_level_01-main_logic.gd" type="Script" id=1]
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=2]
 [ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/landlord.tscn" type="PackedScene" id=4]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/mouse_drag_items.tscn" type="PackedScene" id=5]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/reset_scene.tscn" type="PackedScene" id=6]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/dot.tscn" type="PackedScene" id=4]
+[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/landlord.tscn" type="PackedScene" id=5]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/mouse_drag_items.tscn" type="PackedScene" id=6]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=7]
 
 [sub_resource type="GDScript" id=1]
 
 resource/name = "switch_states"
-script/source = "extends Button\n\n\nfunc _ready():\n\tpass\n\n\nfunc _on_switch_states_pressed():\n\tvar root = get_parent().get_parent().get_node(\".\")\n\tif(root.GAME_STATE._CURRENT == 1): root.GAME_STATE._CURRENT = 2 \n\telse: root.GAME_STATE._CURRENT = 1\n\tpass # replace with function body\n"
+script/source = "extends Button\n\nvar state_switch = 1\n\nfunc _ready():\n\tpass\n\n\nfunc _on_switch_states_pressed():\n\tvar root_node = get_parent().get_parent().get_node(\".\")\n\t\n#\tprint(root_node.change_state(state_switch))\n\t\n\tif(state_switch == 1): state_switch += 1\n\telse: state_switch -= 1\n\tpass\n"
+
+[sub_resource type="GDScript" id=2]
+
+resource/name = "admin"
+script/source = "extends Node\n\nexport (NodePath) var root_node\n\nvar is_admin = false\n\n\nfunc _ready():\n\troot_node = get_node(root_node)\n\tset_process_input(true)\n\tpass\n\n\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"A\")):\n\t\tif(!is_admin): admin_enable()\n\t\telse: admin_disable()\n\n\nfunc admin_enable():\n\troot_node.get_node(\"player\").can_move = false\n\troot_node.get_node(\"mouse_drag_items\").is_active = true\n\tis_admin = true\n\troot_node.write_to_term(\"admin enabled\")\n\t\n\t\nfunc admin_disable():\n\troot_node.get_node(\"player\").can_move = true\n\troot_node.get_node(\"mouse_drag_items\").is_active = false\n\tis_admin = false\n\troot_node.write_to_term(\"admin disabled\")\n#\troot_node.run_states_once()\n\t"
+
+[sub_resource type="GDScript" id=3]
+
+resource/name = "reset"
+script/source = "extends Node\n\n\nfunc _ready():\n\tset_process_input(true)\n\tpass\n\t\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"R\")):\n\t\tget_tree().reload_current_scene()\n\t\n\n"
 
 [node name="paper_level_01" type="Node"]
 
@@ -25,22 +36,25 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="player" parent="." instance=ExtResource( 3 )]
 
-parant = NodePath("..")
+dot = ExtResource( 4 )
+root_node = NodePath("..")
 
-[node name="landlord" parent="." instance=ExtResource( 4 )]
+[node name="landlord" parent="." instance=ExtResource( 5 )]
 
-parant = NodePath("..")
+transform/pos = Vector2( 558.806, 260.987 )
+root_node = NodePath("..")
 
 [node name="term" type="TextEdit" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 48.0
-margin/top = 38.0
-margin/right = 209.0
-margin/bottom = 152.0
+margin/left = 64.0
+margin/top = 352.0
+margin/right = 225.0
+margin/bottom = 466.0
 syntax_highlighting = false
 show_line_numbers = false
 highlight_all_occurrences = false
@@ -50,23 +64,35 @@ caret/caret_blink_speed = 0.65
 
 [node name="switch_states" type="Button" parent="term"]
 
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 174.0
-margin/top = -3.0
-margin/right = 244.0
-margin/bottom = 41.0
+margin/left = 0.0
+margin/top = 160.0
+margin/right = 70.0
+margin/bottom = 204.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 flat = false
 script/script = SubResource( 1 )
 
-[node name="mouse_drag_items" parent="." instance=ExtResource( 5 )]
+[node name="mouse_drag_items" parent="." instance=ExtResource( 6 )]
 
-[node name="reset_scene" parent="." instance=ExtResource( 6 )]
+[node name="cutscene" parent="." instance=ExtResource( 7 )]
+
+root_node = NodePath("..")
+
+[node name="admin_mode" type="Node" parent="."]
+
+script/script = SubResource( 2 )
+root_node = NodePath("..")
+
+[node name="reset" type="Node" parent="admin_mode"]
+
+script/script = SubResource( 3 )
 
 [connection signal="pressed" from="term/switch_states" to="term/switch_states" method="_on_switch_states_pressed"]
 

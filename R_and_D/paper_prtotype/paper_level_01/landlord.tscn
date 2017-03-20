@@ -5,7 +5,7 @@
 [sub_resource type="GDScript" id=1]
 
 resource/name = "landlord"
-script/source = "extends Sprite\n\n\n\nexport (NodePath) var parant\n\nfunc _ready():\n\tif(parant != null): parant = get_node(parant)\n\tpass\n\nfunc _on_collison_area_enter( area ):\n#\tif(parant != null): parant.write_to_term(area.get_parent().get_name())\n\tif(area.is_in_group(\"player\")):\n\t\tprint(\"player found\")\n\t\tpass\n\tpass # replace with function body\n\n"
+script/source = "#\t\t\t\t\tscript landlord\nextends Sprite\n\nvar encounter = 0\nvar is_speaking = false\n\nvar dialog = {\n\n\t\t#\"ID\": \"[(speaker 0 = player, 1 = landlord) [branch 0,1,2..] ,action(S = Speach Q = Question A = Answer)][time in audio clip name audio clip,][dialog]\",\n#\t\t1:\t[[0],\"S\",null,\"Hola\"]\n#\tKEY\n# [branch addres , frame flow] : action...\n \t\t\t#S = SPEAK , speaker, audio clip/time code , dialog] \n\t[\'A\',1]:[\'S\' , 0 , null , \"Hola\"],\n\t[\'A\',2]:[\'S\' , 1 , null , \"Hello\"],\n\n \t\t\t#Q = QUESTION , speaker, audio clip/time code , dialog] @ reason for having question is to preper for answer and also have a jumping back point refrence. You might want to have the question as a header for the conversation\n\t[\'A\',3]:[\'Q\' , 0 , null , \"Do you like your new home\?\"],\n\t\n \t\t\t#A = ANSWER , [answer1 , answer2...] , [#OS = ONESHOT, #UC = UNCHANGED, #AR = ALTERNET ROOT]] \n\t[\'A\',4]:[\'A\', [\"No\",\"Yes\"], [[\'OS\',],\'UC\']],\n\t\n\t\n\t[\'_A\',1]:[\'S\' , 0 , null , \"Ha ha\"],\n\t[\'_A\',2]:[\'S\' , 0 , null , \"good joke\"],\n\t\t\t#E = END , speaker, audio clip/time code , dialog] \n\t[\'_A\',3]:[\'E\' , 0 , null , \"I have to go, bye\"],\n\t\n\t[\'_B\',1]:[\'S\' , 0 , null , \"it\'s not much but it\'s home\"],\n\t[\'_B\',2]:[\'S\' , 0 , null , \"I see you are looking for work\"],\n\t[\'_B\',3]:[\'Q\' , 0 , null , \"are you learning spanish\?\"],\n\t\n\t[\'_B\',4]:[\'A\' , [\"Yes\",\"No\",\"I dont know\"]],\n\t\n\t\t\t#I = ITEM , speaker, audio clip/time code , dialog, item recived] \n\t[\'_B_A\',1]:[\'I\' , 0 , null , \"present for you\", \"inventory(notebook)\"],\n\t\t\t#R = REDIRECT , key [branch addres , frame flow]]\n\t[\'_B_A\',2]:[\'R\' , [\'_A\',3]],\n\t\n\t\n\t[\'_B_B\',1]:[\'S\' , 0 , null , \"Well I don\'t think you will survive long then\"],\n\t[\'_B_B\',2]:[\'R\' , [\'_A\',3]],\n\t\n\t\t\t\t#M = MULTIPLE_CHOICE , speaker, audio clip/time code , [choice1,choice2...], choice_counter]\n\t[\'_B_C\',1]:[\'M\' , 0 , null , \"Are you sure\?\"],\n\t[\'_B_C\',2]:[\'R\' , [\'_A\',3]],\n\t\n\t\n}\n\nexport (NodePath) var root_node\n\nfunc _ready():\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\tpass\n\nfunc banan_bomb(): print(\"BANAN BOM!\")\nfunc say_hello(): print(\"HELLO!\")\n\nfunc _on_collison_area_enter( area ):\n\tif(area.is_in_group(\"player\") and encounter == 0):\n\t\t\n\t\tis_speaking = true\n\t\troot_node.dialog_characters = []\n\t\troot_node.dialog_characters.append(self)\n\t\troot_node.dialog_characters.append(area.get_parent())\n\t\troot_node.dialog = dialog\n\t\t\n\t\troot_node.change_state(\"CUT_SCENE\")\n\t\tpass\n\tpass\n\n\n\nfunc _on_area_exit( area ):\n\tif(root_node.what_is_the_current_state() == \"MOVE_AROUND\"): return\n\t\n\tif(area.is_in_group(\"player\") and root_node.GAME_STATE._CURRENT):\n\t\troot_node.change_state(\"MOVE_AROUND\")\n\t\tis_speaking = false\n\tpass\n"
 
 [sub_resource type="CapsuleShape2D" id=2]
 
@@ -16,7 +16,7 @@ height = 111.809
 [sub_resource type="CapsuleShape2D" id=3]
 
 custom_solver_bias = 0.0
-radius = 191.29
+radius = 107.012
 height = 20.0
 
 [node name="landlord" type="Sprite"]
@@ -25,7 +25,7 @@ transform/pos = Vector2( 506.717, 229.093 )
 transform/scale = Vector2( 0.628205, 0.628205 )
 texture = ExtResource( 1 )
 script/script = SubResource( 1 )
-parant = null
+root_node = null
 
 [node name="personal_collison_area" type="Area2D" parent="." groups=[ "dragable" ]]
 
@@ -47,7 +47,6 @@ _update_shape_index = 0
 
 [node name="personal_space_area" type="Area2D" parent="."]
 
-editor/display_folded = true
 input/pickable = true
 shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 1.29657, 74.6499 )
@@ -60,13 +59,16 @@ angular_damp = 1.0
 [node name="personal_space" type="CollisionShape2D" parent="personal_space_area"]
 
 transform/pos = Vector2( 1.29657, 74.6499 )
-transform/scale = Vector2( 1, 1 )
 shape = SubResource( 3 )
 trigger = true
 _update_shape_index = 0
 
 [connection signal="area_enter" from="personal_collison_area" to="." method="_on_collison_area_enter"]
 
+[connection signal="area_exit" from="personal_collison_area" to="." method="_on_area_exit"]
+
 [connection signal="area_enter" from="personal_space_area" to="." method="_on_collison_area_enter"]
+
+[connection signal="area_exit" from="personal_space_area" to="." method="_on_area_exit"]
 
 

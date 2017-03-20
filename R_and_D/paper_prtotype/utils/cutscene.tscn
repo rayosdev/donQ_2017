@@ -1,0 +1,220 @@
+[gd_scene load_steps=6 format=1]
+
+[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=1]
+[ext_resource path="res://R_and_D/paper_prtotype/img/ui_speach_buble.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+
+resource/name = "cutscene"
+script/source = "extends Node2D\n\nvar is_active\nvar is_dialog_running\nvar end_conversation = false\n\nvar speaker1\nvar speaker2\nvar speakers = []\n\nvar dialog\n\nvar frame_counter = 0\nvar alphabet = [\'A\',\'B\',\'C\',\'D\',\'E\',\'F\',\'G\',\'H\',\'I\',\'J\',\'K\',\'L\',\'M\',\'N\',\'O\',\'P\',\'Q\',\'R\',\'S\',\'T\',\'U\',\'V\',\'W\',\'X\',\'Y\',\'Z\']\nvar branch_adress = alphabet[0]\n\n\nexport (NodePath) var root_node\n\nfunc _ready():\n\ttest_function()\n\troot_node = get_node(root_node)\n\tset_process_input(true)\n\tpass\n\t\n\t\nfunc run():\n\tif(is_active): \n\t\tget_node(\"cutscene_anim_player\").play(\"cutscene_init\")\n\n\n\t\tif(root_node.dialog_characters.size() < 2): return\n\t\t\n\t\t#get the speakers of the dialog\n\t\tspeakers = root_node.dialog_characters\n\t\t\n\t\tspeaker1 = root_node.dialog_characters[0]\n\t\tspeaker2 = root_node.dialog_characters[1]\n\t\n\t\t#loading the conversation\n\t\tdialog = root_node.dialog\n\t\t\n\t\n\t\tvar speach_buble_pos = Vector2(speaker1.get_pos().x,speaker1.get_pos().y - 100)\n\t\tget_node(\"ui_speach_buble\").set_pos(speach_buble_pos)\n\t\tget_node(\"ui_speach_buble\").show()\n\t\t\n\t\tis_dialog_running = true\n\telif(!is_active): \n\t\tget_node(\"cutscene_anim_player\").play(\"cutscene_outro\")\n\t\t\n\t\tspeaker1 = null\n\t\tspeaker2 = null\n\t\t\n\t\tget_node(\"speak_label_1\").set_text(\"\") \n\t\tget_node(\"speak_label_2\").set_text(\"\")\n\t\t\n\t\tget_node(\"ui_speach_buble\").hide()\n\t\tis_dialog_running = false\n\tpass\n\t\nfunc _input(event):\n\t\n\tif(is_dialog_running):\n\t\t\tif(Input.is_action_pressed(\"ui_accept\") and event.is_echo() != true):\n\t\t\t\tif(end_conversation == true):\n\t\t\t\t\tframe_counter = 0\n\t\t\t\t\tspeakers[0].encounter += 1\n\t\t\t\t\troot_node.change_state(\"MOVE_AROUND\")\n\t\t\t\t\treturn\n\t\t\t\trun_dialog_step()\n\telse: frame_counter = 0\n\t\n\tpass\n\nfunc run_dialog_step(answer_responce = null):\n\tvar _answer_responce = answer_responce\n\tvar waiting = false\n\tvar waiting_once = false\n\t\n\tvar fc = frame_counter\n\t\n\tvar speaker_labels = [get_node(\"speak_label_1\"), get_node(\"speak_label_2\")]\n\tfor s in speaker_labels: s.set_text(\"\")\n\t\n\t#update play_haed\n\tfc += 1\n\tprint(branch_adress)\n\tvar sentence = dialog[[branch_adress,fc]]\n\tvar action = sentence[0]\n\t\n\n\tif( action == \'S\'): # S = SPEAK , speaker, audio clip/time code , dialog]\n\t\tvar speaker = sentence[1]\n\t\tvar audio = sentence[2]\n\t\tvar text = sentence[3]\n\t\tspeaker_labels[speaker].set_text(text) \n\t\t\n\tif( action == \'E\'): # E = END , speaker, audio clip/time code , dialog]\n\t\tvar speaker = sentence[1]\n\t\tvar audio = sentence[2]\n\t\tvar text = sentence[3]\n\t\tspeaker_labels[speaker].set_text(text)\n\t\tend_conversation = true\n\t\tpass\n\t\n\tif( action == \'Q\'): #Q = QUESTION , speaker, audio clip/time code , dialog]\n\t\tvar speaker = sentence[1]\n\t\tvar audio = sentence[2]\n\t\tvar text = sentence[3]\n\t\tspeaker_labels[speaker].set_text(text) \n\t\n\tif( action == \'A\'): #A = ANSWER , [answer1 , answer2...] ] \n\t\tvar answers_options = sentence[1]\n\t\t\n\t\tvar answers_panel = get_node(\"answers_panel\")\n\t\tanswers_panel.show()\n\t\tvar answer_buttons = [] \n\t\tfor i in answers_panel.get_children():\n\t\t\tanswer_buttons.append(i)\n\t\t\n\t\t#Show the relevent panel and buttons\n\t\tfor i in range(answers_options.size()):\n\t\t\tanswer_buttons[i].show()\n\t\t\tanswer_buttons[i].set_text(answers_options[i])\n\t\t\t\n\t\t#stop play_haed by hindering the fc to become the frame_counter\n\t\tif(answer_responce == null): waiting = true\n\t\telse: \n\t\t\t# when answer buttons are pressed the brance address is updateed acordingly\n\t\t\tchange_branch_address(answer_responce)\n\t\t\t\n\t\t\t#Cleanup by hiding the panel and calling this function again\n\t\t\tfor i in answers_panel.get_children():\n\t\t\t\ti.hide()\n\t\t\tanswers_panel.hide()\n\t\t\tframe_counter = 0\n\t\t\tfc = 0\n\t\t\trun_dialog_step()\n\t\t\treturn\n\t\t\n\tif(!waiting): \n\t\tframe_counter = fc\n\t\nfunc change_branch_address(direction):\n\tif(branch_adress.length() == 1): \n\t\tbranch_adress = \'_\' + alphabet[direction]\n\telse:\n\t\tbranch_adress = branch_adress + \'_\' + alphabet[direction]\n\t\n\tprint(\"changing addres: \" + branch_adress)\n\tpass\n\t\nfunc answers(answer_responce):\n\trun_dialog_step(answer_responce)\n\t\n\t\nfunc answer(answer_responce):\n\trun_dialog_step(answer_responce)\n\tpass\n\t\n\t\nfunc test_function():\n\tpass\n\n\n\n\n\n"
+
+[sub_resource type="Animation" id=2]
+
+resource/name = "cutscene_init"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("top_envelop:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 510.253, -48.1638 ), Vector2( 510.253, 47.8362 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("bottom_envelop:transform/pos")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 510.253, 655.836 ), Vector2( 510.253, 559.836 ) ] }
+
+[sub_resource type="Animation" id=3]
+
+resource/name = "cutscene_outro"
+length = 0.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("top_envelop:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 510.253, 47.8362 ), Vector2( 510.253, -48.1638 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("bottom_envelop:transform/pos")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 510.253, 559.836 ), Vector2( 510.253, 655.836 ) ] }
+
+[node name="cutscene" type="Node2D"]
+
+script/script = SubResource( 1 )
+__meta__ = { "_edit_lock_":true }
+root_node = null
+
+[node name="top_envelop" type="Sprite" parent="."]
+
+transform/pos = Vector2( 510.253, 47.8362 )
+transform/scale = Vector2( 3.49488, 0.327645 )
+texture = ExtResource( 1 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="bottom_envelop" type="Sprite" parent="."]
+
+transform/pos = Vector2( 510.253, 559.836 )
+transform/scale = Vector2( 3.49488, 0.327645 )
+texture = ExtResource( 1 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="cutscene_anim_player" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/cutscene_init = SubResource( 2 )
+anims/cutscene_outro = SubResource( 3 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="ui_speach_buble" type="Sprite" parent="."]
+
+visibility/visible = false
+transform/pos = Vector2( 370.613, 145.952 )
+transform/scale = Vector2( 0.400967, 0.400967 )
+texture = ExtResource( 2 )
+
+[node name="speak_label_1" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 64.0
+margin/top = 32.0
+margin/right = 960.0
+margin/bottom = 96.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_constants/shadow_as_outline = 3
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="speak_label_2" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 64.0
+margin/top = 544.0
+margin/right = 992.0
+margin/bottom = 608.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0.425888, 0.964844, 0.497468, 1 )
+custom_constants/shadow_as_outline = 3
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="answers_panel" type="Panel" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 96.0
+margin/top = 320.0
+margin/right = 640.0
+margin/bottom = 544.0
+
+[node name="0" type="Button" parent="answers_panel"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 32.0
+margin/top = 32.0
+margin/right = 512.0
+margin/bottom = 64.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[node name="1" type="Button" parent="answers_panel"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 32.0
+margin/top = 64.0
+margin/right = 512.0
+margin/bottom = 96.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[node name="2" type="Button" parent="answers_panel"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 32.0
+margin/top = 96.0
+margin/right = 512.0
+margin/bottom = 128.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[node name="3" type="Button" parent="answers_panel"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 32.0
+margin/top = 128.0
+margin/right = 512.0
+margin/bottom = 160.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[node name="4" type="Button" parent="answers_panel"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 32.0
+margin/top = 160.0
+margin/right = 512.0
+margin/bottom = 192.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[connection signal="pressed" from="answers_panel/0" to="." method="answer" binds= [ 0 ]]
+
+[connection signal="pressed" from="answers_panel/1" to="." method="answer" binds= [ 1 ]]
+
+[connection signal="pressed" from="answers_panel/2" to="." method="answer" binds= [ 2 ]]
+
+[connection signal="pressed" from="answers_panel/3" to="." method="answer" binds= [ 3 ]]
+
+[connection signal="pressed" from="answers_panel/4" to="." method="answer" binds= [ 4 ]]
+
+

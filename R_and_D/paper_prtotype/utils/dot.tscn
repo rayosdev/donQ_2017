@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_notefier.png" type="Texture" id=1]
+
+[node name="dot" type="Sprite"]
+
+visibility/opacity = 0.53
+transform/pos = Vector2( 0.976151, 0.00611448 )
+transform/scale = Vector2( 0.0977709, 0.108106 )
+texture = ExtResource( 1 )
+modulate = Color( 0, 0, 0, 1 )
+
+
