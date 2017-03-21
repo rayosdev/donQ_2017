@@ -23,6 +23,7 @@ texture = ExtResource( 1 )
 script/script = ExtResource( 2 )
 dot = null
 root_node = null
+notepad_node = null
 
 [node name="personal_collison_area" type="Area2D" parent="." groups=[ "player", "dragable" ]]
 

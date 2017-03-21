@@ -11,19 +11,29 @@ var destination
 
 export (NodePath) var root_node
 
+#	inventory bunch
+export (NodePath) var notepad_node
+
 var dots = []
 
-var inventory = {
-
-			"Notebook":[false,show_notebook()]
-}
+onready var inventory = {}
 
 func _ready():
 	
 	if(root_node != null): root_node = get_node(root_node)
+	notepad_node = get_node(notepad_node)
 	set_fixed_process(true)
 	set_process_input(true)
+	
+	make_inventory()
 	pass
+	
+func make_inventory():
+	inventory = {
+	
+		"Notebook":[false, "type_ui", notepad_node]
+	
+	}
 	
 	
 func _fixed_process(delta):
@@ -59,7 +69,12 @@ func _input(event):
 
 
 func move_player():
-	if(!can_move): return
+	if(!can_move): 
+		destination = null
+		if(dots.size() >= 1): 
+			dots[0].queue_free()
+			dots.pop_front()
+		return
 	#reset move_vector so it dosent increas expentional
 	move_vector *= 0
 	
@@ -89,14 +104,19 @@ func move_player():
 		set_pos(Vector2(x,y))
 		set_pos(get_pos() + move_vector)
 		
-func is_in_inventory(item):
-	if(inventory.has(str(item))): return true
-	else: return false
+		
+func add_to_inventory(item):
 	
-func update_inventory(item):
-	inventory[item][0] = true
-	if(inventory[item][1] != null): inventory[item][1]
+	if(inventory.has(str(item))):
+		inventory[item][0] = true
+		update_inventory()
 	
-func show_notebook():
-	pass
+func update_inventory():
+	
+	for i in inventory:
+		if(inventory[i][0] == true):
+			if(inventory[i][1] == "type_ui"):
+				inventory[i][2].show()
+			
+	
 	

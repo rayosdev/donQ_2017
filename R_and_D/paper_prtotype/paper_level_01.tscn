@@ -39,6 +39,7 @@ __meta__ = { "_edit_lock_":true }
 
 dot = ExtResource( 4 )
 root_node = NodePath("..")
+notepad_node = NodePath("../ui/notepad_icon")
 
 [node name="landlord" parent="." instance=ExtResource( 5 )]
 
@@ -84,7 +85,7 @@ script/script = SubResource( 1 )
 
 [node name="ui" type="Node2D" parent="."]
 
-transform/pos = Vector2( 480, 289 )
+transform/pos = Vector2( 480, 193 )
 transform/scale = Vector2( 0.5, 0.5 )
 __meta__ = { "_edit_lock_":true }
 
@@ -99,6 +100,7 @@ margin/bottom = 566.0
 [node name="cutscene" parent="." instance=ExtResource( 8 )]
 
 root_node = NodePath("..")
+player_node = NodePath("../player")
 
 [node name="admin_mode" type="Node" parent="."]
 

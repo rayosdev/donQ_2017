@@ -96,19 +96,10 @@ func switch_state_spesific_functions_off():
 	get_node("cutscene").run()
 	pass
 
-func inventory(item):
-	if(get_node("player").is_in_inventory(item)): 
-		get_node("player").update_inventory(item)
-		write_to_term("item added: " + str(item))
-	else: return "item: " + str(item) + "not found in inventory"
-	pass
 	
 func can_place_movement_dot_switch(state):
 	can_place_movement_dot = state
 	pass
 	
-func run_function(function):
-	print(function)
-	function[0]
 	
 
