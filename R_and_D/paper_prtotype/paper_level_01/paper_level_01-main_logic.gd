@@ -5,6 +5,8 @@ var term
 var dialog_characters = []
 var dialog = {}
 
+var spanish_words = []
+
 var can_place_movement_dot = true
 
 var GAME_STATE = {
@@ -102,4 +104,14 @@ func can_place_movement_dot_switch(state):
 	pass
 	
 	
+func add_spanish_words(words_to_be_added):
+	
+	for word in words_to_be_added:
+		spanish_words.append(word)
+	
+	pass
 
+#func test():
+#	var test_ref = funcref(get_node("player"),"test_for_player")
+#	get_node("player").try_func(test_ref,"test_num")
+#	pass

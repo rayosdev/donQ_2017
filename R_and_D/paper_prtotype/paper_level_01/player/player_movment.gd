@@ -120,3 +120,10 @@ func update_inventory():
 			
 	
 	
+#func test_for_player(t):
+#	print("test great succes: " + str(t))
+#	
+#	
+#	
+#func try_func(_func, t):
+#	_func.call_func(t)
