@@ -8,7 +8,7 @@ var dialog = {}
 var spanish_words = []
 
 var can_place_movement_dot = true
-
+#					script level01
 var GAME_STATE = {
 
 	"_CURRENT" 	:0,
@@ -18,6 +18,7 @@ var GAME_STATE = {
 	"CUT_SCENE"		:2
 
 }
+
 
 
 func _ready():

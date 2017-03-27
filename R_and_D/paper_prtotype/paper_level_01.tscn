@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/paper_level_01-main_logic.gd" type="Script" id=1]
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=2]
@@ -7,7 +7,8 @@
 [ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/landlord.tscn" type="PackedScene" id=5]
 [ext_resource path="res://R_and_D/paper_prtotype/utils/mouse_drag_items.tscn" type="PackedScene" id=6]
 [ext_resource path="res://R_and_D/paper_prtotype/utils/notepad_icon.tscn" type="PackedScene" id=7]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=8]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/time_and_level.tscn" type="PackedScene" id=8]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=9]
 
 [sub_resource type="GDScript" id=1]
 
@@ -44,6 +45,10 @@ script/source = "extends Node\n\nexport (NodePath) var root_node\n\nvar is_admin
 
 script/source = "extends Node\n\n\nfunc _ready():\n\tset_process_input(true)\n\tpass\n\t\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"R\")):\n\t\tget_tree().reload_current_scene()\n\t\n\n"
 
+[sub_resource type="GDScript" id=5]
+
+script/source = "extends Label\n\nvar timer = null\n\n\nfunc _ready():\n\t\n\ttimer = Timer.new()\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(2)\n\t\n\tdo_transition()\n\tpass\n\t\nfunc do_transition():\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.hide()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.show()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n#\tprint(\"yield test\")\n\t\n\tpass"
+
 [node name="paper_level_01" type="Node"]
 
 script/script = ExtResource( 1 )
@@ -60,6 +65,7 @@ __meta__ = { "_edit_lock_":true }
 dot = ExtResource( 4 )
 root_node = NodePath("..")
 notepad_node = NodePath("../ui/notepad_icon")
+time_and_money = NodePath("../ui/time_level_anchor/time_and_level")
 
 [node name="landlord" parent="." instance=ExtResource( 5 )]
 
@@ -129,7 +135,14 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="cutscene" parent="." instance=ExtResource( 8 )]
+[node name="time_level_anchor" type="Node2D" parent="ui"]
+
+transform/pos = Vector2( 192, -498 )
+transform/scale = Vector2( 0.6, 0.6 )
+
+[node name="time_and_level" parent="ui/time_level_anchor" instance=ExtResource( 8 )]
+
+[node name="cutscene" parent="." instance=ExtResource( 9 )]
 
 root_node = NodePath("..")
 player_node = NodePath("../player")
@@ -145,6 +158,22 @@ root_node = NodePath("..")
 script/script = SubResource( 4 )
 
 [node name="notebook" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 896.0
+margin/top = 32.0
+margin/right = 992.0
+margin/bottom = 64.0
+text = "MVP"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script/script = SubResource( 5 )
 
 [connection signal="mouse_enter" from="term" to="." method="can_place_movement_dot_switch" binds= [ false ]]
 

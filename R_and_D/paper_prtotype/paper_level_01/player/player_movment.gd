@@ -9,10 +9,14 @@ var move_speed = 5
 var move_vector = Vector2()
 var destination
 
+var money = 100
+
 export (NodePath) var root_node
 
 #	inventory bunch
 export (NodePath) var notepad_node
+
+export (NodePath) var time_and_money
 
 var dots = []
 
@@ -22,6 +26,10 @@ func _ready():
 	
 	if(root_node != null): root_node = get_node(root_node)
 	notepad_node = get_node(notepad_node)
+	time_and_money = get_node(time_and_money)
+	
+	time_and_money.show_panel()
+	
 	set_fixed_process(true)
 	set_process_input(true)
 	
@@ -120,10 +128,20 @@ func update_inventory():
 			
 	
 	
+func _dialog_callback_function(func_name_and_args):
+	print("test_dialog_callback_function")
+	var call_function = funcref(self,func_name_and_args[0])
+	call_function.call_func(func_name_and_args[1])
+	pass
+	
+func update_money(money_arg):
+	time_and_money.show_panel()
+	money += money_arg[0] 
+	time_and_money.update_money(money_arg[0], get_global_pos())
+	pass
+	
 #func test_for_player(t):
 #	print("test great succes: " + str(t))
-#	
-#	
 #	
 #func try_func(_func, t):
 #	_func.call_func(t)
