@@ -146,6 +146,21 @@ script/script = SubResource( 4 )
 
 [node name="notebook" type="Node2D" parent="."]
 
+[node name="Label" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 896.0
+margin/top = 32.0
+margin/right = 992.0
+margin/bottom = 64.0
+text = "Master"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [connection signal="mouse_enter" from="term" to="." method="can_place_movement_dot_switch" binds= [ false ]]
 
 [connection signal="mouse_exit" from="term" to="." method="can_place_movement_dot_switch" binds= [ true ]]
