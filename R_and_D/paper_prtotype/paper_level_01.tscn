@@ -70,6 +70,7 @@ time_and_money = NodePath("../ui/time_level_anchor/time_and_level")
 [node name="landlord" parent="." instance=ExtResource( 5 )]
 
 transform/pos = Vector2( 558.806, 260.987 )
+time_and_level = NodePath("../ui/time_level_anchor/time_and_level")
 root_node = NodePath("..")
 
 [node name="term" type="TextEdit" parent="."]
