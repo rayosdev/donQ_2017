@@ -114,9 +114,9 @@ func move_player():
 		
 		
 func add_to_inventory(item):
-	
-	if(inventory.has(str(item))):
-		inventory[item][0] = true
+	print(item)
+	if(inventory.has(str(item[0]))):
+		inventory[item[0]][0] = true
 		update_inventory()
 	
 func update_inventory():

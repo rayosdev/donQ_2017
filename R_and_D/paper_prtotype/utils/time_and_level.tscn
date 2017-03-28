@@ -8,7 +8,7 @@
 
 [sub_resource type="GDScript" id=1]
 
-script/source = "#\t\t\t\t\ttime_and_level\nextends Node2D\n\nvar is_panel_open = false\n\nvar digit_roll_timer = Timer.new()\n\nexport (NodePath) var btn_to_be_rotated\nexport (NodePath) var root_node\n\nfunc _ready():\n\t\n\thide()\n\tif(root_node != null): root_node = get_node(root_node)\n\t\n\tdigit_roll_timer.set_one_shot(true)\n\tdigit_roll_timer.set_wait_time(0.01)\n\tadd_child(digit_roll_timer)\n\t\n\tbtn_to_be_rotated = get_node(btn_to_be_rotated)\n\tpass\n\nfunc open_panel():\n\tshow()\n\tis_panel_open = true\n\tget_node(\"panel_anim\").play(\"show_panel\")\n\tpass\n\t\nfunc update_money(value,pos):\n\topen_panel()\n\tget_node(\"ui_money_update\").money_update(value,pos)\n\tupdate_the_money_panel()\n\tpass\n\t\nfunc close_panel():\n\tis_panel_open = false\n\tget_node(\"panel_anim\").play(\"close_panel\")\n\tpass\n\nfunc _on_btn_pressed():\n\tif(is_panel_open): \tclose_panel()\n\telse: \t\t\t\topen_panel()\n\tpass\n\t\nfunc update_the_money_panel():\n\tvar cash_label = get_node(\"ui_level_and_cash/cash_stach\")\n\t\n\twhile(_Player.MONEY != int(cash_label.get_text())):\n\t\tvar money_in_label = int(cash_label.get_text()) \n\t\tif(_Player.MONEY > money_in_label): money_in_label += 1\n\t\telse: \t\t\t\t\t\t\t\tmoney_in_label -= 1\n#\t\tprint(cash_label.get_text())\n\t\tcash_label.set_text(str(money_in_label))\n\t\tdigit_roll_timer.start()\n\t\tyield(digit_roll_timer,\'timeout\')\n\t\tpass\n\tpass\n\t\n\n#\t\nfunc mouse_over(state):\n#\tprint(\"mouse_over: \" + str(!state))\n\troot_node.can_place_movement_dot_switch(!state)\n\tpass"
+script/source = "#\t\t\t\t\ttime_and_level\nextends Node2D\n\nvar is_panel_open = false\n\nvar digit_roll_timer = Timer.new()\n\nexport (NodePath) var btn_to_be_rotated\nexport (NodePath) var root_node\n\nfunc _ready():\n\t\n\thide()\n\tif(root_node != null): root_node = get_node(root_node)\n\t\n\tdigit_roll_timer.set_one_shot(true)\n\tdigit_roll_timer.set_wait_time(0.01)\n\tadd_child(digit_roll_timer)\n\t\n\tbtn_to_be_rotated = get_node(btn_to_be_rotated)\n\tpass\n\nfunc open_panel():\n\tshow()\n\tis_panel_open = true\n\tget_node(\"panel_anim\").play(\"show_panel\")\n\tpass\n\t\nfunc update_money(value,pos):\n\topen_panel()\n\tget_node(\"on_inactive_hide\").start()\n\tget_node(\"ui_money_update\").money_update(value,pos)\n\tupdate_the_money_panel()\n\tpass\n\t\nfunc close_panel():\n\tis_panel_open = false\n\tget_node(\"panel_anim\").play(\"close_panel\")\n\tpass\n\nfunc _on_btn_pressed():\n\tif(is_panel_open): \tclose_panel()\n\telse: \t\t\t\topen_panel()\n\tpass\n\t\nfunc update_the_money_panel():\n\tvar cash_label = get_node(\"ui_level_and_cash/cash_stach\")\n\t\n\twhile(_Player.MONEY != int(cash_label.get_text())):\n\t\tvar money_in_label = int(cash_label.get_text()) \n\t\tif(_Player.MONEY > money_in_label): money_in_label += 1\n\t\telse: \t\t\t\t\t\t\t\tmoney_in_label -= 1\n#\t\tprint(cash_label.get_text())\n\t\tcash_label.set_text(str(money_in_label))\n\t\tdigit_roll_timer.start()\n\t\tyield(digit_roll_timer,\'timeout\')\n\t\tpass\n\tpass\n\t\n\n#\t\nfunc mouse_over(state):\n#\tprint(\"mouse_over: \" + str(!state))\n\troot_node.can_place_movement_dot_switch(!state)\n\tpass\n\nfunc _on_inactive_timeout():\n\tclose_panel()\n\tpass # replace with function body\n"
 
 [sub_resource type="DynamicFont" id=2]
 
@@ -254,10 +254,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -134.0
-margin/top = -104.0
-margin/right = 117.0
-margin/bottom = 132.0
+margin/left = -92.0
+margin/top = -140.0
+margin/right = 159.0
+margin/bottom = 110.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -270,10 +270,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = -36.0
-margin/top = 227.0
-margin/right = 131.0
-margin/bottom = 464.0
+margin/left = -84.0
+margin/top = 255.0
+margin/right = 342.0
+margin/bottom = 580.0
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 0.332642, 0.78125, 0.602508, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -312,6 +312,13 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 
+[node name="on_inactive_hide" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 5.0
+one_shot = true
+autostart = false
+
 [connection signal="mouse_enter" from="dropdown_button/btn" to="." method="mouse_over" binds= [ true ]]
 
 [connection signal="mouse_exit" from="dropdown_button/btn" to="." method="mouse_over" binds= [ false ]]
@@ -325,5 +332,7 @@ shortcut = null
 [connection signal="mouse_enter" from="non_dot_placment_area/TextureButton" to="." method="mouse_over" binds= [ true ]]
 
 [connection signal="mouse_exit" from="non_dot_placment_area/TextureButton" to="." method="mouse_over" binds= [ false ]]
+
+[connection signal="timeout" from="on_inactive_hide" to="." method="_on_inactive_timeout"]
 
 
