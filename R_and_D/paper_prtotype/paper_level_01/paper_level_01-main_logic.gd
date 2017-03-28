@@ -23,12 +23,10 @@ var GAME_STATE = {
 
 func _ready():
 
-	print("test")
 	term = get_node("term")
 	term.set_text("ready...")
 	change_state("INTRO")
 	set_process(true)
-
 	pass
 
 func _process(delta):
