@@ -74,7 +74,6 @@ root_node = NodePath("..")
 
 [node name="term" type="TextEdit" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -142,6 +141,9 @@ transform/scale = Vector2( 0.6, 0.6 )
 
 [node name="time_and_level" parent="ui/time_level_anchor" instance=ExtResource( 8 )]
 
+editor/display_folded = true
+root_node = NodePath("../../..")
+
 [node name="cutscene" parent="." instance=ExtResource( 9 )]
 
 root_node = NodePath("..")
@@ -188,3 +190,4 @@ script/script = SubResource( 5 )
 [connection signal="visibility_changed" from="ui/notepad_icon" to="ui/notepad_icon" method="_on_notepad_icon_visibility_changed"]
 
 
+[editable path="ui/time_level_anchor/time_and_level"]

@@ -9,7 +9,7 @@ var move_speed = 5
 var move_vector = Vector2()
 var destination
 
-var money = 100
+
 
 export (NodePath) var root_node
 
@@ -28,7 +28,7 @@ func _ready():
 	notepad_node = get_node(notepad_node)
 	time_and_money = get_node(time_and_money)
 	
-	time_and_money.show_panel()
+	time_and_money.open_panel()
 	
 	set_fixed_process(true)
 	set_process_input(true)
@@ -135,8 +135,8 @@ func _dialog_callback_function(func_name_and_args):
 	pass
 	
 func update_money(money_arg):
-	time_and_money.show_panel()
-	money += money_arg[0] 
+#	time_and_money.open_panel()
+	_Player.MONEY += money_arg[0] 
 	time_and_money.update_money(money_arg[0], get_global_pos())
 	pass
 	
