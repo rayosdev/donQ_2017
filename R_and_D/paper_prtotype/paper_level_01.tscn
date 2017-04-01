@@ -1,66 +1,26 @@
-[gd_scene load_steps=22 format=1]
+[gd_scene load_steps=17 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/paper_level_01-main_logic.gd" type="Script" id=1]
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=2]
-[ext_resource path="res://R_and_D/paper_prtotype/img/words_de_que_porfavor_bien_hablas_ingles.png" type="Texture" id=3]
-[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=4]
-[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Medium.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/player.tscn" type="PackedScene" id=6]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/dot.tscn" type="PackedScene" id=7]
-[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/landlord.tscn" type="PackedScene" id=8]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/mouse_drag_items.tscn" type="PackedScene" id=9]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/notepad_icon.tscn" type="PackedScene" id=10]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/time_and_level.tscn" type="PackedScene" id=11]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=12]
+[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/dot.tscn" type="PackedScene" id=4]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/words_poping.tscn" type="PackedScene" id=5]
+[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/landlord.tscn" type="PackedScene" id=6]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/mouse_drag_items.tscn" type="PackedScene" id=7]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/notepad_icon.tscn" type="PackedScene" id=8]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/time_and_level.tscn" type="PackedScene" id=9]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=10]
 
 [sub_resource type="GDScript" id=1]
 
 resource/name = "words_poping_anchor"
-script/source = "#\t\t\t\t\twords_poping_anchor\nextends Node2D\n\n\n\nfunc _ready():\n\t\n\tpass\n\nfunc new_coin():\n\t\n\tpass"
+script/source = "#\t\t\t\t\twords_poping_anchor\nextends Node2D\n\nexport (PackedScene) var words_poping\nexport (NodePath) var notepad\n\nvar spanish_words = [\'hola\',\'como\',\'gracias\',\'que\',\'bueno\']\nvar words = []\n\nvar dircetion = 1\n\nfunc _ready():\n\t\n\tnotepad = get_node(notepad)\n\tfor w in spanish_words:\n\t\tnew_coin(w)\n\tpass\n\nfunc new_coin(word_txt):\n\tvar word = words_poping.instance()\n\tword.direction = dircetion\n\tadd_child(word)\n\tdircetion = dircetion * -1\n\tword.notepad_position = notepad.get_global_pos()\n\tword.change_word(word_txt)\n\twords.append(word)\n\tpass"
 
 [sub_resource type="GDScript" id=2]
 
-resource/name = "words_poping"
-script/source = "#\t\t\t\t\twords_popping\nextends Node2D\n\nvar notebook_pos = Vector2()\nvar end_scale = 0.5\nvar move_speed = 5\nvar move_vector = Vector2()\n\n\nvar velocity = Vector2()\nvar initial_force = Vector2(-4,-10)\nvar force = Vector2(1,1)\nvar gravity = 0.4\nvar obj_gravity = 0\nvar friction = 0.3\nvar touch_friction = 0.788\n\n\nvar ground = 2\nvar is_poping = false\nvar is_grounded = false\n\n\nvar timer = Timer.new()\n\n\nfunc _ready():\n\t\n\tset_process(true)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(0.1)\n\tadd_child(timer)\n\tprint(\"starting word_pop\")\n\tword_pop()\n\tpass\n\t\nfunc word_pop():\n#\tvar fric = 0.06\n\tvar ground_fric = 0.3\n\tvar grav = 0.3\n\tvar grav_pull = 0\n\tvar vel = Vector2(4,-8)\n\tvar steps = 100\n\tvar ground_pos = get_pos().y\n\tvar test = 100\n\t\n\twhile(test != 0):\n\t\t\t\n\t\tif(get_pos().y > ground_pos):\n\t\t\tgrav_pull = 0\n\t\t\tvel -= vel / 2\n\t\t\tprint(vel.y * 2)\n\t\t\tprint(vel.x / 2)\n\t\t\tvel.y = -vel.y\n\t\n\t\ttimer.start()\n\t\tset_pos(get_pos() + vel)\n\t\tgrav_pull += grav\n\t\tvel.y += grav_pull\n\t\t\n#\t\tvel = vel - (vel * fric) # this is a Lerp \n#\t\tprint(get_pos())\n\t\ttest -= 1\n\t\tyield(timer,\'timeout\')\n\t\nfunc change_label(word):\n\tget_node(\"word_label\").set_text(word)\n\tpass\n\t\nfunc _process(delta):\n#\tdo_explotion(delta)\n\tpass\n\t\nfunc move_to(destination):\n\tmove_vector *= 0\n\t\n\t# move player tworeds destination \n\tif(destination != null):\n\t\tif(destination.x <= get_pos().x): move_vector += Vector2(-1,0)\n\t\tif(destination.x >= get_pos().x): move_vector += Vector2(1,0)\n\t\tif(destination.y <= get_pos().y): move_vector += Vector2(0,-1)\n\t\tif(destination.y >= get_pos().y): move_vector += Vector2(0,1)\n\t\t\n\t\t#increas speed\n\t\tmove_vector *= move_speed\n\t\t\n\t\t#stabelaize the end movment\n\t\tvar x = get_pos().x\n\t\tvar y = get_pos().y\n\t\tvar dx = destination.x\n\t\tvar dy = destination.y\n\t\t\n\t\tif(abs(x - dx) < move_speed): \n\t\t\tx = dx\n\t\t\tmove_vector.x = 0\n\t\tif(abs(y - dy) < move_speed): \n\t\t\ty = dy\n\t\t\tmove_vector.y = 0\n\t\t\t\n\t\tset_pos(Vector2(x,y))\n\t\tset_pos(get_pos() + move_vector)\n\t\n#var velocity = Vector2()\n#var initial_force = Vector2(20,10)\n#var force = Vector2()\n#var gravity = 0.5\n#var air_friction = 0.1\n#var ground = 400\n#var is_poping = false\n#var is_grounded = false\n\t\nfunc do_explotion(delta):\n\t\n\tif(is_poping == false):\n\t\tis_poping = true\n\t\tforce += initial_force\n\t\tvelocity = force\n\t\n#\tforce = force - air_friction\n\tvelocity = Vector2(force.x, force.y + obj_gravity)\n\tset_pos(get_pos() + velocity)\n\t\n\tobj_gravity += gravity\n\t\n\tif(get_pos().y > ground):\n\t\tobj_gravity = 0\n\t\tforce.y = -velocity.y * touch_friction\n\t\tforce.x = velocity.x * friction\n\t\n#\tprint(get_pos()) \n\t\t\n\t\n\tpass\n\t\n\t\n\n"
-
-[sub_resource type="DynamicFont" id=3]
-
-font/size = 14
-font/use_mipmaps = false
-font/use_filter = false
-font/font = ExtResource( 5 )
-
-[sub_resource type="Animation" id=4]
-
-length = 3.0
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:transform/pos")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.7, 1.4 ), "transitions":FloatArray( 0.25, 0.25, 1 ), "update":0, "values":[ Vector2( -10.8301, 17.1476 ), Vector2( -298.83, 17.1476 ), Vector2( -10.8301, 17.1476 ) ] }
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:transform/scale")
-tracks/1/interp = 1
-tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 0.5, 1.2 ), "transitions":FloatArray( -1.62451, -2.14355, 1 ), "update":0, "values":[ Vector2( 1, 1 ), Vector2( 1.55118, 1.55118 ), Vector2( 2.64395, 2.75199 ) ] }
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:transform/rot")
-tracks/2/interp = 1
-tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 0, 0.7, 1.4 ), "transitions":FloatArray( 0.25, 0.25, 1 ), "update":0, "values":[ 0.0, 180.0, 0.0 ] }
-tracks/3/type = "value"
-tracks/3/path = NodePath(".:visibility/opacity")
-tracks/3/interp = 1
-tracks/3/imported = false
-tracks/3/keys = { "times":FloatArray( 0, 0.3 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
-
-[sub_resource type="GDScript" id=5]
-
 script/source = "extends Button\n\nvar state_switch = 1\n\nfunc _ready():\n\tpass\n\n\nfunc _on_switch_states_pressed():\n\tvar root_node = get_parent().get_parent().get_node(\".\")\n\t\n#\tprint(root_node.change_state(state_switch))\n\t\n\tif(state_switch == 1): state_switch += 1\n\telse: state_switch -= 1\n\tpass\n"
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=3]
 
 length = 1.0
 loop = false
@@ -81,15 +41,15 @@ tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
 
-[sub_resource type="GDScript" id=7]
+[sub_resource type="GDScript" id=4]
 
 script/source = "extends Node\n\nexport (NodePath) var root_node\n\nvar is_admin = false\n\n\nfunc _ready():\n\troot_node = get_node(root_node)\n\tset_process_input(true)\n\tpass\n\n\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"A\")):\n\t\tif(!is_admin): admin_enable()\n\t\telse: admin_disable()\n\n\nfunc admin_enable():\n\troot_node.get_node(\"player\").can_move = false\n\troot_node.get_node(\"mouse_drag_items\").is_active = true\n\tis_admin = true\n\troot_node.write_to_term(\"admin enabled\")\n\t\n\t\nfunc admin_disable():\n\troot_node.get_node(\"player\").can_move = true\n\troot_node.get_node(\"mouse_drag_items\").is_active = false\n\tis_admin = false\n\troot_node.write_to_term(\"admin disabled\")\n#\troot_node.run_states_once()\n\t"
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=5]
 
 script/source = "extends Node\n\n\nfunc _ready():\n\tset_process_input(true)\n\tpass\n\t\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"R\")):\n\t\tget_tree().reload_current_scene()\n\t\n\n"
 
-[sub_resource type="GDScript" id=9]
+[sub_resource type="GDScript" id=6]
 
 resource/name = "mvp_timer"
 script/source = "extends Label\n\nvar timer = null\n\n\nfunc _ready():\n\t\n\ttimer = Timer.new()\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(2)\n\t\n\tdo_transition()\n\tpass\n\t\nfunc do_transition():\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.hide()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.show()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n#\tprint(\"yield test\")\n\t\n\tpass"
@@ -105,70 +65,24 @@ transform/scale = Vector2( 0.628221, 0.628221 )
 texture = ExtResource( 2 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="words_poping_anchor" type="Node2D" parent="."]
+[node name="player" parent="." instance=ExtResource( 3 )]
 
-transform/pos = Vector2( 780.78, 144.07 )
-script/script = SubResource( 1 )
-__meta__ = { "_edit_group_":true }
-
-[node name="words_poping" type="Node2D" parent="words_poping_anchor"]
-
-transform/pos = Vector2( -280, 280 )
-script/script = SubResource( 2 )
-__meta__ = { "_edit_group_":true }
-
-[node name="words_de_que_porfavor_bien_hablas_ingles" type="Sprite" parent="words_poping_anchor/words_poping"]
-
-transform/rot = 16.5801
-transform/scale = Vector2( 0.32469, 0.32469 )
-texture = ExtResource( 3 )
-region = true
-region_rect = Rect2( 35, 40, 250, 250 )
-
-[node name="white_square" type="Sprite" parent="words_poping_anchor/words_poping"]
-
-transform/scale = Vector2( 0.240263, 0.0852713 )
-texture = ExtResource( 4 )
-modulate = Color( 0.508048, 0.504684, 0.527344, 1 )
-
-[node name="word_label" type="Label" parent="words_poping_anchor/words_poping"]
-
-rect/scale = Vector2( 1, 1.5 )
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -47.0
-margin/top = -14.0
-margin/right = 44.0
-margin/bottom = 18.0
-custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "hablamos"
-align = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="word_anim" type="AnimationPlayer" parent="words_poping_anchor/words_poping"]
-
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-anims/word_to_notebook = SubResource( 4 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
-autoplay = ""
-
-[node name="player" parent="." instance=ExtResource( 6 )]
-
-dot = ExtResource( 7 )
+transform/pos = Vector2( 363.879, 427.197 )
+dot = ExtResource( 4 )
 root_node = NodePath("..")
 notepad_node = NodePath("../ui/notepad_icon")
 time_and_money = NodePath("../ui/time_level_anchor/time_and_level")
 
-[node name="landlord" parent="." instance=ExtResource( 8 )]
+[node name="words_poping_anchor" type="Node2D" parent="player"]
+
+transform/pos = Vector2( -4.80615, 24.7448 )
+transform/scale = Vector2( 1.50616, 1.66924 )
+script/script = SubResource( 1 )
+__meta__ = { "_edit_group_":true, "_edit_lock_":true }
+words_poping = ExtResource( 5 )
+notepad = NodePath("../../ui/notepad_icon/notpad_container/behind_notpad")
+
+[node name="landlord" parent="." instance=ExtResource( 6 )]
 
 transform/pos = Vector2( 558.806, 260.987 )
 time_and_level = NodePath("../ui/time_level_anchor/time_and_level")
@@ -207,9 +121,9 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 flat = false
-script/script = SubResource( 5 )
+script/script = SubResource( 2 )
 
-[node name="mouse_drag_items" parent="." instance=ExtResource( 9 )]
+[node name="mouse_drag_items" parent="." instance=ExtResource( 7 )]
 
 [node name="ui" type="Node2D" parent="."]
 
@@ -218,21 +132,24 @@ transform/pos = Vector2( 480, 193 )
 transform/scale = Vector2( 0.5, 0.5 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="notepad_icon" parent="ui" instance=ExtResource( 10 )]
+[node name="notepad_icon" parent="ui" instance=ExtResource( 8 )]
 
 editor/display_folded = true
-visibility/visible = false
 margin/left = 761.0
 margin/top = 503.0
 margin/right = 953.0
 margin/bottom = 717.0
+
+[node name="behind_notpad" type="Position2D" parent="ui/notepad_icon/notpad_container"]
+
+transform/pos = Vector2( 10, -8 )
 
 [node name="notepad_anim" type="AnimationPlayer" parent="ui/notepad_icon"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/apear = SubResource( 6 )
+anims/apear = SubResource( 3 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -244,12 +161,12 @@ editor/display_folded = true
 transform/pos = Vector2( 448, -498 )
 transform/scale = Vector2( 0.6, 0.6 )
 
-[node name="time_and_level" parent="ui/time_level_anchor" instance=ExtResource( 11 )]
+[node name="time_and_level" parent="ui/time_level_anchor" instance=ExtResource( 9 )]
 
 editor/display_folded = true
 root_node = NodePath("../../..")
 
-[node name="cutscene" parent="." instance=ExtResource( 12 )]
+[node name="cutscene" parent="." instance=ExtResource( 10 )]
 
 root_node = NodePath("..")
 player_node = NodePath("../player")
@@ -257,12 +174,12 @@ player_node = NodePath("../player")
 [node name="admin_mode" type="Node" parent="."]
 
 editor/display_folded = true
-script/script = SubResource( 7 )
+script/script = SubResource( 4 )
 root_node = NodePath("..")
 
 [node name="reset" type="Node" parent="admin_mode"]
 
-script/script = SubResource( 8 )
+script/script = SubResource( 5 )
 
 [node name="notebook" type="Node2D" parent="."]
 
@@ -280,7 +197,7 @@ text = "MVP"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script/script = SubResource( 9 )
+script/script = SubResource( 6 )
 
 [connection signal="mouse_enter" from="term" to="." method="can_place_movement_dot_switch" binds= [ false ]]
 
@@ -311,4 +228,5 @@ script/script = SubResource( 9 )
 [connection signal="timeout" from="ui/time_level_anchor/time_and_level/on_inactive_hide" to="ui/time_level_anchor/time_and_level" method="_on_inactive_timeout"]
 
 
+[editable path="ui/notepad_icon"]
 [editable path="ui/time_level_anchor/time_and_level"]
