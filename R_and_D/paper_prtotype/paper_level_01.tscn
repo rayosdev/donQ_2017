@@ -14,7 +14,7 @@
 [sub_resource type="GDScript" id=1]
 
 resource/name = "words_poping_anchor"
-script/source = "#\t\t\t\t\twords_poping_anchor\nextends Node2D\n\nexport (PackedScene) var words_poping\nexport (NodePath) var notepad\n\nvar spanish_words = [\'hola\',\'como\',\'gracias\',\'que\',\'bueno\']\nvar words = []\n\nvar dircetion = 1\n\nfunc _ready():\n\t\n\tnotepad = get_node(notepad)\n\tfor w in spanish_words:\n\t\tnew_coin(w)\n\tpass\n\nfunc new_coin(word_txt):\n\tvar word = words_poping.instance()\n\tword.direction = dircetion\n\tadd_child(word)\n\tdircetion = dircetion * -1\n\tword.notepad_position = notepad.get_global_pos()\n\tword.change_word(word_txt)\n\twords.append(word)\n\tpass"
+script/source = "#\t\t\t\t\twords_poping_anchor\nextends Node2D\n\nexport (PackedScene) var words_poping\nexport (NodePath) var notepad\nexport (NodePath) var root_node\n\nvar spanish_words_list = [] setget set_spanish_words_list\nvar words = []\n\nvar stasionary_position\nvar timer = Timer.new()\n\nvar dircetion = 1\n\nfunc _ready():\n\tnotepad = get_node(notepad)\n\troot_node = get_node(root_node)\n\tstasionary_position = get_pos()\n\t\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(8)\n\tadd_child(timer)\n\ttimer.connect(\"timeout\",self,\"turn_of_fixed_procces\")\n\tpass\n\nfunc set_spanish_words_list(list):\n\tspanish_words_list = list\n\t\n\tfor w in spanish_words_list:\n\t\tnew_coin(w)\n\tpass\n\t\nfunc _fixed_process(delta):\n\tset_global_pos(stasionary_position)\n\tpass\n\nfunc turn_of_fixed_procces():\n\tset_fixed_process(false)\n\tset_pos(get_parent().get_pos())\n\tset_global_pos(get_parent().get_global_pos())\n\t\n\nfunc new_coin(word_txt):\n\tvar word = words_poping.instance()\n\tword.direction = dircetion\n\tadd_child(word)\n\tdircetion = dircetion * -1\n\tword.notepad_position = notepad.get_global_pos()\n\tword.change_word(word_txt)\n\twords.append(word)\n\tstasionary_position = get_global_pos()\n\tset_fixed_process(true)\n\ttimer.start()\n\tpass"
 
 [sub_resource type="GDScript" id=2]
 
@@ -67,7 +67,9 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="player" parent="." instance=ExtResource( 3 )]
 
-transform/pos = Vector2( 363.879, 427.197 )
+editor/display_folded = true
+transform/pos = Vector2( 785.986, 132.945 )
+z/z = 1
 dot = ExtResource( 4 )
 root_node = NodePath("..")
 notepad_node = NodePath("../ui/notepad_icon")
@@ -75,12 +77,13 @@ time_and_money = NodePath("../ui/time_level_anchor/time_and_level")
 
 [node name="words_poping_anchor" type="Node2D" parent="player"]
 
-transform/pos = Vector2( -4.80615, 24.7448 )
 transform/scale = Vector2( 1.50616, 1.66924 )
+z/relative = false
 script/script = SubResource( 1 )
 __meta__ = { "_edit_group_":true, "_edit_lock_":true }
 words_poping = ExtResource( 5 )
 notepad = NodePath("../../ui/notepad_icon/notpad_container/behind_notpad")
+root_node = NodePath("../..")
 
 [node name="landlord" parent="." instance=ExtResource( 6 )]
 
@@ -135,6 +138,7 @@ __meta__ = { "_edit_lock_":true }
 [node name="notepad_icon" parent="ui" instance=ExtResource( 8 )]
 
 editor/display_folded = true
+visibility/visible = false
 margin/left = 761.0
 margin/top = 503.0
 margin/right = 953.0
@@ -157,7 +161,6 @@ autoplay = ""
 
 [node name="time_level_anchor" type="Node2D" parent="ui"]
 
-editor/display_folded = true
 transform/pos = Vector2( 448, -498 )
 transform/scale = Vector2( 0.6, 0.6 )
 
@@ -165,6 +168,14 @@ transform/scale = Vector2( 0.6, 0.6 )
 
 editor/display_folded = true
 root_node = NodePath("../../..")
+
+[node name="ui_money_update" parent="ui/time_level_anchor/time_and_level"]
+
+editor/display_folded = false
+
+[node name="ui_money_update_img" parent="ui/time_level_anchor/time_and_level/ui_money_update/anim_anchor"]
+
+z/z = 2
 
 [node name="cutscene" parent="." instance=ExtResource( 10 )]
 
@@ -210,22 +221,6 @@ script/script = SubResource( 6 )
 [connection signal="mouse_exit" from="ui/notepad_icon" to="." method="can_place_movement_dot_switch" binds= [ true ]]
 
 [connection signal="visibility_changed" from="ui/notepad_icon" to="ui/notepad_icon" method="_on_notepad_icon_visibility_changed"]
-
-[connection signal="mouse_enter" from="ui/time_level_anchor/time_and_level/dropdown_button/btn" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ true ]]
-
-[connection signal="mouse_exit" from="ui/time_level_anchor/time_and_level/dropdown_button/btn" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ false ]]
-
-[connection signal="pressed" from="ui/time_level_anchor/time_and_level/dropdown_button/btn" to="ui/time_level_anchor/time_and_level" method="_on_btn_pressed"]
-
-[connection signal="mouse_enter" from="ui/time_level_anchor/time_and_level/non_dot_placment_area" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ true ]]
-
-[connection signal="mouse_exit" from="ui/time_level_anchor/time_and_level/non_dot_placment_area" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ false ]]
-
-[connection signal="mouse_enter" from="ui/time_level_anchor/time_and_level/non_dot_placment_area/TextureButton" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ true ]]
-
-[connection signal="mouse_exit" from="ui/time_level_anchor/time_and_level/non_dot_placment_area/TextureButton" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ false ]]
-
-[connection signal="timeout" from="ui/time_level_anchor/time_and_level/on_inactive_hide" to="ui/time_level_anchor/time_and_level" method="_on_inactive_timeout"]
 
 
 [editable path="ui/notepad_icon"]

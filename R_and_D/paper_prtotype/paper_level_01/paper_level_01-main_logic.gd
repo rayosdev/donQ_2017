@@ -3,7 +3,7 @@ extends Node
 
 var term
 var dialog_characters = []
-var dialog = {}
+var dialog = {} setget set_dialog, get_dialog
 
 var spanish_words = []
 
@@ -19,10 +19,10 @@ var GAME_STATE = {
 
 }
 
-
+#export (int,'test1','test2','test3') var test
 
 func _ready():
-
+	
 	term = get_node("term")
 	term.set_text("ready...")
 	change_state("INTRO")
@@ -107,9 +107,16 @@ func can_place_movement_dot_switch(state):
 func add_spanish_words(words_to_be_added):
 
 	for word in words_to_be_added:
-		spanish_words.append(word)
-		
+		spanish_words.append(word)		
 	pass
+	
+func get_dialog():
+	return dialog
+	
+func set_dialog(_dialog):
+	dialog = _dialog
+	if(dialog["spanish_words"].size() > 1):
+		get_node("player/words_poping_anchor").set_spanish_words_list(dialog["spanish_words"])
 
 #func test():
 #	var test_ref = funcref(get_node("player"),"test_for_player")
