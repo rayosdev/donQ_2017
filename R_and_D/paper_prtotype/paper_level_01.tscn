@@ -58,7 +58,7 @@ script/source = "extends Label\n\nvar timer = null\n\n\nfunc _ready():\n\t\n\tti
 [sub_resource type="GDScript" id=7]
 
 resource/name = "sound_player"
-script/source = "extends Node\n\nvar timer = Timer.new()\n\nfunc _ready():\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\tplay_sound_interval(8.5,2)\n\tyield(timer,\'timeout\')\n\ttimer.set_wait_time(2)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tplay_sound_interval(4.2,3)\n#\tget_node(\"steam_player\").seek_pos(2)\n#\tset_process(true)\n\tpass\n\t\nfunc play_sound_interval(start_time,stop_time):\n\tget_node(\"steam_player\").play(start_time)\n\ttimer.set_wait_time(stop_time)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tget_node(\"steam_player\").stop()\n\t\nfunc _process(delta):\n\tpass\n"
+script/source = "extends Node\n\nvar timer = Timer.new()\n\n\nfunc _ready():\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\tplay_sound_interval(8.5,2)\n\tprint(\"playing_A\")\n\tyield(timer,\'timeout\')\n\ttimer.set_wait_time(2)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tplay_sound_interval(4.2,3)\n#\tget_node(\"steam_player\").seek_pos(2)\n#\tset_process(true)\n\tpass\n\t\nfunc play_sound_interval(start_time,stop_time):\n\tget_node(\"steam_player\").play(start_time)\n\ttimer.set_wait_time(stop_time)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tget_node(\"steam_player\").stop()\n\t\nfunc _process(delta):\n\tpass\n"
 
 [node name="paper_level_01" type="Node"]
 
