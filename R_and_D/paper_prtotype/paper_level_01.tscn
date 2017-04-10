@@ -200,7 +200,7 @@ script/script = SubResource( 5 )
 
 [node name="notebook" type="Node2D" parent="."]
 
-[node name="Label" type="Label" parent="."]
+[node name="MVP" type="Label" parent="."]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true

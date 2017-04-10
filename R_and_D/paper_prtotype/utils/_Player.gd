@@ -22,51 +22,113 @@ var WORD_TYPES = {
 }
 
 
-var WORDS = {
-		
-#		TEMPLATE:
-	#	Word: [[Translations..] , [types..], Categorys [cat..], Grammer Type [], Word_Score 0-100%, Date Created, Test Dates [date..]], 
-#				-- EXAMPEL -- 
-#		NOUN	[Translations..] ,[types..]	, gender(F,M),   [catagory..], Word_Score 0-100%, Tool_word Date discoverd, Test Dates [date..], Audio	], 
-		"Mesa":	[["Table"], 	  ['NO'],   		'F',		['HOME','WORK'] 	, 0 , 			false,		null,			null,		  null		],
-#			ADJACTIVE
-#		"Bien":	[["Good"] , ['AV']],
-#			VERB [Translations..],[types..], [catagory..], 		Word_Score 0-100%, Tool_word Date discoverd, Test Dates [date..], Audio], 
-		"Comer":[["Eat,Consume"], ['VE'],   ['HOME','ON_THE_TOWN'] 	, 0 , 			false,		null,			null,			   null	],
-#		
-}
 
 var PHRASES = {
 
 #		Phrase, 
 }
 
-var CATEGORYS = {
+
+var VERB_LIST = {
+
+	#EXAMPLE
+	#VERB
+	["comer",'VB']:{
 		
-		#some example categorys
-#		Categorys		: icon
-		"HOME"			: null,
-		"EXPRESSION"	: null,
-		"NUMBERS"		: null,
-		"PERSONS"		: null,
-		"CONVERSATIONS"	: null,
-		"SPORTS"		: null,
-		"WORK"			: null,
-		"FEELINGS"		: null,
-		"FOOD"			: null
-		
+		'_WORD'			:	"comer",
+		'_TYPE'			:	"VB",
+		'_TANSLATION'	:	{1:"eat",2:"consume"},
+		'_CATEGORY'		:	{1:"HOUSE",2:"SHOP",3:"RESTAURANT"},
+		'_PROGRESS'		:	0,
+		'_DATE_ADDED'	:	OS.get_date(),
+		'_TEST_DATES'	:	{},
+		'_CONJUGATION'	:	{
+			'_INFINITIVE':
+				{
+				'YO'		:"como",
+				'TU'		:"comes",
+				'USTED'		:"come",
+				'NOSOTROS'	:"comamos",
+				'USTEDES'	:"comen",
+				}
+			
+			}
+	}
 }
+	
+var NOUN_LIST = {
+	#EXAMPLE	
+	#NOUN
+	"casa":{
+		
+		'_WORD'			:	"casa",
+		'_TYPE'			:	"NO",
+		'_TANSLATION'	:	{1:"house",2:"home"},
+		'_GENDER'		:	'F',
+		'_CATEGORY'		:	{1:"HOME"},
+		'_PROGRESS'		:	0,
+		'_START_DATE'	:	OS.get_datetime(),
+		'_TEST_DATES'	:	{},
+		
+	}
+	
+}
+
+func add_to_verb_list(word,type,translation,category,progress,start_date,test_dates,conjugation):
+	
+		VERB_LIST[word] = {
+		
+		'_WORD'			:	word,
+		'_TYPE'			:	type,
+		'_TANSLATION'	:	translation,
+		'_CATEGORY'		:	category,
+		'_PROGRESS'		:	progress,
+		'_START_DATE'	:	start_date,
+		'_TEST_DATES'	:	test_dates,
+		'_CONJUGATION'	:	conjugation
+		
+		}
+		
+		 
+	
+func add_to_noun_list(word,type,translation,gender,category,progress,start_date,test_dates):
+	
+		VERB_LIST[word] = {
+		
+		'_WORD'			:	word,
+		'_TYPE'			:	type,
+		'_TANSLATION'	:	translation,
+		'_GENDER'		:	gender,
+		'_CATEGORY'		:	category,
+		'_PROGRESS'		:	progress,
+		'_START_DATE'	:	start_date,
+		'_TEST_DATES'	:	test_dates,
+		
+		} 
+
 
 
 func _ready():
-#	print(reverse_str("HA HA HA DETTE ER BRA"))
 	
+	
+	for word in NOUN_LIST:
+		_FILE_HANDLER.fh_save_file(word + ".json", NOUN_LIST[word].to_json())
+		var tmp_dict = {}
+		tmp_dict.parse_json(_FILE_HANDLER.fh_load_file(word + ".json"))
+		
+		print(tmp_dict["_TANSLATION"]["2"])
+		
+#	_UTILS.ut_csv_to_dict(_FILE_HANDLER.fh_load_csv_file("test.csv"))
+	
+	
+#	print(reverse_str("HA HA HA DETTE ER BRA"))
+
 #	print(date_format(OS.get_datetime(),"DD.MM.YY"))
 	
 	_states["MONEY"] = MONEY
 	
-	print("states: ")
+#	print("states: ")
 	for s in _states:
-		print(str(_states[s]) + " : " + str(s))
-	pass
+#		print(str(_states[s]) + " : " + str(s))
+		pass
 	

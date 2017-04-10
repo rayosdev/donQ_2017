@@ -1,0 +1,87 @@
+[gd_scene load_steps=3 format=1]
+
+[sub_resource type="GDScript" id=2]
+
+resource/name = "_panel"
+script/source = "extends Node2D\n\n# class member variables go here, for example:\n# var a = 2\n# var b = \"textvar\"\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tpass\n"
+
+[sub_resource type="GDScript" id=1]
+
+resource/name = "_type"
+script/source = "extends Label\n\n# class member variables go here, for example:\n# var a = 2\n# var b = \"textvar\"\n\nfunc _ready():\n\tget_node(\"options_btn\").add_item(\"NOUN\")\n\tget_node(\"options_btn\").add_item(\"VERB\")\n\tget_node(\"options_btn\").add_item(\"ADJACTIVE\")\n\tget_node(\"options_btn\").add_item(\"ADVERB\")\n\tget_node(\"options_btn\").add_item(\"PRONOUN\")\n\tget_node(\"options_btn\").add_item(\"PREPOSITION\")\n\tget_node(\"options_btn\").add_item(\"DETERMINER\")\n\tget_node(\"options_btn\").add_item(\"EXCLAMATION\")\n\tpass\n\n\n#\t\t\"NOUN\"\t\t\t:\'NO\',\n#\t\t\"VERB\"\t\t\t:\'VE\',\n#\t\t\"ADJACTIVE\"\t\t:\'AD\',\n#\t\t\"ADVERB\"\t\t:\'AV\',\n#\t\t\"PRONOUN\"\t\t:\'PN\',\n#\t\t\"PREPOSITION\"\t:\'PP\',\n#\t\t\"CONJUNCTION\"\t:\'CO\',\n#\t\t\"DETERMINER\"\t:\'DT\',\n#\t\t\"EXCLAMATION\"\t:\'EC\'\n#\n"
+
+[node name="word_generator" type="Node"]
+
+[node name="panel" type="Node2D" parent="."]
+
+script/script = SubResource( 2 )
+
+[node name="_WORD" type="Label" parent="panel"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 96.0
+margin/top = 96.0
+margin/right = 256.0
+margin/bottom = 128.0
+text = "_WORD"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="line_edit" type="LineEdit" parent="panel/_WORD"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 192.0
+margin/top = 0.0
+margin/right = 416.0
+margin/bottom = 32.0
+placeholder/alpha = 0.6
+align = 1
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="_TYPE" type="Label" parent="panel"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 96.0
+margin/top = 64.0
+margin/right = 256.0
+margin/bottom = 96.0
+text = "_TYPE"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script/script = SubResource( 1 )
+
+[node name="options_btn" type="OptionButton" parent="panel/_TYPE"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 192.0
+margin/top = 0.0
+margin/right = 416.0
+margin/bottom = 32.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+selected = -1
+items = [  ]
+
+
