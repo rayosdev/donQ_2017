@@ -40,7 +40,7 @@ func fh_load_file(localFile):
 	savedFile.open("user://" + str(localFile), File.READ)
 	
 	var tmpStr = ""
-	tmpStr += savedFile.get_line()
+	tmpStr = savedFile.get_as_text()
 	savedFile.close()
 	
 	return tmpStr	

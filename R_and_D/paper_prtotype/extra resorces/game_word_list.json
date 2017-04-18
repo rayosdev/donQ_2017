@@ -1,0 +1,48 @@
+{"words":
+ {
+     "word":
+        {
+     "start_date":{"dst":false, "second":47, "month":4, "day":11, "hour":1, "year":2017, "minute":33, "weekday":2}, 
+     "test_dates":{"1":"test_dates.."}, 
+     "translations":{"1":"translation_1", "2":"translation_2.."},
+        },
+ 
+  "hola":{
+     "start_date":{}, 
+     "test_dates":{}, 
+     "translations":{"1":"hallo", "2":"hi","3":"hey"},
+        },
+  
+  "bien":{
+     "start_date":{}, 
+     "test_dates":{}, 
+     "translations":{"1":"well", "2":"good"},
+        },
+  
+  "dinero":{
+     "start_date":{}, 
+     "test_dates":{}, 
+     "translations":{"1":"money","1":"cash"},
+        },
+  
+  "trabajo":{
+     "start_date":{}, 
+     "test_dates":{}, 
+     "translations":{"1":"job", "2":"work"},
+        },
+  
+  "español":{
+     "start_date":{}, 
+     "test_dates":{}, 
+     "translations":{"1":"spanish"},
+        },
+  
+  "adios":{
+     "start_date":{}, 
+     "test_dates":{}, 
+     "translations":{"1":"goodbye"},
+        },
+  
+  
+ }
+}

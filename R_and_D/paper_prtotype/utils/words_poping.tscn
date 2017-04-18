@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/img/words_de_que_porfavor_bien_hablas_ingles.png" type="Texture" id=1]
 [ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=2]
@@ -7,7 +7,7 @@
 [sub_resource type="GDScript" id=1]
 
 resource/name = "words_poping"
-script/source = "#\t\t\t\t\twords_popping\nextends Node2D\n\nvar gravity = 0.08\nvar gravity_pull = 0\nvar init_velocity = Vector2(2,-15)\nvar steps = 1000\nvar ground_pos = get_pos().y\nvar mass = 0.5\nvar velocity = init_velocity\nvar wait = 0\nvar direction = 0 \nvar notepad_position = Vector2()\n\n\nvar timer = Timer.new()\n\n\nfunc _ready():\n\trandomize()\n\tinit_velocity.y = rand_range(-15.0,-20.0)\n\tground_pos += rand_range(-50.9,50.9)\n\t\n\twait = rand_range(0,70)\n\t\n\tset_process(true)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(0.005)\n\tadd_child(timer)\n\tword_pop()\n\tpass\n\t\nfunc word_pop():\n\t\n\tinit_velocity.x = rand_range(1.5,2.5) * direction\n\tvelocity = init_velocity\n\n\tset_pos(get_pos() + velocity)\n\twhile(steps != 0):\n\t\twait -= 1\n\t\ttimer.start()\n\t\tif(0 > wait):\n\t\t\t\n\t\t\tif(!(gravity_pull >= 1)): gravity_pull += gravity / mass\n\t\t\tvelocity.y += gravity_pull\n\t\t\tset_pos(get_pos() + velocity)\n\t\t\tif(get_pos().y >= ground_pos):\n\t\t\t\tvelocity = init_velocity\n\t\t\t\tinit_velocity *= 0.5\n\t\t\t\tgravity_pull = 0\n\t\t\t\tif(abs(velocity.length()) < 0.5): break\n\t\t\t\tset_pos(get_pos() + velocity)\n\t\n\t\tsteps -= 1\n\t\tyield(timer,\'timeout\')\n\twait = rand_range(20,60)\n\t\n\tdirection = Vector2()\n\twhile(steps != 0):\n\t\ttimer.start()\n\t\twait -= 1\n\t\tif(wait < 0):\n\t\t\tvar target = notepad_position\n\t\t\tvar glob_pos = get_global_pos()\n\t\t\tdirection = (target - glob_pos) * 0.2\n\t\t\tset_global_pos(glob_pos + (direction * 0.5))\n\t\t\tif(target - glob_pos < Vector2(0.5,0.5)): break\n\t\tsteps -= 1\n\t\tyield(timer,\'timeout\')\n\t\t\n\twait = 1\n\twhile(wait > 0):\n\t\ttimer.start()\n\t\twait -= 1\n\t\tyield(timer,\'timeout\')\n\t\tpass\n\tqueue_free()\n\t\t\n\n\t\nfunc change_word(word):\n\tget_node(\"word_label\").set_text(word)\n\tpass\n\n\t\n\t\n\n"
+script/source = "#\t\t\t\t\twords_popping\nextends Node2D\n\nvar gravity = 0.08\nvar gravity_pull = 0\nvar init_velocity = Vector2(2,-15)\nvar steps = 1000\nvar ground_pos = get_pos().y\nvar mass = 0.5\nvar velocity = init_velocity\nvar wait = 0\nvar direction = 0 \nvar notepad_position = Vector2()\n\n\nvar timer = Timer.new()\n\n\nfunc _ready():\n\trandomize()\n\tinit_velocity.y = rand_range(-15.0,-20.0)\n\tground_pos += rand_range(-50.9,50.9)\n\t\n\twait = rand_range(0,70)\n\t\n\tset_process(true)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(0.005)\n\tadd_child(timer)\n\tword_pop()\n\tpass\n\t\nfunc word_pop():\n\t\n\tinit_velocity.x = rand_range(1.5,2.5) * direction\n\tvelocity = init_velocity\n\n\tset_pos(get_pos() + velocity)\n\twhile(steps != 0):\n\t\twait -= 1\n\t\ttimer.start()\n\t\tif(0 > wait):\n\t\t\t\n\t\t\tif(!(gravity_pull >= 1)): gravity_pull += gravity / mass\n\t\t\tvelocity.y += gravity_pull\n\t\t\tset_pos(get_pos() + velocity)\n\t\t\tif(get_pos().y >= ground_pos):\n\t\t\t\tvelocity = init_velocity\n\t\t\t\tinit_velocity *= 0.5\n\t\t\t\tgravity_pull = 0\n\t\t\t\tif(abs(velocity.length()) < 0.5): break\n\t\t\t\tset_pos(get_pos() + velocity)\n\t\n\t\tsteps -= 1\n\t\tyield(timer,\'timeout\')\n\twait = rand_range(20,60)\n\t\n\tdirection = Vector2()\n\twhile(steps != 0):\n\t\ttimer.start()\n\t\twait -= 1\n\t\tif(wait < 0):\n\t\t\tvar target = notepad_position\n\t\t\tvar glob_pos = get_global_pos()\n\t\t\tdirection = (target - glob_pos) * 0.2\n\t\t\tset_global_pos(glob_pos + (direction * 0.5))\n\t\t\tif(target - glob_pos < Vector2(0.5,0.5)): break\n\t\tsteps -= 1\n\t\tyield(timer,\'timeout\')\n\t\t\n\twait = 40\n\twhile(wait > 0):\n\t\ttimer.start()\n\t\twait -= 1\n\t\tyield(timer,\'timeout\')\n\t\tpass\n\tqueue_free()\n\t\t\n\n\t\nfunc change_word(_word):\n\tset_name(_word)\n\tget_node(\"word_label\").set_text(_word)\n\tpass\n\t\n\t\n\t\n\n"
 
 [sub_resource type="DynamicFont" id=2]
 
@@ -42,9 +42,13 @@ tracks/3/interp = 1
 tracks/3/imported = false
 tracks/3/keys = { "times":FloatArray( 0, 0.3 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
 
+[sub_resource type="CircleShape2D" id=4]
+
+custom_solver_bias = 0.0
+radius = 35.6662
+
 [node name="words_poping" type="Node2D"]
 
-editor/display_folded = true
 script/script = SubResource( 1 )
 __meta__ = { "_edit_group_":true }
 
@@ -53,6 +57,7 @@ __meta__ = { "_edit_group_":true }
 transform/rot = 16.5801
 transform/scale = Vector2( 0.32469, 0.32469 )
 texture = ExtResource( 1 )
+modulate = Color( 0.616333, 0.84375, 0.641207, 1 )
 region = true
 region_rect = Rect2( 35, 40, 250, 250 )
 
@@ -60,7 +65,7 @@ region_rect = Rect2( 35, 40, 250, 250 )
 
 transform/scale = Vector2( 0.240263, 0.0852713 )
 texture = ExtResource( 2 )
-modulate = Color( 0.508048, 0.504684, 0.527344, 1 )
+modulate = Color( 0.37207, 0.496094, 0.3849, 1 )
 
 [node name="word_label" type="Label" parent="."]
 
@@ -91,5 +96,23 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="word_area" type="Area2D" parent="." groups=[ "word" ]]
+
+input/pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="collision" type="CollisionShape2D" parent="word_area"]
+
+visibility/visible = false
+shape = SubResource( 4 )
+trigger = true
+_update_shape_index = 0
 
 

@@ -9,6 +9,17 @@ var move_speed = 5
 var move_vector = Vector2()
 var destination
 
+var note_book_reminder = {
+	
+	"callback_end_functions":[],
+	"spanish_words":[],
+	"paused_dialog_adress": null,
+
+	['A',1]:['S', 0 , null , "Yes, and also remeber, the most important thing for a good memory is to get full 8 hours of sleep", null],	
+	['A',2]:['C', 0, "show_arrow_on_clock", null, 'N', false],
+	['A',3]:['E', 0 , null , "I need to get going, Adios", ['adios'],"go_away", ['none']],
+
+}
 
 
 export (NodePath) var root_node
@@ -145,3 +156,17 @@ func update_money(money_arg):
 #	
 #func try_func(_func, t):
 #	_func.call_func(t)
+
+func notebook_reminder(wait_time):
+	#	sttart a timer to count down before reminder grapgics
+	#	tell the player how to look in the notebook	
+	#	timer setup
+	var notebook_remind_timer = Timer.new()
+	add_child(notebook_remind_timer)
+	notebook_remind_timer.set_one_shot(true)
+	notebook_remind_timer.set_wait_time(wait_time[0])
+	notebook_remind_timer.start()
+	print("RIMENDER START")
+	yield(notebook_remind_timer,"timeout")
+	print("REMINDER")
+	

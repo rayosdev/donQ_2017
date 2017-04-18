@@ -15,7 +15,8 @@ var GAME_STATE = {
 
 	"INTRO"			:0,
 	"MOVE_AROUND"	:1,
-	"CUT_SCENE"		:2
+	"CUT_SCENE"		:2,
+	"NOTEPAD"		:3,
 
 }
 

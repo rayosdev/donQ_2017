@@ -1,11 +1,48 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/img/ui_notepad_icon.png" type="Texture" id=1]
+[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_notefier.png" type="Texture" id=2]
+[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Black.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="GDScript" id=1]
 
 resource/name = "player_notepad"
-script/source = "extends TextureButton\n\nvar notepad_anim\n\nfunc _ready():\n\t\n\tnotepad_anim = get_node(\"notepad_anim\")\n\tpass\n\n\nfunc _on_notepad_icon_mouse_enter():\n\tget_node(\"notpad_container\").set_scale(Vector2(1.1,1.1))\n\t\n\tpass\n\n\nfunc _on_notepad_icon_mouse_exit():\n\tget_node(\"notpad_container\").set_scale(Vector2(1,1))\n\tset_focus_mode(0)\n\tpass\n\t\n\nfunc _on_notepad_icon_button_up():\n\tget_node(\"notpad_container\").set_scale(Vector2(1,1))\n\tpass # replace with function body\n\n\nfunc _on_notepad_icon_button_down():\n\tget_node(\"notpad_container\").set_scale(Vector2(0.9,0.9))\n\tpass # replace with function body\n\n\nfunc _on_notepad_icon_pressed():\n#\tget_node(\"notpad_container\").set_scale(Vector2(0.9,0.9))\n\tpass\n\n\nfunc _on_notepad_icon_released():\n#\tget_node(\"notpad_container\").set_scale(Vector2(1,1))\n\tpass\n\nfunc _on_notepad_icon_visibility_changed():\n\t\n\tnotepad_anim.play(\"apear\")\n\tpass # replace with function body\n"
+script/source = "#\t\t\t\t\tplayer_notepad\nextends TextureButton\n\nvar notepad_anim\n\nfunc _ready():\n\t\n\tnotepad_anim = get_node(\"notepad_anim\")\n\tprint(get_node(\"notepad_anim\"))\n\tset_process(true)\n\tpass\n\n\nfunc _on_notepad_icon_mouse_enter():\n\tget_node(\"notpad_container\").set_scale(Vector2(1.1,1.1))\n\t\n\tpass\n\n\nfunc _on_notepad_icon_mouse_exit():\n\tget_node(\"notpad_container\").set_scale(Vector2(1,1))\n\tset_focus_mode(0)\n\tpass\n\t\n\nfunc _on_notepad_icon_button_up():\n\tget_node(\"notpad_container\").set_scale(Vector2(1,1))\n\tpass # replace with function body\n\n\nfunc _on_notepad_icon_button_down():\n\tget_node(\"notpad_container\").set_scale(Vector2(0.9,0.9))\n\tpass # replace with function body\n\n\nfunc _on_notepad_icon_pressed():\n#\tget_node(\"notpad_container\").set_scale(Vector2(0.9,0.9))\n\tpass\n\n\nfunc _on_notepad_icon_released():\n#\tget_node(\"notpad_container\").set_scale(Vector2(1,1))\n\tpass\n\nfunc _on_notepad_icon_visibility_changed():\n\tnotepad_anim.play(\"apear\")\n\tpass # replace with function body\n"
+
+[sub_resource type="GDScript" id=2]
+
+script/source = "extends Sprite\n\nvar word_count = 0\nvar timer = Timer.new()\nvar final_word_count = 0\n\nfunc _ready():\n\tvisual_update()\n\t_Player.connect(\"new_word_added\",self,\"update_final_word_count\")\n\t\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(12)\n\ttimer.connect(\"timeout\",self,\"final_word_count_check\")\n\tpass\n\nfunc final_word_count_check():\n\tfinal_word_count += 1\n\ttimer.start()\n\nfunc update_final_word_count():\n\tif(word_count != final_word_count):\n\t\tword_count = final_word_count\n\t\tvisual_update()\n\tpass\n\nfunc add_to_word_count():\n\tword_count += 1\n\tvisual_update()\n\nfunc visual_update():\n\tif(word_count > 0): show()\n\telse: \n\t\thide()\n\t\treturn\n\tget_node(\"anim\").play(\"word_added\")\n\tget_node(\"label\").set_text(str(word_count))\n\nfunc _on_Area2D_area_enter( area ): \n\tif(area.get_groups().has(\"word\")):\n\t\tadd_to_word_count()\n"
+
+[sub_resource type="DynamicFont" id=3]
+
+font/size = 90
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 3 )
+
+[sub_resource type="Animation" id=5]
+
+resource/name = "idel"
+length = 1.0
+loop = false
+step = 0.1
+
+[sub_resource type="Animation" id=6]
+
+resource/name = "word_added"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/scale")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.3, 0.5 ), "transitions":FloatArray( -4, 1, 1 ), "update":0, "values":[ Vector2( 0.40604, 0.40604 ), Vector2( 0.494879, 0.494879 ), Vector2( 0.40604, 0.40604 ) ] }
+
+[sub_resource type="RectangleShape2D" id=4]
+
+custom_solver_bias = 0.0
+extents = Vector2( 110, 110 )
 
 [node name="notepad_icon" type="TextureButton"]
 
@@ -31,6 +68,63 @@ transform/pos = Vector2( 96, 128 )
 transform/scale = Vector2( 0.794985, 1 )
 texture = ExtResource( 1 )
 
+[node name="notebook_notefier" type="Sprite" parent="."]
+
+visibility/visible = false
+transform/pos = Vector2( 202.263, 15.6976 )
+transform/scale = Vector2( 0.40604, 0.40604 )
+texture = ExtResource( 2 )
+modulate = Color( 0.871094, 0.333466, 0.333466, 1 )
+script/script = SubResource( 2 )
+
+[node name="label" type="Label" parent="notebook_notefier"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -63.0
+margin/top = -57.0
+margin/right = 50.0
+margin/bottom = 49.0
+custom_fonts/font = SubResource( 3 )
+text = "9"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="anim" type="AnimationPlayer" parent="notebook_notefier"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/idel = SubResource( 5 )
+anims/word_added = SubResource( 6 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="area" type="Area2D" parent="."]
+
+input/pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 90, 120 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="area_collison" type="CollisionShape2D" parent="area"]
+
+transform/pos = Vector2( 90, 120 )
+shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 0
+
 [connection signal="button_down" from="." to="." method="_on_notepad_icon_button_down"]
 
 [connection signal="button_up" from="." to="." method="_on_notepad_icon_button_up"]
@@ -42,5 +136,7 @@ texture = ExtResource( 1 )
 [connection signal="pressed" from="." to="." method="_on_notepad_icon_pressed"]
 
 [connection signal="released" from="." to="." method="_on_notepad_icon_released"]
+
+[connection signal="area_enter" from="area" to="notebook_notefier" method="_on_Area2D_area_enter"]
 
 

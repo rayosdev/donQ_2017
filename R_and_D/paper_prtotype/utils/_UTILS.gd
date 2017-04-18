@@ -34,8 +34,20 @@ func _ready():
 	
 	
 	pass
-
-
+	
+func fprint_dictonarys(dict):
+	var space = ""
+	if(typeof(dict) == 20):
+		for i in dict:
+			print(str(i))
+			
+			for _i in dict[i]:
+				print("	" + str(_i)) #+ " : " + str(dict[i][_i]))
+				
+				for __i in dict[i][_i]:
+					print("		" + str(__i) + " : " + str(dict[i][_i][__i]))
+			
+	
 func ut_str_to_dic(_str):
 	_str = str(_str)
 	print("string to validate for dict: " + _str)
