@@ -16,18 +16,22 @@ var GAME_STATE = {
 	"INTRO"			:0,
 	"MOVE_AROUND"	:1,
 	"CUT_SCENE"		:2,
-	"NOTEPAD"		:3,
+	"NOTEBOOK"		:3,
 
 }
+
+signal notebook
 
 #export (int,'test1','test2','test3') var test
 
 func _ready():
 	
-	term = get_node("term")
+	term = get_node("level_01/term")
 	term.set_text("ready...")
 	change_state("INTRO")
+#	change_state("NOTEBOOK")
 	set_process(true)
+#	print(get_current_state())
 	pass
 
 func _process(delta):
@@ -56,7 +60,8 @@ func change_state(state):
 
 	return "'" + str(state) + "' was not in GAME_STATE: \n" + str(GAME_STATE)
 
-func what_is_the_current_state():
+func get_current_state():
+	
 	for i in GAME_STATE:
 		if(i == "_CURRENT"): break
 		if(GAME_STATE[i] == GAME_STATE._CURRENT): return i
@@ -88,13 +93,18 @@ func run_states_once():
 		get_node("cutscene").is_active = true
 		get_node("cutscene").run()
 		pass
+		
+	elif(GAME_STATE._CURRENT == GAME_STATE.NOTEBOOK):
+		emit_signal("notebook")
+		write_to_term("state: NOTEBOOK")
+		
+		pass
 	pass
 
 func switch_state_spesific_functions_off():
 
 	get_node("player").can_move = false
 	get_node("mouse_drag_items").is_active = false
-
 	get_node("cutscene").is_active = false
 	get_node("cutscene").run()
 	pass
@@ -124,5 +134,11 @@ func set_dialog(_dialog):
 #	get_node("player").try_func(test_ref,"test_num")
 #	pass
 
-
+func start_conversation(actors = [], conversation = {}):
+	
+	dialog_characters = []
+	for c in actors: dialog_characters.append(c)
+	dialog = conversation
+	
+	change_state("CUT_SCENE")
 	pass

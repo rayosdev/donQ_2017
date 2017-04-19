@@ -11,15 +11,17 @@ var destination
 
 var note_book_reminder = {
 	
+	"is_speach":false,
 	"callback_end_functions":[],
 	"spanish_words":[],
 	"paused_dialog_adress": null,
 
-	['A',1]:['S', 0 , null , "Yes, and also remeber, the most important thing for a good memory is to get full 8 hours of sleep", null],	
-	['A',2]:['C', 0, "show_arrow_on_clock", null, 'N', false],
-	['A',3]:['E', 0 , null , "I need to get going, Adios", ['adios'],"go_away", ['none']],
+	['A',1]:['E', 1 , null , 'I should probably look at the new words In the "NOTEBOOK" before I get going too', null,null,null],	
+#	['A',2]:['C', 0, "start_second_notepad_reminder", null, 'N', false],
+#	['A',2]:['E', 1 , null , "I need to get going, Adios", ['adios'],"test", ['none']],
 
 }
+
 
 
 export (NodePath) var root_node
@@ -62,6 +64,7 @@ func _fixed_process(delta):
 	
 #	=><
 func _input(event):
+	
 	
 	#if mouse is over areas where placing a go button is bad
 	if(root_node.can_place_movement_dot == false): return
@@ -161,6 +164,7 @@ func notebook_reminder(wait_time):
 	#	sttart a timer to count down before reminder grapgics
 	#	tell the player how to look in the notebook	
 	#	timer setup
+	var is_notebook_used = false
 	var notebook_remind_timer = Timer.new()
 	add_child(notebook_remind_timer)
 	notebook_remind_timer.set_one_shot(true)
@@ -168,5 +172,11 @@ func notebook_reminder(wait_time):
 	notebook_remind_timer.start()
 	print("RIMENDER START")
 	yield(notebook_remind_timer,"timeout")
-	print("REMINDER")
+	if(root_node.get_current_state() == "NOTEBOOK"): return
+	if(is_notebook_used == false):
+		root_node.start_conversation([self,self], note_book_reminder)
+	
+func test(none):
+	print("TEST")
+	pass
 	

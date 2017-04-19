@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=1]
+[gd_scene load_steps=25 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/paper_level_01-main_logic.gd" type="Script" id=1]
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=2]
@@ -11,6 +11,9 @@
 [ext_resource path="res://R_and_D/paper_prtotype/utils/time_and_level.tscn" type="PackedScene" id=9]
 [ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=10]
 [ext_resource path="res://R_and_D/paper_prtotype/sound/dialog/A!_full.ogg" type="AudioStream" id=11]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/word_panel.tscn" type="PackedScene" id=12]
+[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=13]
+[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=14]
 
 [sub_resource type="GDScript" id=1]
 
@@ -19,13 +22,25 @@ script/source = "extends Node\n\n\n\n"
 
 [sub_resource type="GDScript" id=2]
 
-script/source = "#\t\t\t\t\twords_poping_anchor\nextends Node2D\n\nexport (PackedScene) var words_poping\nexport (NodePath) var notepad\nexport (NodePath) var root_node\n\nvar spanish_words_list = [] setget set_spanish_words_list\nvar words = []\n\nvar stasionary_position\nvar timer = Timer.new()\n\nvar dircetion = 1\n\nfunc _ready():\n\tnotepad = get_node(notepad)\n\troot_node = get_node(root_node)\n\tstasionary_position = get_pos()\n\t\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(8)\n\tadd_child(timer)\n\ttimer.connect(\"timeout\",self,\"turn_of_fixed_procces\")\n\tpass\n\nfunc set_spanish_words_list(list):\n\tspanish_words_list = list\n\t\n\tfor w in spanish_words_list:\n\t\t\n\t\tnew_coin(w)\n\t\t_Player.add_word_to_active_list(w)\n\tprint(spanish_words_list)\n\tpass\n\t\nfunc _fixed_process(delta):\n\tset_global_pos(stasionary_position)\n\tpass\n\nfunc turn_of_fixed_procces():\n\tset_fixed_process(false)\n\tset_pos(get_parent().get_pos())\n\tset_global_pos(get_parent().get_global_pos())\n\t\n\nfunc new_coin(word_txt):\n\t\n\tvar word = words_poping.instance()\n\tword.direction = dircetion\n\tadd_child(word)\n\tdircetion = dircetion * -1\n\tword.notepad_position = notepad.get_global_pos()\n\tword.change_word(word_txt)\n\twords.append(word)\n\tstasionary_position = get_global_pos()\n\tset_fixed_process(true)\n\ttimer.start()\n\tpass"
+script/source = "extends Label\n\nvar timer = null\n\nfunc _ready():\n\t\n\tset_process_input(true)\n#\tset(\"custom_colors/font_color\",Color(1,0,0))\n#\tprint(\"WHAT\")\n\t\n\ttimer = Timer.new()\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(2)\n\t\n\tdo_transition()\n\tpass\n\t\nfunc do_transition():\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.hide()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.show()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n#\tprint(\"yield test\")\n\t\n\tpass\n\t\n#func _input(event):\n#\t\n#\t\tif(event.is_action_released(\"inventory\")):\n#\t\t\tdo_things()\n#\t\t\t\n#func do_things():\n#\tprint(\"THINGS\")\n\t\t"
 
 [sub_resource type="GDScript" id=3]
 
+script/source = "extends Node\n\nexport (NodePath) var root_node\n\nvar is_admin = false\n\n\nfunc _ready():\n\troot_node = get_node(root_node)\n\tset_process_input(true)\n\tpass\n\n\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"A\")):\n\t\tif(!is_admin): admin_enable()\n\t\telse: admin_disable()\n\n\nfunc admin_enable():\n\troot_node.get_node(\"player\").can_move = false\n\troot_node.get_node(\"mouse_drag_items\").is_active = true\n\tis_admin = true\n\troot_node.write_to_term(\"admin enabled\")\n\t\n\t\nfunc admin_disable():\n\troot_node.get_node(\"player\").can_move = true\n\troot_node.get_node(\"mouse_drag_items\").is_active = false\n\tis_admin = false\n\troot_node.write_to_term(\"admin disabled\")\n#\troot_node.run_states_once()\n\t"
+
+[sub_resource type="GDScript" id=4]
+
+script/source = "extends Node\n\n\nfunc _ready():\n\tset_process_input(true)\n\tpass\n\t\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"R\")):\n\t\tget_tree().reload_current_scene()\n\t\n\n"
+
+[sub_resource type="GDScript" id=5]
+
 script/source = "extends Button\n\nvar state_switch = 1\n\nfunc _ready():\n\tpass\n\n\nfunc _on_switch_states_pressed():\n\tvar root_node = get_parent().get_parent().get_node(\".\")\n\t\n#\tprint(root_node.change_state(state_switch))\n\t\n\tif(state_switch == 1): state_switch += 1\n\telse: state_switch -= 1\n\tpass\n"
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="GDScript" id=6]
+
+script/source = "#\t\t\t\t\twords_poping_anchor\nextends Node2D\n\nexport (PackedScene) var words_poping\nexport (NodePath) var notepad\nexport (NodePath) var root_node\n\nvar spanish_words_list = [] setget set_spanish_words_list\nvar words = []\n\nvar stasionary_position\nvar timer = Timer.new()\n\nvar dircetion = 1\n\nfunc _ready():\n\tnotepad = get_node(notepad)\n\troot_node = get_node(root_node)\n\tstasionary_position = get_pos()\n\t\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(8)\n\tadd_child(timer)\n\ttimer.connect(\"timeout\",self,\"turn_of_fixed_procces\")\n\tpass\n\nfunc set_spanish_words_list(list):\n\tspanish_words_list = list\n\t\n\tfor w in spanish_words_list:\n\t\t\n\t\tnew_coin(w)\n\t\t_Player.add_word_to_active_list(w)\n\tprint(spanish_words_list)\n\tpass\n\t\nfunc _fixed_process(delta):\n\tset_global_pos(stasionary_position)\n\tpass\n\nfunc turn_of_fixed_procces():\n\tset_fixed_process(false)\n\tset_pos(get_parent().get_pos())\n\tset_global_pos(get_parent().get_global_pos())\n\t\n\nfunc new_coin(word_txt):\n\t\n\tvar word = words_poping.instance()\n\tword.direction = dircetion\n\tadd_child(word)\n\tdircetion = dircetion * -1\n\tword.notepad_position = notepad.get_global_pos()\n\tword.change_word(word_txt)\n\twords.append(word)\n\tstasionary_position = get_global_pos()\n\tset_fixed_process(true)\n\ttimer.start()\n\tpass"
+
+[sub_resource type="Animation" id=7]
 
 length = 1.0
 loop = false
@@ -46,21 +61,30 @@ tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
 
-[sub_resource type="GDScript" id=5]
-
-script/source = "extends Node\n\nexport (NodePath) var root_node\n\nvar is_admin = false\n\n\nfunc _ready():\n\troot_node = get_node(root_node)\n\tset_process_input(true)\n\tpass\n\n\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"A\")):\n\t\tif(!is_admin): admin_enable()\n\t\telse: admin_disable()\n\n\nfunc admin_enable():\n\troot_node.get_node(\"player\").can_move = false\n\troot_node.get_node(\"mouse_drag_items\").is_active = true\n\tis_admin = true\n\troot_node.write_to_term(\"admin enabled\")\n\t\n\t\nfunc admin_disable():\n\troot_node.get_node(\"player\").can_move = true\n\troot_node.get_node(\"mouse_drag_items\").is_active = false\n\tis_admin = false\n\troot_node.write_to_term(\"admin disabled\")\n#\troot_node.run_states_once()\n\t"
-
-[sub_resource type="GDScript" id=6]
-
-script/source = "extends Node\n\n\nfunc _ready():\n\tset_process_input(true)\n\tpass\n\t\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"R\")):\n\t\tget_tree().reload_current_scene()\n\t\n\n"
-
-[sub_resource type="GDScript" id=7]
-
-script/source = "extends Label\n\nvar timer = null\n\nfunc _ready():\n\t\n\tset_process_input(true)\n#\tset(\"custom_colors/font_color\",Color(1,0,0))\n#\tprint(\"WHAT\")\n\t\n\ttimer = Timer.new()\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(2)\n\t\n\tdo_transition()\n\tpass\n\t\nfunc do_transition():\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.hide()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.show()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n#\tprint(\"yield test\")\n\t\n\tpass\n\t\n#func _input(event):\n#\t\n#\t\tif(event.is_action_released(\"inventory\")):\n#\t\t\tdo_things()\n#\t\t\t\n#func do_things():\n#\tprint(\"THINGS\")\n\t\t"
-
 [sub_resource type="GDScript" id=8]
 
 script/source = "extends Node\n\nvar timer = Timer.new()\n\n\nfunc _ready():\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\tplay_sound_interval(8.5,2)\n\tprint(\"playing_A\")\n\tyield(timer,\'timeout\')\n\ttimer.set_wait_time(2)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tplay_sound_interval(4.2,3)\n#\tget_node(\"steam_player\").seek_pos(2)\n#\tset_process(true)\n\tpass\n\t\nfunc play_sound_interval(start_time,stop_time):\n\tget_node(\"steam_player\").play(start_time)\n\ttimer.set_wait_time(stop_time)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tget_node(\"steam_player\").stop()\n\t\nfunc _process(delta):\n\tpass\n"
+
+[sub_resource type="GDScript" id=11]
+
+resource/name = "notebook_ui"
+script/source = "extends Node2D\n\nexport (PackedScene) var word_panel\nexport (NodePath) var root_node\n\nfunc _ready():\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\troot_node.connect(\"notebook\",self,\"test_notbook\")\n\tpass\n\nfunc test_notbook():\n\tprint(\"NOTEBOOK ACTIVE\")\n\tshow()"
+
+[sub_resource type="Animation" id=10]
+
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("notebook_new_words:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.7, 1 ), "transitions":FloatArray( 0.25, 0.25, 0.25 ), "update":0, "values":[ Vector2( 493.059, -314.978 ), Vector2( 493.059, 305.021 ), Vector2( 493.059, 305.021 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("black_background:visibility/opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0.2, 0.8 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
 
 [node name="paper_level_01" type="Node"]
 
@@ -77,43 +101,42 @@ transform/scale = Vector2( 0.628221, 0.628221 )
 texture = ExtResource( 2 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="player" parent="." instance=ExtResource( 3 )]
+[node name="MVP" type="Label" parent="level_01"]
 
-editor/display_folded = true
-transform/pos = Vector2( 785.986, 132.945 )
-z/z = 1
-dot = ExtResource( 4 )
-root_node = NodePath("..")
-notepad_node = NodePath("../ui/notepad_icon")
-time_and_money = NodePath("../ui/time_level_anchor/time_and_level")
-
-[node name="words_poping_anchor" type="Node2D" parent="player"]
-
-transform/scale = Vector2( 1.50616, 1.66924 )
-z/relative = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 638.188
+margin/top = -426.062
+margin/right = 734.188
+margin/bottom = -394.062
+text = "MVP"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 script/script = SubResource( 2 )
-__meta__ = { "_edit_group_":true, "_edit_lock_":true }
-words_poping = ExtResource( 5 )
-notepad = NodePath("../../ui/notepad_icon/notpad_container/behind_notpad")
-root_node = NodePath("../..")
 
-[node name="landlord" parent="." instance=ExtResource( 6 )]
+[node name="admin_mode" type="Node" parent="level_01"]
 
-transform/pos = Vector2( 558.806, 260.987 )
-time_and_level = NodePath("../ui/time_level_anchor/time_and_level")
+script/script = SubResource( 3 )
 root_node = NodePath("..")
 
-[node name="term" type="TextEdit" parent="."]
+[node name="reset" type="Node" parent="level_01/admin_mode"]
+
+script/script = SubResource( 4 )
+
+[node name="term" type="TextEdit" parent="level_01"]
 
 editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 64.0
-margin/top = 352.0
-margin/right = 225.0
-margin/bottom = 466.0
+margin/left = -686.187
+margin/top = 83.313
+margin/right = -525.187
+margin/bottom = 197.313
 syntax_highlighting = false
 show_line_numbers = false
 highlight_all_occurrences = false
@@ -121,7 +144,7 @@ caret/block_caret = false
 caret/caret_blink = false
 caret/caret_blink_speed = 0.65
 
-[node name="switch_states" type="Button" parent="term"]
+[node name="switch_states" type="Button" parent="level_01/term"]
 
 visibility/visible = false
 focus/ignore_mouse = false
@@ -136,7 +159,33 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 flat = false
-script/script = SubResource( 3 )
+script/script = SubResource( 5 )
+
+[node name="player" parent="." instance=ExtResource( 3 )]
+
+editor/display_folded = true
+transform/pos = Vector2( 785.986, 132.945 )
+z/z = 1
+dot = ExtResource( 4 )
+root_node = NodePath("..")
+notepad_node = NodePath("../ui/notepad_icon")
+time_and_money = NodePath("../ui/time_level_anchor/time_and_level")
+
+[node name="words_poping_anchor" type="Node2D" parent="player"]
+
+transform/scale = Vector2( 1.50616, 1.66924 )
+z/relative = false
+script/script = SubResource( 6 )
+__meta__ = { "_edit_group_":true, "_edit_lock_":true }
+words_poping = ExtResource( 5 )
+notepad = NodePath("../../ui/notepad_icon/notpad_container/behind_notpad")
+root_node = NodePath("../..")
+
+[node name="landlord" parent="." instance=ExtResource( 6 )]
+
+transform/pos = Vector2( 558.806, 260.987 )
+time_and_level = NodePath("../ui/time_level_anchor/time_and_level")
+root_node = NodePath("..")
 
 [node name="mouse_drag_items" parent="." instance=ExtResource( 7 )]
 
@@ -149,12 +198,13 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="notepad_icon" parent="ui" instance=ExtResource( 8 )]
 
+editor/display_folded = true
 visibility/visible = false
-visibility/opacity = 0.0
-margin/left = 608.0
-margin/top = 352.0
-margin/right = 800.0
-margin/bottom = 566.0
+margin/left = 761.0
+margin/top = 503.0
+margin/right = 953.0
+margin/bottom = 717.0
+root_node = NodePath("../..")
 
 [node name="behind_notpad" type="Position2D" parent="ui/notepad_icon/notpad_container"]
 
@@ -165,7 +215,7 @@ transform/pos = Vector2( 10, -8 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/apear = SubResource( 4 )
+anims/apear = SubResource( 7 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -194,36 +244,9 @@ z/z = 2
 root_node = NodePath("..")
 player_node = NodePath("../player")
 
-[node name="admin_mode" type="Node" parent="."]
-
-editor/display_folded = true
-script/script = SubResource( 5 )
-root_node = NodePath("..")
-
-[node name="reset" type="Node" parent="admin_mode"]
-
-script/script = SubResource( 6 )
-
-[node name="notebook" type="Node2D" parent="."]
-
-[node name="MVP" type="Label" parent="."]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 896.0
-margin/top = 32.0
-margin/right = 992.0
-margin/bottom = 64.0
-text = "MVP"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-script/script = SubResource( 7 )
-
 [node name="audio_station" type="Node" parent="."]
 
+editor/display_folded = true
 script/script = SubResource( 8 )
 
 [node name="steam_player" type="StreamPlayer" parent="audio_station"]
@@ -237,17 +260,83 @@ stream/paused = false
 stream/loop_restart_time = 0.0
 stream/buffering_ms = 500
 
-[connection signal="mouse_enter" from="term" to="." method="can_place_movement_dot_switch" binds= [ false ]]
+[node name="notebook_ui" type="Node2D" parent="."]
 
-[connection signal="mouse_exit" from="term" to="." method="can_place_movement_dot_switch" binds= [ true ]]
+z/z = 3
+script/script = SubResource( 11 )
+word_panel = ExtResource( 12 )
+root_node = NodePath("..")
 
-[connection signal="pressed" from="term/switch_states" to="term/switch_states" method="_on_switch_states_pressed"]
+[node name="black_background" type="Sprite" parent="notebook_ui"]
+
+transform/pos = Vector2( 501.426, 297.54 )
+transform/scale = Vector2( 3.55357, 2.10348 )
+texture = ExtResource( 13 )
+modulate = Color( 0.132813, 0.114655, 0.114655, 1 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="notebook_new_words" type="Sprite" parent="notebook_ui"]
+
+transform/pos = Vector2( 493.059, 305.021 )
+transform/scale = Vector2( 0.47806, 0.47806 )
+texture = ExtResource( 14 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="blocks" type="Sprite" parent="notebook_ui/notebook_new_words"]
+
+editor/display_folded = true
+transform/pos = Vector2( -232.161, -274.664 )
+transform/scale = Vector2( 1.39459, 0.457372 )
+texture = ExtResource( 13 )
+modulate = Color( 0.492188, 0.488823, 0.461426, 1 )
+__meta__ = { "_edit_group_":true, "_edit_lock_":true }
+
+[node name="blocks" type="Sprite" parent="notebook_ui/notebook_new_words/blocks"]
+
+transform/pos = Vector2( 0, 4.57349 )
+texture = ExtResource( 13 )
+modulate = Color( 0.542969, 0.538561, 0.50267, 1 )
+
+[node name="blocks1" type="Sprite" parent="notebook_ui/notebook_new_words/blocks"]
+
+transform/pos = Vector2( 331.368, 2.23243 )
+transform/scale = Vector2( 1.10018, 1.39988 )
+texture = ExtResource( 13 )
+modulate = Color( 0.550781, 0.547251, 0.518509, 1 )
+
+[node name="word_panel" parent="notebook_ui/notebook_new_words" instance=ExtResource( 12 )]
+
+editor/display_folded = true
+visibility/visible = false
+
+[node name="sound_btn" parent="notebook_ui/notebook_new_words/word_panel"]
+
+editor/display_folded = false
+
+[node name="anim" type="AnimationPlayer" parent="notebook_ui"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/appear = SubResource( 10 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[connection signal="mouse_enter" from="level_01/term" to="." method="can_place_movement_dot_switch" binds= [ false ]]
+
+[connection signal="mouse_exit" from="level_01/term" to="." method="can_place_movement_dot_switch" binds= [ true ]]
+
+[connection signal="pressed" from="level_01/term/switch_states" to="level_01/term/switch_states" method="_on_switch_states_pressed"]
 
 [connection signal="mouse_enter" from="ui/notepad_icon" to="." method="can_place_movement_dot_switch" binds= [ false ]]
 
 [connection signal="mouse_exit" from="ui/notepad_icon" to="." method="can_place_movement_dot_switch" binds= [ true ]]
 
 [connection signal="visibility_changed" from="ui/notepad_icon" to="ui/notepad_icon" method="_on_notepad_icon_visibility_changed"]
+
+[connection signal="area_enter" from="ui/notepad_icon/area" to="ui/notepad_icon/notebook_notefier" method="_on_Area2D_area_enter"]
 
 [connection signal="mouse_enter" from="ui/time_level_anchor/time_and_level/dropdown_button/btn" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ true ]]
 
@@ -268,3 +357,5 @@ stream/buffering_ms = 500
 
 [editable path="ui/notepad_icon"]
 [editable path="ui/time_level_anchor/time_and_level"]
+[editable path="notebook_ui/notebook_new_words/word_panel"]
+[editable path="notebook_ui/notebook_new_words/word_panel/word_icon"]

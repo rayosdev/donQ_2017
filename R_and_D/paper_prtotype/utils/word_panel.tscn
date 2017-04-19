@@ -1,0 +1,98 @@
+[gd_scene load_steps=8 format=1]
+
+[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=1]
+[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=3]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/word_icon.tscn" type="PackedScene" id=4]
+
+[sub_resource type="GDScript" id=1]
+
+resource/name = "word_panel"
+script/source = "extends Node2D\n\nexport (NodePath) var word_icon\n\nvar word_label setget set_word_label, get_word_label\n\nfunc _ready():\n\tif(word_icon != null): word_icon = get_node(word_icon)\n\n\nfunc set_word_label(_word_label):\n\tword_label = _word_label\n\tword_icon.set_word_label(word_label)\n\nfunc get_word_label(): return word_label\n"
+
+[sub_resource type="DynamicFont" id=2]
+
+font/size = 43
+extra_spacing/top = 10
+extra_spacing/space = 2
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 2 )
+
+[sub_resource type="GDScript" id=3]
+
+resource/name = "word_icon"
+script/source = "extends Node2D\n\nvar word_label setget set_word_label, get_word_label\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tpass\n\nfunc set_word_label(_word_label):\n\tword_label = _word_label\n\tget_node(\"word_label1\").set_text(_word_label)\n\tpass\n\t\nfunc get_word_label(): return word_label\n"
+
+[node name="word_panel" type="Node2D"]
+
+transform/pos = Vector2( 0, -313.768 )
+script/script = SubResource( 1 )
+word_icon = NodePath("word_icon")
+
+[node name="panel_background" type="Sprite" parent="."]
+
+transform/pos = Vector2( 23.5138, -10.7171 )
+transform/scale = Vector2( 2.92707, 0.428352 )
+texture = ExtResource( 1 )
+modulate = Color( 0.785137, 0.736084, 0.736084, 1 )
+
+[node name="LineEdit" type="LineEdit" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -6.0
+margin/top = -52.0
+margin/right = 433.0
+margin/bottom = 32.0
+custom_fonts/font = SubResource( 2 )
+placeholder/alpha = 0.6
+align = 1
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="sound_btn" type="TextureButton" parent="."]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -383.0
+margin/top = -51.0
+margin/right = -299.0
+margin/bottom = 32.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+
+[node name="sound_shadow" type="Sprite" parent="sound_btn"]
+
+transform/pos = Vector2( 37.7318, 45.7484 )
+transform/scale = Vector2( 1.19531, 1.19531 )
+texture = ExtResource( 3 )
+modulate = Color( 0, 0, 0, 0.726784 )
+region = true
+region_rect = Rect2( 140, 330, 70, 70 )
+
+[node name="sound" type="Sprite" parent="sound_btn"]
+
+transform/pos = Vector2( 41.9152, 41.5648 )
+transform/scale = Vector2( 1.19531, 1.19531 )
+texture = ExtResource( 3 )
+modulate = Color( 0.926414, 0.933594, 0.703842, 1 )
+region = true
+region_rect = Rect2( 140, 330, 70, 70 )
+
+[node name="word_icon" parent="." instance=ExtResource( 4 )]
+
+editor/display_folded = true
+transform/pos = Vector2( -140.663, -3.1451 )
+transform/scale = Vector2( 1.65368, 1.65368 )
+script/script = SubResource( 3 )
+
+
+[editable path="word_icon"]
