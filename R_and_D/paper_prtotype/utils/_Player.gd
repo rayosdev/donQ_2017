@@ -66,6 +66,7 @@ func add_word_to_active_list(word):
 		print("ERROR: add_word_to_active_list : word [ " + str(word) + " ] note found in [game_word_list]")
 		return
 	print(active_word_list.keys())
+	unproccesed_words.append(word)
 	emit_signal("new_word_added")
 	pass
 

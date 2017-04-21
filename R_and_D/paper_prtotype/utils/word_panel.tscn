@@ -8,7 +8,7 @@
 [sub_resource type="GDScript" id=1]
 
 resource/name = "word_panel"
-script/source = "extends Node2D\n\nexport (NodePath) var word_icon\n\nvar word_label setget set_word_label, get_word_label\n\nfunc _ready():\n\tif(word_icon != null): word_icon = get_node(word_icon)\n\n\nfunc set_word_label(_word_label):\n\tword_label = _word_label\n\tword_icon.set_word_label(word_label)\n\nfunc get_word_label(): return word_label\n"
+script/source = "#\t\t\t\t\tword\?panel\nextends Node2D\n\nexport (NodePath) var word_icon\nvar control_node\n\nvar word_label setget set_word_label, get_word_label\nvar is_active setget set_active, get_activity\n\nvar answer_from_label\n\nfunc _ready():\n\tif(word_icon != null): word_icon = get_node(word_icon)\n\tset_active(false)\n\nfunc set_word_label(_word_label):\n\tword_label = _word_label\n\tword_icon.set_word_label(word_label)\n\nfunc get_word_label(): return word_label\n\nfunc set_active(_is_active = false):\n\tis_active = _is_active\n\t\n\tif(is_active): \n\t\tset_opacity(1)\n\t\tget_node(\"LineEdit\").grab_focus()\n\telse: \n\t\tset_opacity(0.3)\n#\t\tget_node(\"LineEdit\").set_focus_mode(0)\n\nfunc get_activity(): return is_active\n\nfunc _on_LineEdit_input_event( ev ):\n#\tprint(ev.is_echo())\n\t\n\tif(ev.is_action_pressed(\"ui_accept\") and ev.is_echo() == false):\n\t\tif(control_node == null): return print(\"ERROR @%s: no control_node found\" %self.get_name())\n\t\tanswer_from_label = get_node(\"LineEdit\").get_text()\n\t\tcontrol_node.queue_next_panel(self)\n#\tif(InputEvent..is_key_pressed(KEY_RETURN) and ev.is_echo()): print(ev)\n\tpass # replace with function body\n"
 
 [sub_resource type="DynamicFont" id=2]
 
@@ -26,13 +26,12 @@ script/source = "extends Node2D\n\nvar word_label setget set_word_label, get_wor
 
 [node name="word_panel" type="Node2D"]
 
-transform/pos = Vector2( 0, -313.768 )
 script/script = SubResource( 1 )
 word_icon = NodePath("word_icon")
 
 [node name="panel_background" type="Sprite" parent="."]
 
-transform/pos = Vector2( 23.5138, -10.7171 )
+transform/pos = Vector2( 457.352, 62.5394 )
 transform/scale = Vector2( 2.92707, 0.428352 )
 texture = ExtResource( 1 )
 modulate = Color( 0.785137, 0.736084, 0.736084, 1 )
@@ -43,13 +42,13 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -6.0
-margin/top = -52.0
-margin/right = 433.0
-margin/bottom = 32.0
+margin/left = 428.0
+margin/top = 21.0
+margin/right = 867.0
+margin/bottom = 105.0
 custom_fonts/font = SubResource( 2 )
-placeholder/alpha = 0.6
-align = 1
+placeholder/text = "translation"
+placeholder/alpha = 0.2
 focus_mode = 2
 caret/caret_blink = false
 caret/caret_blink_speed = 0.65
@@ -61,10 +60,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -383.0
-margin/top = -51.0
-margin/right = -299.0
-margin/bottom = 32.0
+margin/left = 51.0
+margin/top = 22.0
+margin/right = 135.0
+margin/bottom = 105.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -90,9 +89,11 @@ region_rect = Rect2( 140, 330, 70, 70 )
 [node name="word_icon" parent="." instance=ExtResource( 4 )]
 
 editor/display_folded = true
-transform/pos = Vector2( -140.663, -3.1451 )
+transform/pos = Vector2( 293.175, 70.1114 )
 transform/scale = Vector2( 1.65368, 1.65368 )
 script/script = SubResource( 3 )
+
+[connection signal="input_event" from="LineEdit" to="." method="_on_LineEdit_input_event"]
 
 
 [editable path="word_icon"]

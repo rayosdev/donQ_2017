@@ -22,7 +22,8 @@ script/source = "extends Node\n\n\n\n"
 
 [sub_resource type="GDScript" id=2]
 
-script/source = "extends Label\n\nvar timer = null\n\nfunc _ready():\n\t\n\tset_process_input(true)\n#\tset(\"custom_colors/font_color\",Color(1,0,0))\n#\tprint(\"WHAT\")\n\t\n\ttimer = Timer.new()\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(2)\n\t\n\tdo_transition()\n\tpass\n\t\nfunc do_transition():\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.hide()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.show()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n#\tprint(\"yield test\")\n\t\n\tpass\n\t\n#func _input(event):\n#\t\n#\t\tif(event.is_action_released(\"inventory\")):\n#\t\t\tdo_things()\n#\t\t\t\n#func do_things():\n#\tprint(\"THINGS\")\n\t\t"
+resource/name = "MVP"
+script/source = "#\t\t\t\t\tMVP\nextends Label\n\nvar timer = null\n\nfunc _ready():\n\t\n\tset_process_input(true)\n#\tset(\"custom_colors/font_color\",Color(1,0,0))\n#\tprint(\"WHAT\")\n\t\n\ttimer = Timer.new()\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(2)\n\t\n\tdo_transition()\n\tpass\n\t\nfunc do_transition():\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.hide()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tself.show()\n\t\n\ttimer.start()\n\tyield(timer,\'timeout\')\n#\tprint(\"yield test\")\n\t\n\tpass\n\t\n#func _input(event):\n#\t\n#\t\tif(event.is_action_released(\"inventory\")):\n#\t\t\tdo_things()\n#\t\t\t\n#func do_things():\n#\tprint(\"THINGS\")\n\t\t"
 
 [sub_resource type="GDScript" id=3]
 
@@ -30,7 +31,8 @@ script/source = "extends Node\n\nexport (NodePath) var root_node\n\nvar is_admin
 
 [sub_resource type="GDScript" id=4]
 
-script/source = "extends Node\n\n\nfunc _ready():\n\tset_process_input(true)\n\tpass\n\t\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"R\")):\n\t\tget_tree().reload_current_scene()\n\t\n\n"
+resource/name = "restart"
+script/source = "#\t\t\t\t\trestart\nextends Node\n\n\nfunc _ready():\n\tset_process_input(true)\n\tpass\n\t\nfunc _input(event):\n\tif(Input.is_action_pressed(\"control\") and Input.is_action_pressed(\"R\")):\n\t\tget_tree().reload_current_scene()\n\t\n\n"
 
 [sub_resource type="GDScript" id=5]
 
@@ -38,6 +40,7 @@ script/source = "extends Button\n\nvar state_switch = 1\n\nfunc _ready():\n\tpas
 
 [sub_resource type="GDScript" id=6]
 
+resource/name = "words_poping_amchor"
 script/source = "#\t\t\t\t\twords_poping_anchor\nextends Node2D\n\nexport (PackedScene) var words_poping\nexport (NodePath) var notepad\nexport (NodePath) var root_node\n\nvar spanish_words_list = [] setget set_spanish_words_list\nvar words = []\n\nvar stasionary_position\nvar timer = Timer.new()\n\nvar dircetion = 1\n\nfunc _ready():\n\tnotepad = get_node(notepad)\n\troot_node = get_node(root_node)\n\tstasionary_position = get_pos()\n\t\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(8)\n\tadd_child(timer)\n\ttimer.connect(\"timeout\",self,\"turn_of_fixed_procces\")\n\tpass\n\nfunc set_spanish_words_list(list):\n\tspanish_words_list = list\n\t\n\tfor w in spanish_words_list:\n\t\t\n\t\tnew_coin(w)\n\t\t_Player.add_word_to_active_list(w)\n\tprint(spanish_words_list)\n\tpass\n\t\nfunc _fixed_process(delta):\n\tset_global_pos(stasionary_position)\n\tpass\n\nfunc turn_of_fixed_procces():\n\tset_fixed_process(false)\n\tset_pos(get_parent().get_pos())\n\tset_global_pos(get_parent().get_global_pos())\n\t\n\nfunc new_coin(word_txt):\n\t\n\tvar word = words_poping.instance()\n\tword.direction = dircetion\n\tadd_child(word)\n\tdircetion = dircetion * -1\n\tword.notepad_position = notepad.get_global_pos()\n\tword.change_word(word_txt)\n\twords.append(word)\n\tstasionary_position = get_global_pos()\n\tset_fixed_process(true)\n\ttimer.start()\n\tpass"
 
 [sub_resource type="Animation" id=7]
@@ -65,10 +68,10 @@ tracks/2/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 )
 
 script/source = "extends Node\n\nvar timer = Timer.new()\n\n\nfunc _ready():\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\tplay_sound_interval(8.5,2)\n\tprint(\"playing_A\")\n\tyield(timer,\'timeout\')\n\ttimer.set_wait_time(2)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tplay_sound_interval(4.2,3)\n#\tget_node(\"steam_player\").seek_pos(2)\n#\tset_process(true)\n\tpass\n\t\nfunc play_sound_interval(start_time,stop_time):\n\tget_node(\"steam_player\").play(start_time)\n\ttimer.set_wait_time(stop_time)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tget_node(\"steam_player\").stop()\n\t\nfunc _process(delta):\n\tpass\n"
 
-[sub_resource type="GDScript" id=11]
+[sub_resource type="GDScript" id=9]
 
 resource/name = "notebook_ui"
-script/source = "extends Node2D\n\nexport (PackedScene) var word_panel\nexport (NodePath) var root_node\n\nfunc _ready():\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\troot_node.connect(\"notebook\",self,\"test_notbook\")\n\tpass\n\nfunc test_notbook():\n\tprint(\"NOTEBOOK ACTIVE\")\n\tshow()"
+script/source = "extends Node2D\n\nexport (PackedScene) var word_panel\nexport (NodePath) var root_node\nexport (NodePath) var panel\n\nvar placement_pos = Vector2()\n\nvar word_panel_list = []\n\nvar word_in_focus_counter = 0\n\nfunc _ready():\n\thide()\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\tif(panel != null): panel = get_node(panel)\n\t\n\t\n\troot_node.connect(\"notebook\",self,\"notebook_state\")\n\tpass\n\nfunc notebook_state():\n\t\n\twords_init()\n\tprint(\"NOTEBOOK ACTIVE\")\n\tshow()\n\t\nfunc words_init():\n\t\n\tvar unproccesed_words = _Player.unproccesed_words\n#\tunproccesed_words = [\"one\",\"two\",\"three\",\"four\"]\n#\tprint(\"THE WORDS: \" + str(unproccesed_words))\n\tfor w in unproccesed_words:\n\t\tvar word = word_panel.instance()\n\t\tpanel.add_child(word)\n\t\tword.set_word_label(w)\n\t\tword.set_pos(placement_pos)\n\t\tplacement_pos.y += 130\n\t\tword_panel_list.append(word)\n\t\tword.control_node = self\n\t\tprint(w)\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\tpass\n\t\n\t\nfunc queue_next_panel(word):\n\tword.set_active(false)\n\tif(word_in_focus_counter < word_panel_list.size() -1): word_in_focus_counter += 1\n\telse: word_in_focus_counter = 0\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\tprint(word.answer_from_label)\n\t\n\t"
 
 [sub_resource type="Animation" id=10]
 
@@ -119,6 +122,7 @@ script/script = SubResource( 2 )
 
 [node name="admin_mode" type="Node" parent="level_01"]
 
+editor/display_folded = true
 script/script = SubResource( 3 )
 root_node = NodePath("..")
 
@@ -128,7 +132,7 @@ script/script = SubResource( 4 )
 
 [node name="term" type="TextEdit" parent="level_01"]
 
-editor/display_folded = true
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -263,9 +267,10 @@ stream/buffering_ms = 500
 [node name="notebook_ui" type="Node2D" parent="."]
 
 z/z = 3
-script/script = SubResource( 11 )
+script/script = SubResource( 9 )
 word_panel = ExtResource( 12 )
 root_node = NodePath("..")
+panel = NodePath("notebook_new_words/panel")
 
 [node name="black_background" type="Sprite" parent="notebook_ui"]
 
@@ -308,10 +313,23 @@ modulate = Color( 0.550781, 0.547251, 0.518509, 1 )
 
 editor/display_folded = true
 visibility/visible = false
+transform/pos = Vector2( -397.44, -355.604 )
 
 [node name="sound_btn" parent="notebook_ui/notebook_new_words/word_panel"]
 
 editor/display_folded = false
+
+[node name="panel" type="Panel" parent="notebook_ui/notebook_new_words"]
+
+visibility/self_opacity = 0.0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -467.0
+margin/top = -366.0
+margin/right = 475.0
+margin/bottom = 533.0
 
 [node name="anim" type="AnimationPlayer" parent="notebook_ui"]
 
@@ -353,6 +371,8 @@ autoplay = ""
 [connection signal="mouse_exit" from="ui/time_level_anchor/time_and_level/non_dot_placment_area/TextureButton" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ false ]]
 
 [connection signal="timeout" from="ui/time_level_anchor/time_and_level/on_inactive_hide" to="ui/time_level_anchor/time_and_level" method="_on_inactive_timeout"]
+
+[connection signal="input_event" from="notebook_ui/notebook_new_words/word_panel/LineEdit" to="notebook_ui/notebook_new_words/word_panel" method="_on_LineEdit_input_event"]
 
 
 [editable path="ui/notepad_icon"]
