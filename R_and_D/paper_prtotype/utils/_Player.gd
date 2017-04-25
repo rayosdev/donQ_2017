@@ -15,7 +15,7 @@ var active_word_list = {
 #						"word":{translation_1... processed:false}
 
 } setget set_active_word_list, get_active_word_list
-				
+	
 var game_word_list = {
 
 #				'words':{
@@ -81,3 +81,63 @@ func init_game_word_list():
 	set_game_word_list(word_list)
 	
 	
+func check_translation_atempt(word,atempt):
+	
+	if(game_word_list["words"].has(word) == false): return print("Word @%s: not wound in @game_word_list" % word)
+	
+	#	build 2 lists one with each translation for a word, ...
+	#	one with how close the atempt is to a given translations
+	var translation_atempt_scores = {}
+	var translations = game_word_list["words"][word].translations
+	
+#	print(translations)
+	for t in translations:
+		print("transaltion: %s" %translations[t])
+		translation_atempt_scores[translations[t]] = test_fidelity(atempt,translations[t])
+	
+	print(translation_atempt_scores)
+	var top_score_entry = ["atempt",0]
+	for e in translation_atempt_scores:
+		if(top_score_entry[1] < translation_atempt_scores[e]):
+			top_score_entry = [e,translation_atempt_scores[e]]
+	
+	print("TOP SCORE ON ATEMPT @%s WITH SCORE @%s" % [top_score_entry[0], top_score_entry[1] * 100]  + "%")
+	print(translation_atempt_scores)
+	
+	pass
+	
+#		!need more functions to test the word fidelity like 
+#		letter by letter comperesion 
+func test_fidelity(atempt,translation):
+	var  exception_characters = []
+	
+	atempt = atempt.to_lower()
+	var score = 0
+	
+	#check if they are the same word
+	if(atempt == translation): 
+		score = 1
+	
+	#Are they both of equal length
+	if(atempt.length() == translation.length()): 
+	
+		var length = atempt.length()
+		for i in range(atempt.length()):
+			print("Atempt: @%s and Translation: @%s" % [atempt[i], translation[i]])
+			if(atempt[i] == translation[i]): score += 1.0/atempt.length()
+			else:score += exception_characters_test(atempt[i], translation[i], length)
+			
+	print("Score: @%s" % score)
+	if(score > 1): score = 1
+	return score
+	pass
+	
+func exception_characters_test(atempt_char, translation_char, length):
+	var score = 0
+	var typical_exception_characters = {'a':'á', 'e':'é', 'i':'í', 'o':'ó'}
+	var special_exception_characters = {'u':['ú','ü'], 'n':['ñ']}
+	
+	for c in typical_exception_characters:
+		if(atempt_char == c): score += 1.0/length
+		
+	return score
