@@ -9,11 +9,11 @@
 [ext_resource path="res://R_and_D/paper_prtotype/utils/mouse_drag_items.tscn" type="PackedScene" id=7]
 [ext_resource path="res://R_and_D/paper_prtotype/utils/notepad_icon.tscn" type="PackedScene" id=8]
 [ext_resource path="res://R_and_D/paper_prtotype/utils/time_and_level.tscn" type="PackedScene" id=9]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=10]
-[ext_resource path="res://R_and_D/paper_prtotype/sound/dialog/A!_full.ogg" type="AudioStream" id=11]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/word_panel.tscn" type="PackedScene" id=12]
-[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=13]
-[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=14]
+[ext_resource path="res://R_and_D/paper_prtotype/sound/dialog/A!_full.ogg" type="AudioStream" id=10]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/word_panel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=12]
+[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=13]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=14]
 
 [sub_resource type="GDScript" id=1]
 
@@ -71,7 +71,7 @@ script/source = "#\t\t\t\t\taudio_station\nextends Node\n\nvar timer = Timer.new
 [sub_resource type="GDScript" id=9]
 
 resource/name = "notebook_ui"
-script/source = "extends Node2D\n\nexport (PackedScene) var word_panel\nexport (NodePath) var root_node\nexport (NodePath) var panel\n\nvar placement_pos = Vector2()\n\nvar word_panel_list = []\n\nvar word_in_focus_counter = 0\n\nfunc _ready():\n\thide()\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\tif(panel != null): panel = get_node(panel)\n\t\n\t\n\troot_node.connect(\"notebook\",self,\"notebook_state\")\n\tpass\n\nfunc notebook_state():\n\t\n\twords_init()\n\tprint(\"NOTEBOOK ACTIVE\")\n\tshow()\n\t\nfunc words_init():\n\t\n\tvar unproccesed_words = _Player.unproccesed_words\n\tunproccesed_words = [\"hola\",\"one\",\"two\",\"three\",\"four\"]\n#\tprint(\"THE WORDS: \" + str(unproccesed_words))\n\tfor w in unproccesed_words:\n\t\tvar word = word_panel.instance()\n\t\tpanel.add_child(word)\n\t\tword.set_word_label(w)\n\t\tword.set_pos(placement_pos)\n\t\tplacement_pos.y += 130\n\t\tword_panel_list.append(word)\n\t\tword.control_node = self\n\t\tword.set_name(w)\n\t\tprint(w)\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\tpass\n\t\n\t\nfunc queue_next_panel(word):\n\tword.set_active(false)\n\tif(word_in_focus_counter < word_panel_list.size() -1): word_in_focus_counter += 1\n\telse: word_in_focus_counter = 0\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\t\n\tprint(word.get_name())\n\t_Player.check_translation_atempt(word.get_name(),word.translation_atempt)\n\t"
+script/source = "extends Node2D\n\nexport (PackedScene) var word_panel\nexport (NodePath) var root_node\nexport (NodePath) var panel\n\nvar placement_pos = Vector2()\n\nvar word_panel_list = []\n\nvar word_in_focus_counter = 0\n\nfunc _ready():\n\thide()\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\tif(panel != null): panel = get_node(panel)\n\t\n\t\n\troot_node.connect(\"notebook\",self,\"notebook_state\")\n\tpass\n\nfunc notebook_state():\n\t\n\twords_init()\n\tprint(\"NOTEBOOK ACTIVE\")\n\tshow()\n\t\nfunc words_init():\n\t\n\tvar unproccesed_words = _Player.unproccesed_words\n\tunproccesed_words = [\"hola\",\"one\",\"two\",\"three\",\"four\"]\n#\tprint(\"THE WORDS: \" + str(unproccesed_words))\n\tfor w in unproccesed_words:\n\t\tvar word = word_panel.instance()\n\t\tpanel.add_child(word)\n\t\tword.set_word_label(w)\n\t\tword.set_pos(placement_pos)\n\t\tplacement_pos.y += 130\n\t\tword_panel_list.append(word)\n\t\tword.control_node = self\n\t\tword.set_name(w)\n\t\tprint(w)\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\tpass\n\t\n\t\nfunc queue_next_panel(word):\n\tvar tmp_atempt\n\t\n\tword.set_active(false)\n\tif(word_in_focus_counter < word_panel_list.size() -1): word_in_focus_counter += 1\n\telse: word_in_focus_counter = 0\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\t\n#\tprint(word.get_name())\n\ttmp_atempt = _Player.check_translation_atempt(word.get_name(),word.translation_atempt)\n\t\n\t\n\tif(tmp_atempt[1] > 0.7):\n\t\t\n\t\tvar conversation = {\n\t\t\t\"is_speach\":true,\n\t\t\t\"callback_end_functions\":[],\n\t\t\t\"spanish_words\":[],\n\t\t\t\"paused_dialog_adress\": null,\n\t\t\t#KEYE\t E = END , speaker, audio clip/time code , dialog, [spanish words]] , function_name, [args]]\n\t\t\t[\'A\',1]:[\'E\', 1 , null , \"I think that is correct\", null,null, null],\n\t\t}\n\t\troot_node.start_conversation([self,self], conversation)\n\t\t\n#\telse:\n#\t\tvar conversation = {\n#\t\t\t\"is_speach\":true,\n#\t\t\t\"callback_end_functions\":[],\n#\t\t\t\"spanish_words\":[],\n#\t\t\t\"paused_dialog_adress\": null,\n#\t\t\t#KEYE\t E = END , speaker, audio clip/time code , dialog, [spanish words]] , function_name, [args]]\n#\t\t\t[\'A\',1]:[\'E\', 1 , null , \"Mhmm, I think I\'ll dobble check this to night\", null,null, null],\n#\t\t}\n\n\n"
 
 [sub_resource type="Animation" id=10]
 
@@ -244,11 +244,6 @@ editor/display_folded = false
 
 z/z = 2
 
-[node name="cutscene" parent="." instance=ExtResource( 10 )]
-
-root_node = NodePath("..")
-player_node = NodePath("../player")
-
 [node name="audio_station" type="Node" parent="."]
 
 editor/display_folded = true
@@ -256,7 +251,7 @@ script/script = SubResource( 8 )
 
 [node name="steam_player" type="StreamPlayer" parent="audio_station"]
 
-stream/stream = ExtResource( 11 )
+stream/stream = ExtResource( 10 )
 stream/play = false
 stream/loop = false
 stream/volume_db = 0.0
@@ -267,10 +262,11 @@ stream/buffering_ms = 500
 
 [node name="notebook_ui" type="Node2D" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 z/z = 3
 script/script = SubResource( 9 )
-word_panel = ExtResource( 12 )
+word_panel = ExtResource( 11 )
 root_node = NodePath("..")
 panel = NodePath("notebook_new_words/panel")
 
@@ -278,7 +274,7 @@ panel = NodePath("notebook_new_words/panel")
 
 transform/pos = Vector2( 501.426, 297.54 )
 transform/scale = Vector2( 3.55357, 2.10348 )
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 modulate = Color( 0.132813, 0.114655, 0.114655, 1 )
 __meta__ = { "_edit_lock_":true }
 
@@ -287,31 +283,31 @@ __meta__ = { "_edit_lock_":true }
 editor/display_folded = true
 transform/pos = Vector2( 493.059, 305.021 )
 transform/scale = Vector2( 0.47806, 0.47806 )
-texture = ExtResource( 14 )
+texture = ExtResource( 13 )
 
 [node name="blocks" type="Sprite" parent="notebook_ui/notebook_new_words"]
 
 editor/display_folded = true
 transform/pos = Vector2( -232.161, -274.664 )
 transform/scale = Vector2( 1.39459, 0.457372 )
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 modulate = Color( 0.492188, 0.488823, 0.461426, 1 )
 __meta__ = { "_edit_group_":true, "_edit_lock_":true }
 
 [node name="blocks" type="Sprite" parent="notebook_ui/notebook_new_words/blocks"]
 
 transform/pos = Vector2( 0, 4.57349 )
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 modulate = Color( 0.542969, 0.538561, 0.50267, 1 )
 
 [node name="blocks1" type="Sprite" parent="notebook_ui/notebook_new_words/blocks"]
 
 transform/pos = Vector2( 331.368, 2.23243 )
 transform/scale = Vector2( 1.10018, 1.39988 )
-texture = ExtResource( 13 )
+texture = ExtResource( 12 )
 modulate = Color( 0.550781, 0.547251, 0.518509, 1 )
 
-[node name="word_panel" parent="notebook_ui/notebook_new_words" instance=ExtResource( 12 )]
+[node name="word_panel" parent="notebook_ui/notebook_new_words" instance=ExtResource( 11 )]
 
 editor/display_folded = true
 visibility/visible = false
@@ -343,6 +339,11 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="cutscene" parent="." instance=ExtResource( 14 )]
+
+root_node = NodePath("..")
+player_node = NodePath("../player")
 
 [connection signal="mouse_enter" from="level_01/term" to="." method="can_place_movement_dot_switch" binds= [ false ]]
 

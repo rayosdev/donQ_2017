@@ -55,8 +55,12 @@ func _ready():
 	_states["MONEY"] = MONEY
 	
 	
+	
+	
 func set_active_word_list(_active_word_list):active_word_list = _active_word_list
 func get_active_word_list(): return active_word_list
+
+
 
 func add_word_to_active_list(word):
 	if(game_word_list.words.has(word)):
@@ -70,8 +74,11 @@ func add_word_to_active_list(word):
 	emit_signal("new_word_added")
 	pass
 
+
+
 func set_game_word_list(_game_word_list): game_word_list = _game_word_list
 func get_game_word_list(): return game_word_list
+
 
 func init_game_word_list():
 	var word_list = {}
@@ -79,6 +86,8 @@ func init_game_word_list():
 #	print(_File_Handler.fh_load_file("game_word_list.json"))
 #	print(word_list.parse_json(_File_Handler.fh_load_file("game_word_list.json")))
 	set_game_word_list(word_list)
+	
+	
 	
 	
 func check_translation_atempt(word,atempt):
@@ -104,10 +113,14 @@ func check_translation_atempt(word,atempt):
 	print("TOP SCORE ON ATEMPT @%s WITH SCORE @%s" % [top_score_entry[0], top_score_entry[1] * 100]  + "%")
 	print(translation_atempt_scores)
 	
+	print("TEST THE TOP SCORE: @%s" % [top_score_entry[0],top_score_entry[1]])
+	return top_score_entry
 	pass
 	
 #		!need more functions to test the word fidelity like 
 #		letter by letter comperesion 
+
+
 func test_fidelity(atempt,translation):
 	var  exception_characters = []
 	
@@ -131,7 +144,8 @@ func test_fidelity(atempt,translation):
 	if(score > 1): score = 1
 	return score
 	pass
-	
+
+
 func exception_characters_test(atempt_char, translation_char, length):
 	var score = 0
 	var typical_exception_characters = {'a':'á', 'e':'é', 'i':'í', 'o':'ó'}

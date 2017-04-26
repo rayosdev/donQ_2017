@@ -60,11 +60,13 @@ func change_state(state):
 
 	return "'" + str(state) + "' was not in GAME_STATE: \n" + str(GAME_STATE)
 
+
 func get_current_state():
 	
 	for i in GAME_STATE:
 		if(i == "_CURRENT"): break
 		if(GAME_STATE[i] == GAME_STATE._CURRENT): return i
+
 
 func run_states_once():
 
@@ -101,6 +103,7 @@ func run_states_once():
 		pass
 	pass
 
+
 func switch_state_spesific_functions_off():
 
 	get_node("player").can_move = false
@@ -116,14 +119,15 @@ func can_place_movement_dot_switch(state):
 
 
 func add_spanish_words(words_to_be_added):
-
 	for word in words_to_be_added:
 		spanish_words.append(word)		
 	pass
-	
+
+
 func get_dialog():
 	return dialog
-	
+
+
 func set_dialog(_dialog):
 	dialog = _dialog
 	if(dialog["spanish_words"].size() > 1):
