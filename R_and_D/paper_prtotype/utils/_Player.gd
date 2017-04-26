@@ -111,9 +111,10 @@ func check_translation_atempt(word,atempt):
 			top_score_entry = [e,translation_atempt_scores[e]]
 	
 	print("TOP SCORE ON ATEMPT @%s WITH SCORE @%s" % [top_score_entry[0], top_score_entry[1] * 100]  + "%")
+	print(top_score_entry)
 	print(translation_atempt_scores)
 	
-	print("TEST THE TOP SCORE: @%s" % [top_score_entry[0],top_score_entry[1]])
+	print("TEST THE TOP SCORE: @%s - @%s" % [top_score_entry[0], top_score_entry[1]])
 	return top_score_entry
 	pass
 	

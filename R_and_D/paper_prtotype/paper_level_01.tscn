@@ -71,7 +71,7 @@ script/source = "#\t\t\t\t\taudio_station\nextends Node\n\nvar timer = Timer.new
 [sub_resource type="GDScript" id=9]
 
 resource/name = "notebook_ui"
-script/source = "extends Node2D\n\nexport (PackedScene) var word_panel\nexport (NodePath) var root_node\nexport (NodePath) var panel\n\nvar placement_pos = Vector2()\n\nvar word_panel_list = []\n\nvar word_in_focus_counter = 0\n\nfunc _ready():\n\thide()\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\tif(panel != null): panel = get_node(panel)\n\t\n\t\n\troot_node.connect(\"notebook\",self,\"notebook_state\")\n\tpass\n\nfunc notebook_state():\n\t\n\twords_init()\n\tprint(\"NOTEBOOK ACTIVE\")\n\tshow()\n\t\nfunc words_init():\n\t\n\tvar unproccesed_words = _Player.unproccesed_words\n\tunproccesed_words = [\"hola\",\"one\",\"two\",\"three\",\"four\"]\n#\tprint(\"THE WORDS: \" + str(unproccesed_words))\n\tfor w in unproccesed_words:\n\t\tvar word = word_panel.instance()\n\t\tpanel.add_child(word)\n\t\tword.set_word_label(w)\n\t\tword.set_pos(placement_pos)\n\t\tplacement_pos.y += 130\n\t\tword_panel_list.append(word)\n\t\tword.control_node = self\n\t\tword.set_name(w)\n\t\tprint(w)\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\tpass\n\t\n\t\nfunc queue_next_panel(word):\n\tvar tmp_atempt\n\t\n\tword.set_active(false)\n\tif(word_in_focus_counter < word_panel_list.size() -1): word_in_focus_counter += 1\n\telse: word_in_focus_counter = 0\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\t\n#\tprint(word.get_name())\n\ttmp_atempt = _Player.check_translation_atempt(word.get_name(),word.translation_atempt)\n\t\n\t\n\tif(tmp_atempt[1] > 0.7):\n\t\t\n\t\tvar conversation = {\n\t\t\t\"is_speach\":true,\n\t\t\t\"callback_end_functions\":[],\n\t\t\t\"spanish_words\":[],\n\t\t\t\"paused_dialog_adress\": null,\n\t\t\t#KEYE\t E = END , speaker, audio clip/time code , dialog, [spanish words]] , function_name, [args]]\n\t\t\t[\'A\',1]:[\'E\', 1 , null , \"I think that is correct\", null,null, null],\n\t\t}\n\t\troot_node.start_conversation([self,self], conversation)\n\t\t\n#\telse:\n#\t\tvar conversation = {\n#\t\t\t\"is_speach\":true,\n#\t\t\t\"callback_end_functions\":[],\n#\t\t\t\"spanish_words\":[],\n#\t\t\t\"paused_dialog_adress\": null,\n#\t\t\t#KEYE\t E = END , speaker, audio clip/time code , dialog, [spanish words]] , function_name, [args]]\n#\t\t\t[\'A\',1]:[\'E\', 1 , null , \"Mhmm, I think I\'ll dobble check this to night\", null,null, null],\n#\t\t}\n\n\n"
+script/source = "extends Node2D\n\nexport (PackedScene) var word_panel\nexport (NodePath) var root_node\nexport (NodePath) var panel\n\nvar placement_pos = Vector2()\n\nvar word_panel_list = []\n\nvar word_in_focus_counter = 0\n\nfunc _ready():\n\thide()\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\tif(panel != null): panel = get_node(panel)\n\t\n\t\n\troot_node.connect(\"notebook\",self,\"notebook_state\")\n\tpass\n\nfunc notebook_state():\n\t\n\twords_init()\n\tprint(\"NOTEBOOK ACTIVE\")\n\tshow()\n\t\nfunc words_init():\n\t\n\tvar unproccesed_words = _Player.unproccesed_words\n#\tunproccesed_words = [\"hola\",\"one\",\"two\",\"three\",\"four\"]\n#\tprint(\"THE WORDS: \" + str(unproccesed_words))\n\tfor w in unproccesed_words:\n\t\tvar word = word_panel.instance()\n\t\tpanel.add_child(word)\n\t\tword.set_word_label(w)\n\t\tword.set_pos(placement_pos)\n\t\tplacement_pos.y += 130\n\t\tword_panel_list.append(word)\n\t\tword.control_node = self\n\t\tword.set_name(w)\n\t\tprint(w)\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\tpass\n\t\n\t\nfunc queue_next_panel(word):\n\tvar tmp_atempt\n\t\n\tword.set_active(false)\n\tif(word_in_focus_counter < word_panel_list.size() -1): word_in_focus_counter += 1\n\telse: word_in_focus_counter = 0\n\tword_panel_list[word_in_focus_counter].set_active(true)\n\t\n#\tprint(word.get_name())\n\ttmp_atempt = _Player.check_translation_atempt(word.get_name(),word.translation_atempt)\n\t\n\t\n\tif(tmp_atempt[1] > 0.7):\n\t\t\n\t\tvar conversation = {\n\t\t\t\"is_speach\":true,\n\t\t\t\"callback_end_functions\":[],\n\t\t\t\"spanish_words\":[],\n\t\t\t\"paused_dialog_adress\": null,\n\t\t\t#KEYE\t E = END , speaker, audio clip/time code , dialog, [spanish words]] , function_name, [args]]\n\t\t\t[\'A\',1]:[\'E\', 1 , null , \"I think that is correct\", null,null, null],\n\t\t}\n\t\troot_node.start_conversation([self,self], conversation)\n\t\t\n#\telse:\n#\t\tvar conversation = {\n#\t\t\t\"is_speach\":true,\n#\t\t\t\"callback_end_functions\":[],\n#\t\t\t\"spanish_words\":[],\n#\t\t\t\"paused_dialog_adress\": null,\n#\t\t\t#KEYE\t E = END , speaker, audio clip/time code , dialog, [spanish words]] , function_name, [args]]\n#\t\t\t[\'A\',1]:[\'E\', 1 , null , \"Mhmm, I think I\'ll dobble check this to night\", null,null, null],\n#\t\t}\n\n\n"
 
 [sub_resource type="Animation" id=10]
 
@@ -262,8 +262,6 @@ stream/buffering_ms = 500
 
 [node name="notebook_ui" type="Node2D" parent="."]
 
-editor/display_folded = true
-visibility/visible = false
 z/z = 3
 script/script = SubResource( 9 )
 word_panel = ExtResource( 11 )
@@ -280,7 +278,6 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="notebook_new_words" type="Sprite" parent="notebook_ui"]
 
-editor/display_folded = true
 transform/pos = Vector2( 493.059, 305.021 )
 transform/scale = Vector2( 0.47806, 0.47806 )
 texture = ExtResource( 13 )
@@ -310,10 +307,13 @@ modulate = Color( 0.550781, 0.547251, 0.518509, 1 )
 [node name="word_panel" parent="notebook_ui/notebook_new_words" instance=ExtResource( 11 )]
 
 editor/display_folded = true
-visibility/visible = false
 transform/pos = Vector2( -397.44, -355.604 )
 
 [node name="sound_btn" parent="notebook_ui/notebook_new_words/word_panel"]
+
+editor/display_folded = false
+
+[node name="word_icon" parent="notebook_ui/notebook_new_words/word_panel"]
 
 editor/display_folded = false
 
@@ -342,6 +342,7 @@ autoplay = ""
 
 [node name="cutscene" parent="." instance=ExtResource( 14 )]
 
+z/z = 5
 root_node = NodePath("..")
 player_node = NodePath("../player")
 
@@ -374,8 +375,6 @@ player_node = NodePath("../player")
 [connection signal="mouse_exit" from="ui/time_level_anchor/time_and_level/non_dot_placment_area/TextureButton" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ false ]]
 
 [connection signal="timeout" from="ui/time_level_anchor/time_and_level/on_inactive_hide" to="ui/time_level_anchor/time_and_level" method="_on_inactive_timeout"]
-
-[connection signal="input_event" from="notebook_ui/notebook_new_words/word_panel/LineEdit" to="notebook_ui/notebook_new_words/word_panel" method="_on_LineEdit_input_event"]
 
 
 [editable path="ui/notepad_icon"]

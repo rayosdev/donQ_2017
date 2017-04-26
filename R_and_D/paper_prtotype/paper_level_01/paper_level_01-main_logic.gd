@@ -28,8 +28,8 @@ func _ready():
 	
 	term = get_node("level_01/term")
 	term.set_text("ready...")
-#	change_state("INTRO")
-	change_state("NOTEBOOK")
+	change_state("INTRO")
+#	change_state("NOTEBOOK")
 	set_process(true)
 #	print(get_current_state())
 	pass

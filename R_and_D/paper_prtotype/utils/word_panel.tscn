@@ -8,7 +8,7 @@
 [sub_resource type="GDScript" id=1]
 
 resource/name = "word_panel"
-script/source = "#\t\t\t\t\tword\?panel\nextends Node2D\n\nexport (NodePath) var word_icon\nvar control_node\n\nvar word_label setget set_word_label, get_word_label\nvar is_active setget set_active, get_activity\n\nvar translation_atempt\n\nfunc _ready():\n\tif(word_icon != null): word_icon = get_node(word_icon)\n\tset_active(false)\n\nfunc set_word_label(_word_label):\n\tword_label = _word_label\n\tword_icon.set_word_label(word_label)\n\nfunc get_word_label(): return word_label\n\nfunc set_active(_is_active = false):\n\tis_active = _is_active\n\t\n\tif(is_active): \n\t\tset_opacity(1)\n\t\tget_node(\"LineEdit\").grab_focus()\n\telse: \n\t\tset_opacity(0.3)\n#\t\tget_node(\"LineEdit\").set_focus_mode(0)\n\nfunc get_activity(): return is_active\n\nfunc _on_LineEdit_input_event( ev ):\n#\tprint(ev.is_echo())\n\t\n\tif(ev.is_action_pressed(\"ui_accept\") and ev.is_echo() == false):\n\t\tif(control_node == null): return print(\"ERROR @%s: no control_node found\" %self.get_name())\n\t\ttranslation_atempt = get_node(\"LineEdit\").get_text()\n\t\tcontrol_node.queue_next_panel(self)\n#\tif(InputEvent..is_key_pressed(KEY_RETURN) and ev.is_echo()): print(ev)\n\tpass # replace with function body\n"
+script/source = "#\t\t\t\t\tword\?panel\nextends Node2D\n\nexport (NodePath) var word_icon\nexport (NodePath) var root_node\n\nvar control_node\n\nvar word_label setget set_word_label, get_word_label\nvar is_active setget set_active, get_activity\n\nvar translation_atempt\n\nfunc _ready():\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\tif(word_icon != null): word_icon = get_node(word_icon)\n\tset_active(false)\n\nfunc set_word_label(_word_label):\n\tword_label = _word_label\n\tword_icon.set_word_label(word_label)\n\nfunc get_word_label(): return word_label\n\nfunc set_active(_is_active = false):\n\tis_active = _is_active\n\t\n\tif(is_active): \n\t\tset_opacity(1)\n\t\tget_node(\"LineEdit\").grab_focus()\n\telse: \n\t\tset_opacity(0.3)\n#\t\tget_node(\"LineEdit\").set_focus_mode(0)\n\nfunc get_activity(): return is_active\n\nfunc _on_LineEdit_input_event( ev ):\n#\tprint(ev.is_echo())\n\t\n\tif(ev.is_action_pressed(\"ui_accept\") and ev.is_echo() == false):\n\t\tif(control_node == null): return print(\"ERROR @%s: no control_node found\" %self.get_name())\n\t\ttranslation_atempt = get_node(\"LineEdit\").get_text()\n\t\tcontrol_node.queue_next_panel(self)\n#\tif(InputEvent..is_key_pressed(KEY_RETURN) and ev.is_echo()): print(ev)\n\tpass # replace with function body\n"
 
 [sub_resource type="DynamicFont" id=2]
 
@@ -28,6 +28,7 @@ script/source = "extends Node2D\n\nvar word_label setget set_word_label, get_wor
 
 script/script = SubResource( 1 )
 word_icon = NodePath("word_icon")
+root_node = null
 
 [node name="panel_background" type="Sprite" parent="."]
 
