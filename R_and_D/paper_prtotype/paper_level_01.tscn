@@ -111,11 +111,11 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 638.188
-margin/top = -426.062
-margin/right = 734.188
-margin/bottom = -394.062
-text = "MVP"
+margin/left = 638.0
+margin/top = -427.0
+margin/right = 734.0
+margin/bottom = -395.0
+text = "Refactor"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -262,6 +262,7 @@ stream/buffering_ms = 500
 
 [node name="notebook_ui" type="Node2D" parent="."]
 
+visibility/visible = false
 z/z = 3
 script/script = SubResource( 9 )
 word_panel = ExtResource( 11 )
@@ -375,6 +376,8 @@ player_node = NodePath("../player")
 [connection signal="mouse_exit" from="ui/time_level_anchor/time_and_level/non_dot_placment_area/TextureButton" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ false ]]
 
 [connection signal="timeout" from="ui/time_level_anchor/time_and_level/on_inactive_hide" to="ui/time_level_anchor/time_and_level" method="_on_inactive_timeout"]
+
+[connection signal="input_event" from="notebook_ui/notebook_new_words/word_panel/LineEdit" to="notebook_ui/notebook_new_words/word_panel" method="_on_LineEdit_input_event"]
 
 
 [editable path="ui/notepad_icon"]
