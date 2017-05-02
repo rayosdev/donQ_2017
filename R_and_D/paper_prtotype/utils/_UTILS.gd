@@ -180,5 +180,10 @@ func ut_csv_to_dict(csv_file):
 #	[_WOERD, _TYPE, _TRANSLATION @[], _GENDER, _CATEGORY @[], _PROGRESS, csas, NO, [house,home], F, [home], 0, ]
 #	print(csv_file)
 	for items in csv_file:
-		 
 		pass
+
+#	checks if value is between low and high and returns bool
+func _is_within_margins(value, low, hight):
+	if(value >= low and value <= hight): return true
+	else: return false
+	pass

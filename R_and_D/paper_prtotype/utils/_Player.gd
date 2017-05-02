@@ -45,7 +45,7 @@ func _ready():
 #		}
 #	_File_Handler.fh_save_file("game_word_list.json",gwl.to_json())
 	
-	init_game_word_list()
+									#	init_game_word_list()
 	
 #	for w in game_word_list["words"]:
 #		print(w)
