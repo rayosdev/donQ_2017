@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://R_and_D/paper_prtotype/player/story_master.gd" type="Script" id=1]
+
+[node name="story_master" type="Node"]
+
+script/script = ExtResource( 1 )
+root_node = null
+
+[node name="story_chapter1" type="Node" parent="."]
+
+

@@ -59,7 +59,8 @@ func make_inventory():
 
 func _fixed_process(delta):
 
-	move_player()
+	#	!!!!!DISABLE 
+#	move_player()
 	pass
 
 #	=><

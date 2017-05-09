@@ -63,6 +63,7 @@ func get_active_word_list(): return active_word_list
 
 
 func add_word_to_active_list(word):
+
 	if(game_word_list.words.has(word)):
 		active_word_list[word] = {}
 		active_word_list[word]["processed"] = false

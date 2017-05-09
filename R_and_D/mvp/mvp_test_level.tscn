@@ -1,0 +1,130 @@
+[gd_scene load_steps=8 format=1]
+
+[ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=1]
+[ext_resource path="res://R_and_D/mvp/actor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://R_and_D/mvp/player.gd" type="Script" id=3]
+[ext_resource path="res://R_and_D/paper_prtotype/img/landlord.png" type="Texture" id=4]
+[ext_resource path="res://conversation_system.gd" type="Script" id=5]
+[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Black.ttf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+
+font/size = 25
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 6 )
+
+[node name="mvp_test_level" type="Node"]
+
+[node name="map" type="Node2D" parent="."]
+
+editor/display_folded = true
+__meta__ = { "_edit_lock_":true }
+
+[node name="level_01" type="Sprite" parent="map"]
+
+transform/scale = Vector2( 0.614485, 0.614485 )
+texture = ExtResource( 1 )
+centered = false
+modulate = Color( 0.773598, 0.855469, 0.761902, 1 )
+
+[node name="mouse_click_area" type="TextureButton" parent="map"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 576.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+
+[node name="YSort" type="YSort" parent="."]
+
+sort/enabled = true
+
+[node name="player" parent="YSort" instance=ExtResource( 2 )]
+
+editor/display_folded = true
+script/script = ExtResource( 3 )
+
+[node name="landlord" parent="YSort" instance=ExtResource( 2 )]
+
+editor/display_folded = true
+transform/pos = Vector2( 577.153, 325.338 )
+
+[node name="sprite" parent="YSort/landlord"]
+
+texture = ExtResource( 4 )
+
+[node name="collision" parent="YSort/landlord"]
+
+polygon = Vector2Array( -47.8627, 32.5702, 8.30841, -0.56665, 60.0342, 31.3579, 9.81158, 65.8832 )
+
+[node name="interaction_field" parent="YSort/landlord"]
+
+visibility/visible = false
+
+[node name="conversation_system" type="Node" parent="."]
+
+editor/display_folded = true
+script/script = ExtResource( 5 )
+
+[node name="consol" type="TextEdit" parent="conversation_system"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 192.0
+margin/top = 480.0
+margin/right = 832.0
+margin/bottom = 576.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.679688, 0.244263, 0.244263, 1 )
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="next" type="Button" parent="conversation_system/consol"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 672.0
+margin/top = 0.0
+margin/right = 736.0
+margin/bottom = 64.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "next"
+flat = false
+
+[node name="previus" type="Button" parent="conversation_system/consol"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -96.0
+margin/top = 0.0
+margin/right = -32.0
+margin/bottom = 64.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "previus"
+flat = false
+
+[connection signal="button_down" from="map/mouse_click_area" to="YSort/player" method="_on_mouse_click_area_button_down"]
+
+
+[editable path="YSort/landlord"]

@@ -1,19 +1,20 @@
-[gd_scene load_steps=25 format=1]
+[gd_scene load_steps=26 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/paper_level_01-main_logic.gd" type="Script" id=1]
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=2]
-[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/dot.tscn" type="PackedScene" id=4]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/words_poping.tscn" type="PackedScene" id=5]
-[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/landlord.tscn" type="PackedScene" id=6]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/mouse_drag_items.tscn" type="PackedScene" id=7]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/notepad_icon.tscn" type="PackedScene" id=8]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/time_and_level.tscn" type="PackedScene" id=9]
-[ext_resource path="res://R_and_D/paper_prtotype/sound/dialog/A!_full.ogg" type="AudioStream" id=10]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/word_panel.tscn" type="PackedScene" id=11]
-[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=12]
-[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=13]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=14]
+[ext_resource path="res://R_and_D/paper_prtotype/player/new_player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/dot.tscn" type="PackedScene" id=5]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/words_poping.tscn" type="PackedScene" id=6]
+[ext_resource path="res://R_and_D/paper_prtotype/paper_level_01/landlord.tscn" type="PackedScene" id=7]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/mouse_drag_items.tscn" type="PackedScene" id=8]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/notepad_icon.tscn" type="PackedScene" id=9]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/time_and_level.tscn" type="PackedScene" id=10]
+[ext_resource path="res://R_and_D/paper_prtotype/sound/dialog/A!_full.ogg" type="AudioStream" id=11]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/word_panel.tscn" type="PackedScene" id=12]
+[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=13]
+[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=14]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/cutscene.tscn" type="PackedScene" id=15]
 
 [sub_resource type="GDScript" id=1]
 
@@ -165,11 +166,14 @@ shortcut = null
 flat = false
 script/script = SubResource( 5 )
 
-[node name="player" parent="." instance=ExtResource( 3 )]
+[node name="player_actor" parent="." instance=ExtResource( 3 )]
 
+[node name="player" parent="." instance=ExtResource( 4 )]
+
+editor/display_folded = true
 transform/pos = Vector2( 785.986, 132.945 )
 z/z = 1
-dot = ExtResource( 4 )
+dot = ExtResource( 5 )
 root_node = NodePath("..")
 notepad_node = NodePath("../ui/notepad_icon")
 time_and_money = NodePath("../ui/time_level_anchor/time_and_level")
@@ -180,25 +184,26 @@ transform/scale = Vector2( 1.50616, 1.66924 )
 z/relative = false
 script/script = SubResource( 6 )
 __meta__ = { "_edit_group_":true, "_edit_lock_":true }
-words_poping = ExtResource( 5 )
+words_poping = ExtResource( 6 )
 notepad = NodePath("../../ui/notepad_icon/notpad_container/behind_notpad")
 root_node = NodePath("../..")
 
-[node name="landlord" parent="." instance=ExtResource( 6 )]
+[node name="landlord" parent="." instance=ExtResource( 7 )]
 
 transform/pos = Vector2( 558.806, 260.987 )
 time_and_level = NodePath("../ui/time_level_anchor/time_and_level")
 root_node = NodePath("..")
 
-[node name="mouse_drag_items" parent="." instance=ExtResource( 7 )]
+[node name="mouse_drag_items" parent="." instance=ExtResource( 8 )]
 
 [node name="ui" type="Node2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 480, 193 )
 transform/scale = Vector2( 0.5, 0.5 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="notepad_icon" parent="ui" instance=ExtResource( 8 )]
+[node name="notepad_icon" parent="ui" instance=ExtResource( 9 )]
 
 editor/display_folded = true
 visibility/visible = false
@@ -229,7 +234,7 @@ editor/display_folded = true
 transform/pos = Vector2( 448, -498 )
 transform/scale = Vector2( 0.6, 0.6 )
 
-[node name="time_and_level" parent="ui/time_level_anchor" instance=ExtResource( 9 )]
+[node name="time_and_level" parent="ui/time_level_anchor" instance=ExtResource( 10 )]
 
 editor/display_folded = true
 root_node = NodePath("../../..")
@@ -249,7 +254,7 @@ script/script = SubResource( 8 )
 
 [node name="steam_player" type="StreamPlayer" parent="audio_station"]
 
-stream/stream = ExtResource( 10 )
+stream/stream = ExtResource( 11 )
 stream/play = false
 stream/loop = false
 stream/volume_db = 0.0
@@ -264,7 +269,7 @@ editor/display_folded = true
 visibility/visible = false
 z/z = 3
 script/script = SubResource( 9 )
-word_panel = ExtResource( 11 )
+word_panel = ExtResource( 12 )
 root_node = NodePath("..")
 panel = NodePath("notebook_new_words/panel")
 
@@ -272,7 +277,7 @@ panel = NodePath("notebook_new_words/panel")
 
 transform/pos = Vector2( 501.426, 297.54 )
 transform/scale = Vector2( 3.55357, 2.10348 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 modulate = Color( 0.132813, 0.114655, 0.114655, 1 )
 __meta__ = { "_edit_lock_":true }
 
@@ -281,31 +286,31 @@ __meta__ = { "_edit_lock_":true }
 editor/display_folded = true
 transform/pos = Vector2( 493.059, 305.021 )
 transform/scale = Vector2( 0.47806, 0.47806 )
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 
 [node name="blocks" type="Sprite" parent="notebook_ui/notebook_new_words"]
 
 editor/display_folded = true
 transform/pos = Vector2( -232.161, -274.664 )
 transform/scale = Vector2( 1.39459, 0.457372 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 modulate = Color( 0.492188, 0.488823, 0.461426, 1 )
 __meta__ = { "_edit_group_":true, "_edit_lock_":true }
 
 [node name="blocks" type="Sprite" parent="notebook_ui/notebook_new_words/blocks"]
 
 transform/pos = Vector2( 0, 4.57349 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 modulate = Color( 0.542969, 0.538561, 0.50267, 1 )
 
 [node name="blocks1" type="Sprite" parent="notebook_ui/notebook_new_words/blocks"]
 
 transform/pos = Vector2( 331.368, 2.23243 )
 transform/scale = Vector2( 1.10018, 1.39988 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 modulate = Color( 0.550781, 0.547251, 0.518509, 1 )
 
-[node name="word_panel" parent="notebook_ui/notebook_new_words" instance=ExtResource( 11 )]
+[node name="word_panel" parent="notebook_ui/notebook_new_words" instance=ExtResource( 12 )]
 
 editor/display_folded = true
 transform/pos = Vector2( -397.44, -355.604 )
@@ -341,7 +346,7 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
-[node name="cutscene" parent="." instance=ExtResource( 14 )]
+[node name="cutscene" parent="." instance=ExtResource( 15 )]
 
 z/z = 5
 root_node = NodePath("..")

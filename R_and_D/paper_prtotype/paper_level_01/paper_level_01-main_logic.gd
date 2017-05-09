@@ -32,6 +32,10 @@ func _ready():
 #	change_state("NOTEBOOK")
 	set_process(true)
 #	print(get_current_state())
+	
+	#	- new_func - use the mouse to set a destination position everytime the 
+	#	...mouse clicks 
+	set_process_input(true)
 	pass
 
 func _process(delta):
@@ -145,4 +149,11 @@ func start_conversation(actors = [], conversation = {}):
 	dialog = conversation
 	
 	change_state("CUT_SCENE")
+	pass
+	
+#	- new_func - get the mouse click and mouse postion and send it to "player_actor"
+func _input(event):
+	
+	if(Input.get_mouse_button_mask() == 1):
+		get_node("player_actor").move_actor(get_tree().get_root().get_mouse_pos())
 	pass
