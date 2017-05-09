@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://R_and_D/mvp/actor.gd" type="Script" id=1]
 [ext_resource path="res://R_and_D/paper_prtotype/img/player.png" type="Texture" id=2]
+[ext_resource path="res://R_and_D/mvp/img/mask_for_conversation.png" type="Texture" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 
@@ -16,7 +17,7 @@ radius = 105.5
 [sub_resource type="GDScript" id=3]
 
 resource/name = "conversation_system"
-script/source = "#\t\t\t\t\tconveration_system\nextends Node\n\nvar conversations = []\n\n\nfunc _ready():\n\t\n\tconversations = get_children()\n\tfor c in conversations:\n\t\tprint(\"CHILDEREN: %s\" % str(c.get_name()))\n\t\n\tprint(get_node(\"dialog1\").dialog1[1])\n\tpass\n"
+script/source = "#\t\t\t\t\tconveration_system\nextends Node\n\nvar conversations = []\n\n\nfunc _ready():\n\t\n\tconversations = get_children()\n\tfor c in conversations:\n\t\tprint(\"CHILDEREN: %s\" % str(c.get_name()))\n\t\n#\tprint(get_node(\"dialog1\").dialog1[1])\n\tpass\n"
 
 [sub_resource type="GDScript" id=4]
 
@@ -67,12 +68,20 @@ shape = SubResource( 2 )
 trigger = true
 _update_shape_index = 0
 
-[node name="conversation_system" type="Node" parent="."]
+[node name="conversations" type="Node" parent="."]
 
 script/script = SubResource( 3 )
 
-[node name="dialog1" type="Node" parent="conversation_system"]
+[node name="dialog1" type="Node" parent="conversations"]
 
 script/script = SubResource( 4 )
+
+[node name="conversation_color" type="Sprite" parent="."]
+
+visibility/visible = false
+transform/pos = Vector2( 0.233215, 174.45 )
+transform/scale = Vector2( 0.247732, 0.247732 )
+texture = ExtResource( 3 )
+modulate = Color( 0.945313, 0, 1, 1 )
 
 

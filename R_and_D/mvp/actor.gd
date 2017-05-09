@@ -2,15 +2,24 @@
 extends KinematicBody2D
 
 var target_positions = []
-
 var speed = 5
+
+var player_consol_color
+
 
 func _ready():
 	
 	set_process(true)
 #	set_process_input(true)
-	pass
-	
+	player_consol_color = get_node("conversation_color").get_modulate()
+
+
+func run_callback_function(function_name,function_args):
+#	print("test_dialog_callback_function")
+	var call_function = funcref(self,function_name)
+	call_function.call_func(function_args)
+
+
 func _process(delta):
 	
 	if(_Game._STATE._CURRENT == "_ROMMING"):
