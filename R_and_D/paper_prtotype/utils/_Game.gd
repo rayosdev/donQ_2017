@@ -15,6 +15,7 @@ var _STATE = {
 
 signal state_changed(state)
 
+
 func _ready():
 #	connect("state_changed",self,"run_state_changed")
 	change_state("_ROMMING")
@@ -22,6 +23,7 @@ func _ready():
 	player = get_tree().get_current_scene().find_node("player")
 	if(player == null): print("NO PLAYER FOUND")
 	else: print("FOUND PLAYER: %s" %player.get_name())
+	print(player)
 	
 
 func get_state(): return _STATE._CURRENT
@@ -31,8 +33,6 @@ func change_state(state):
 	_STATE._CURRENT = state
 	print("change_state: @ %s" % _STATE._CURRENT)
 	emit_signal("state_changed", _STATE._CURRENT)
-
-
 
 
 func run_state_changed(state):
