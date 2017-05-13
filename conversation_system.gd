@@ -11,9 +11,10 @@ var root_node
 
 var actors = []
 var dialog
-var branch_and_counter 			= ['A',1]
-var branch_and_counter_history 	= []
-var standard_wait_time 			= 5
+var branch_and_counter
+var history 							= []
+var is_conversation_step_in_progress	= false
+var standard_wait_time 					= 5
 var audio
 var audio_stop_timer
 
@@ -41,6 +42,8 @@ func _ready():
 	set_process(true)
 	
 	root_node = get_tree().get_current_scene().get_node(".")
+	
+	branch_and_counter = ['A',1] 
 
 
 func _input(event):pass
@@ -73,8 +76,11 @@ func end_conversation():
 
 
 func run_conversation_step(): 
-
+	
+	is_conversation_step_in_progress = true
 	if(wait_for_next_step.get_time_left() > 0): return
+	
+	history_update()
 	
 	if(dialog.has(branch_and_counter) == false):
 		print("ERROR - conversation_failed ON BRANCH_AND_COUNTER: %s " % str(branch_and_counter)) 
@@ -107,8 +113,9 @@ func run_conversation_step():
 				for word in spanish_words: 
 					dialog.Spanish_Words[word] = special_case_words[word]
 					
-					
+	print(history)				
 	branch_and_counter[1] += 1
+	is_conversation_step_in_progress = false
 	
 	if(dialog_step.has('wait_time')):
 		wait_for_next_step.set_wait_time(dialog_step.wait_time)
@@ -119,9 +126,19 @@ func run_conversation_step():
 func next_dialog_step(): 
 	 wait_for_next_step.stop()
 
+func history_update():
+	var bac = branch_and_counter 
+	history.push_front(branch_and_counter)
+	print("HISTORY ADDED: %s" % str([bac[0],bac[1]]))
 
 func previus_dialog_step():
-	wait_for_next_step.stop()
-
+	if(history.size() <= 0): return
+	if(history.size() == 1): 
+		branch_and_counter = history[0]
+		return
+	print("HISTORY POPPING: %s" % str(history[0]))
+	history.pop_front()
+	branch_and_counter = history[0]
+	
 
 func _on_audio_stop_timer_timeout(): audio.stop()

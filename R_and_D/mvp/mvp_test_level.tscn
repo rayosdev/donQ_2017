@@ -5,22 +5,22 @@
 [ext_resource path="res://R_and_D/mvp/player.gd" type="Script" id=3]
 [ext_resource path="res://R_and_D/mvp/landlord.gd" type="Script" id=4]
 [ext_resource path="res://R_and_D/paper_prtotype/img/landlord.png" type="Texture" id=5]
-[ext_resource path="res://R_and_D/paper_prtotype/sound/dialog/A!_full.ogg" type="AudioStream" id=6]
-[ext_resource path="res://conversation_system.gd" type="Script" id=7]
-[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Black.ttf" type="DynamicFontData" id=8]
-[ext_resource path="res://R_and_D/mvp/img/mask_for_conversation.png" type="Texture" id=9]
-
-[sub_resource type="GDScript" id=1]
-
-resource/name = "dialog1"
-script/source = "#\t\t\t\t\tdialog1\nextends Node\n\nvar dialog = {\n\n\t\t\t\t\'Actors\'\t\t\t\t\t:[\"landlord\",\"player\"],\n\t\t\t\t\'End_callback_functions\'\t:[],\n\t\t\t\t\'Spanish_Words\'\t\t\t\t:{},\n\t\t\t\t\'Audio_Enabled\'\t\t\t\t:true,\t\t\n\t\t\t\t\n\t\t\t#Example dialog_action\n\t\t\t#[branch,counter]\n\t\t\t\t[\'X\',0]:{\n\t\t\t\t\t\t\t\'type\'\t\t\t\t:\'Sentens\',\n\t\t\t\t\t\t\t\'wait_time\'\t\t\t:1.5,\n\t\t\t\t\t\t\t\'actor\'\t\t\t\t:0,\n\t\t\t\t\t\t\t\'sentens\'\t\t\t:\"Hola\",\n\t\t\t\t\t\t\t\'audio_pos\'\t\t\t:{\'start\':1.25,\t\t\'stop\':2.10},\n\t\t\t\t\t\t\t\'spanish_words\'\t\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'hola\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'translation\'\t:{1:\'hello\',2:\'hi\'},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'is_processed\'\t:false,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'grammer_group\'\t:\'INTERJECTION\',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'SPESCIAL_CASE_WORDS\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\'callback_function\'\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_name\'\t\t\t\t:\"test_callback\",\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_args\'\t\t\t\t:[1,2,3],\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_owner\'\t\t\t:0,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_execution_time\'\t:\'start_of_action\', # end_of_action\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\n\t\t\t[\'A\',1]:{\'type\':\'Sentens\',\t\'wait_time\':5,\t\'actor\':0,\t\t\'sentens\':\"Hola\",\t\t\'audio_pos\'\t:{\'start\':01.25,\t\t\'stop\':02.09},\t\t\t\'spanish_words\':{\t\t\'hola\':{\t\'translation\':{1:\'hello\',2:\'hi\'},\t\'is_processed\':false,\t\t\'grammer_group\'\t:\'INTERJECTION\',},},\t \t\t\'callback_function\'\t:{\t\'function_name\':\"end_conversation\",\t\t\'function_args\':[],\t\t\'function_owner\':0,\t\t\'function_execution_time\':\'start_of_action\',\t},\t\t},\n\t\t\t[\'A\',2]:{\'type\':\'Sentens\',\t\t\'actor\':0,\t\t\'sentens\':\"How are you\?\",\t\t\'audio_pos\'\t:{\'start\':03.37,\t\t\'stop\':04.02},\t},\n\t\t\t\n\t\t\t\n\t\t\t}"
+[ext_resource path="res://conversation_system.gd" type="Script" id=6]
+[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Black.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://R_and_D/mvp/img/mask_for_conversation.png" type="Texture" id=8]
+[ext_resource path="res://R_and_D/paper_prtotype/sound/dialog/A!_full.ogg" type="AudioStream" id=9]
 
 [sub_resource type="DynamicFont" id=2]
 
 font/size = 25
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 8 )
+font/font = ExtResource( 7 )
+
+[sub_resource type="GDScript" id=1]
+
+resource/name = "dialog1"
+script/source = "#\t\t\t\t\tdialog1\nextends Node\n\nvar dialog = {\n\n\t\t\t\t\'Actors\'\t\t\t\t\t:[\"landlord\",\"player\"],\n\t\t\t\t\'End_callback_functions\'\t:[],\n\t\t\t\t\'Spanish_Words\'\t\t\t\t:{},\n\t\t\t\t\'Audio_Enabled\'\t\t\t\t:true,\t\t\n\t\t\t\t\n\t\t\t#Example dialog_action\n\t\t\t#[branch,counter]\n\t\t\t\t[\'X\',0]:{\n\t\t\t\t\t\t\t\'type\'\t\t\t\t:\'Sentens\',\n\t\t\t\t\t\t\t\'wait_time\'\t\t\t:1.5,\n\t\t\t\t\t\t\t\'actor\'\t\t\t\t:0,\n\t\t\t\t\t\t\t\'sentens\'\t\t\t:\"Hola\",\n\t\t\t\t\t\t\t\'audio_pos\'\t\t\t:{\'start\':1.25,\t\t\'stop\':2.10},\n\t\t\t\t\t\t\t\'spanish_words\'\t\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'hola\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'translation\'\t:{1:\'hello\',2:\'hi\'},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'is_processed\'\t:false,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'grammer_group\'\t:\'INTERJECTION\',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'SPESCIAL_CASE_WORDS\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\'callback_function\'\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_name\'\t\t\t\t:\"test_callback\",\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_args\'\t\t\t\t:[1,2,3],\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_owner\'\t\t\t:0,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_execution_time\'\t:\'start_of_action\', # end_of_action\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t},\n\t\t\t\t\t\t\n\t\t\t[\'A\',1]:{\'type\':\'Sentens\',\t\'wait_time\':5,\t\'actor\':0,\t\t\'sentens\':\"Hola\",\t\t\'audio_pos\'\t:{\'start\':01.25,\t\t\'stop\':02.09},\t\t\t\'spanish_words\':{\t\t\'hola\':{\t\'translation\':{1:\'hello\',2:\'hi\'},\t\'is_processed\':false,\t\t\'grammer_group\'\t:\'INTERJECTION\',},},\t \t\t\'callback_function\'\t:{\t\'function_name\':\"end_conversation\",\t\t\'function_args\':[],\t\t\'function_owner\':0,\t\t\'function_execution_time\':\'start_of_action\',\t},\t\t},\n\t\t\t[\'A\',2]:{\'type\':\'Sentens\',\t\t\'actor\':0,\t\t\'sentens\':\"How are you\?\",\t\t\'audio_pos\'\t:{\'start\':03.37,\t\t\'stop\':04.02},\t},\n\t\t\t[\'A\',3]:{\'type\':\'Sentens\',\t\t\'actor\':0,\t\t\'sentens\':\"How are you\?\",\t\t\'audio_pos\'\t:{\'start\':03.37,\t\t\'stop\':04.02},\t},\n\t\t\t\n\t\t\t\n\t\t\t}"
 
 [node name="mvp_test_level" type="Node"]
 
@@ -90,30 +90,11 @@ visibility/visible = false
 
 editor/display_folded = false
 
-[node name="dialog1" type="Node" parent="YSort/landlord/conversations"]
+[node name="conversation_system" type="Node" parent="YSort/landlord/conversations/dialog_template"]
 
-script/script = SubResource( 1 )
+script/script = ExtResource( 6 )
 
-[node name="audio" type="StreamPlayer" parent="YSort/landlord/conversations/dialog1"]
-
-stream/stream = ExtResource( 6 )
-stream/play = false
-stream/loop = false
-stream/volume_db = 20.0
-stream/autoplay = false
-stream/paused = false
-stream/loop_restart_time = 0.0
-stream/buffering_ms = 500
-
-[node name="conversation_color" parent="YSort/landlord"]
-
-modulate = Color( 0, 0.765625, 1, 1 )
-
-[node name="conversation_system" type="Node" parent="."]
-
-script/script = ExtResource( 7 )
-
-[node name="consol" type="TextEdit" parent="conversation_system"]
+[node name="consol" type="TextEdit" parent="YSort/landlord/conversations/dialog_template/conversation_system"]
 
 editor/display_folded = true
 visibility/visible = false
@@ -135,7 +116,7 @@ caret/caret_blink = false
 caret/caret_blink_speed = 0.65
 __meta__ = { "_edit_lock_":true }
 
-[node name="next" type="Button" parent="conversation_system/consol"]
+[node name="next" type="Button" parent="YSort/landlord/conversations/dialog_template/conversation_system/consol"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -151,7 +132,7 @@ shortcut = null
 text = "next"
 flat = false
 
-[node name="previus" type="Button" parent="conversation_system/consol"]
+[node name="previus" type="Button" parent="YSort/landlord/conversations/dialog_template/conversation_system/consol"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -167,7 +148,7 @@ shortcut = null
 text = "previus"
 flat = false
 
-[node name="actor_1" type="Sprite" parent="conversation_system/consol"]
+[node name="actor_1" type="Sprite" parent="YSort/landlord/conversations/dialog_template/conversation_system/consol"]
 
 editor/display_folded = true
 visibility/visible = false
@@ -177,7 +158,7 @@ z/relative = false
 texture = ExtResource( 5 )
 __meta__ = { "_edit_group_":true }
 
-[node name="Light2D" type="Light2D" parent="conversation_system/consol/actor_1"]
+[node name="Light2D" type="Light2D" parent="YSort/landlord/conversations/dialog_template/conversation_system/consol/actor_1"]
 
 visibility/light_mask = 2
 transform/pos = Vector2( -9.48086, -24.3191 )
@@ -185,7 +166,7 @@ transform/rot = -90.3715
 transform/scale = Vector2( 0.359487, 0.359488 )
 enabled = true
 editor_only = false
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 offset = Vector2( 0, 0 )
 scale = 1.0
 color = Color( 1, 1, 1, 1 )
@@ -203,15 +184,15 @@ shadow/buffer_size = 2048
 shadow/esm_multiplier = 80.0
 shadow/item_mask = 2
 
-[node name="black_background" type="Sprite" parent="conversation_system/consol/actor_1"]
+[node name="black_background" type="Sprite" parent="YSort/landlord/conversations/dialog_template/conversation_system/consol/actor_1"]
 
 visibility/behind_parent = true
 transform/pos = Vector2( -11.0779, -9.92036 )
 transform/scale = Vector2( 0.4079, 0.4079 )
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 modulate = Color( 0, 0, 0, 1 )
 
-[node name="actor_2" type="Sprite" parent="conversation_system/consol"]
+[node name="actor_2" type="Sprite" parent="YSort/landlord/conversations/dialog_template/conversation_system/consol"]
 
 editor/display_folded = true
 visibility/visible = false
@@ -221,7 +202,7 @@ z/relative = false
 texture = ExtResource( 5 )
 __meta__ = { "_edit_group_":true }
 
-[node name="Light2D" type="Light2D" parent="conversation_system/consol/actor_2"]
+[node name="Light2D" type="Light2D" parent="YSort/landlord/conversations/dialog_template/conversation_system/consol/actor_2"]
 
 visibility/light_mask = 2
 transform/pos = Vector2( -9.48086, -24.3191 )
@@ -229,7 +210,7 @@ transform/rot = -90.3715
 transform/scale = Vector2( 0.359487, 0.359488 )
 enabled = true
 editor_only = false
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 offset = Vector2( 0, 0 )
 scale = 1.0
 color = Color( 1, 1, 1, 1 )
@@ -247,31 +228,50 @@ shadow/buffer_size = 2048
 shadow/esm_multiplier = 80.0
 shadow/item_mask = 2
 
-[node name="black_background" type="Sprite" parent="conversation_system/consol/actor_2"]
+[node name="black_background" type="Sprite" parent="YSort/landlord/conversations/dialog_template/conversation_system/consol/actor_2"]
 
 visibility/behind_parent = true
 transform/pos = Vector2( -17.0779, -9.92036 )
 transform/scale = Vector2( 0.4079, 0.4079 )
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 modulate = Color( 0, 0, 0, 1 )
 
-[node name="wait_for_next_step" type="Timer" parent="conversation_system"]
+[node name="wait_for_next_step" type="Timer" parent="YSort/landlord/conversations/dialog_template/conversation_system"]
 
 process_mode = 1
 wait_time = 1.0
 one_shot = true
 autostart = false
 
-[node name="audio_stop_timer" type="Timer" parent="conversation_system"]
+[node name="audio_stop_timer" type="Timer" parent="YSort/landlord/conversations/dialog_template/conversation_system"]
 
 process_mode = 1
 wait_time = 0.1
 one_shot = true
 autostart = false
 
+[node name="dialog1" type="Node" parent="YSort/landlord/conversations"]
+
+script/script = SubResource( 1 )
+
+[node name="audio" type="StreamPlayer" parent="YSort/landlord/conversations/dialog1"]
+
+stream/stream = ExtResource( 9 )
+stream/play = false
+stream/loop = false
+stream/volume_db = 20.0
+stream/autoplay = false
+stream/paused = false
+stream/loop_restart_time = 0.0
+stream/buffering_ms = 500
+
+[node name="conversation_color" parent="YSort/landlord"]
+
+modulate = Color( 0, 0.765625, 1, 1 )
+
 [connection signal="button_down" from="map/mouse_click_area" to="YSort/player" method="_on_mouse_click_area_button_down"]
 
-[connection signal="timeout" from="conversation_system/audio_stop_timer" to="conversation_system" method="_on_audio_stop_timer_timeout"]
+[connection signal="timeout" from="YSort/landlord/conversations/dialog_template/conversation_system/audio_stop_timer" to="YSort/landlord/conversations/dialog_template/conversation_system" method="_on_audio_stop_timer_timeout"]
 
 
 [editable path="YSort/player"]
