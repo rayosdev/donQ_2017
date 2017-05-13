@@ -5,27 +5,42 @@ var consol
 var next_btn
 var previus_btn
 var wait_for_next_step
-var actor_sprites = []
+var actor_ui_sprites = []
 
+var root_node
+
+var actors = []
 var dialog
-var branch_and_counter = ['A',1]
+var branch_and_counter 			= ['A',1]
+var branch_and_counter_history 	= []
+var standard_wait_time 			= 5
+var audio
+var audio_stop_timer
 
 var is_conversation_runing = false
 
 
 func _ready():
 	
+	
 	consol 				= get_node("consol")
 	next_btn 			= get_node("consol/next")
 	previus_btn			= get_node("consol/previus")
 	wait_for_next_step 	= get_node("wait_for_next_step")
-	actor_sprites.append(get_node("consol/actor_1"))
-	actor_sprites.append(get_node("consol/actor_2"))
+	audio_stop_timer	= get_node("audio_stop_timer")
+	actor_ui_sprites.append(get_node("consol/actor_1"))
+	actor_ui_sprites.append(get_node("consol/actor_2"))
+	
 	
 	_Game.connect("state_changed",self,"state_changed")
 	
+	next_btn.connect	("pressed",self,"next_dialog_step")
+	previus_btn.connect	("pressed",self,"previus_dialog_step")
+	
 	set_process_input(true)
 	set_process(true)
+	
+	root_node = get_tree().get_current_scene().get_node(".")
 
 
 func _input(event):pass
@@ -43,7 +58,11 @@ func state_changed(state):
 func start_conversation():
 	consol.show()
 	is_conversation_runing = true
-	dialog = _Game._Dialog
+	dialog 	= _Game.get_active_dialog()
+	audio 	= _Game.get_active_dialog_audio()
+	actors = []
+	for i in dialog.Actors: 
+		actors.append(root_node.find_node(i))
 
 
 func end_conversation():
@@ -61,37 +80,48 @@ func run_conversation_step():
 		print("ERROR - conversation_failed ON BRANCH_AND_COUNTER: %s " % str(branch_and_counter)) 
 		end_conversation()
 		return
-	
+
 	var dialog_step = dialog[branch_and_counter]
-#	print("DIALOG_STEP: %s" % str(dialog_step))
-	
+#	
 	if(dialog_step.type == 'Sentens'):
-		var actor = dialog.Actors[dialog_step.actor]
+		var actor = actors[dialog_step.actor]
 		
-		consol['custom_colors/font_color'] = actor.player_consol_color
+		consol['custom_colors/font_color'] = actor.get_actor_consol_color()
+		
 		consol.set_text(dialog_step.sentens)
 		
-	
+		if(dialog_step.has('audio_pos')):
+			var audio_pos = dialog_step.audio_pos 
+			
+			if(dialog.Audio_Enabled == true):
+				audio.play(audio_pos.start)
+				audio_stop_timer.set_wait_time(audio_pos.stop - audio_pos.start)
+				audio_stop_timer.start()
+		
+		if(dialog_step.has('spanish_words')):
+			var spanish_words = dialog_step.spanish_words
+			for word in spanish_words: 
+				dialog.Spanish_Words[word] = spanish_words[word]
+			if(spanish_words.has('SPESCIAL_CASE_WORDS')):
+				var special_case_words = spanish_words.SPESCIAL_CASE_WORDS
+				for word in spanish_words: 
+					dialog.Spanish_Words[word] = special_case_words[word]
+					
+					
 	branch_and_counter[1] += 1
-	wait_for_next_step.set_wait_time(dialog_step.wait_time)
-	wait_for_next_step.start()
 	
+	if(dialog_step.has('wait_time')):
+		wait_for_next_step.set_wait_time(dialog_step.wait_time)
+	else: wait_for_next_step.set_wait_time(standard_wait_time)
+	wait_for_next_step.start()
 
-#
-#			"Actors"					:[],
-#			"End_callback_functions"	:[],
-#				
-#			#	Example dialog_action
-#			#[branch,counter]
-#				['A',1]:{
-#							'type'		:'Sentens',
-#							'wait_time'	:0.3,
-#							'actor'				:0,
-#							'sentens'			:"Hola",
-#							'spanish_words'		:['hola'],
-#							'callback_function'	:{
-#													'function_name'				:"end_conversation",
-#													'function_owner'			:0,
-#													'function_execution_time'	:'start_of_action'
-#													},
-#				}
+
+func next_dialog_step(): 
+	 wait_for_next_step.stop()
+
+
+func previus_dialog_step():
+	wait_for_next_step.stop()
+
+
+func _on_audio_stop_timer_timeout(): audio.stop()

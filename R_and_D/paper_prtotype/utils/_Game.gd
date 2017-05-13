@@ -16,14 +16,23 @@ var _STATE = {
 signal state_changed(state)
 
 
+var active_dialog = {} setget set_active_dialog,get_active_dialog
+
+func set_active_dialog(dialog): active_dialog = dialog
+func get_active_dialog(): return active_dialog
+	pass
+
+var active_dialog_audio setget set_active_dialog_audio,get_active_dialog_audio
+
+func set_active_dialog_audio(audio): active_dialog_audio = audio
+func get_active_dialog_audio(): return active_dialog_audio
+	pass
+
 func _ready():
+	player = get_tree().get_current_scene().find_node("player")
+
 #	connect("state_changed",self,"run_state_changed")
 	change_state("_ROMMING")
-	
-	player = get_tree().get_current_scene().find_node("player")
-	if(player == null): print("NO PLAYER FOUND")
-	else: print("FOUND PLAYER: %s" %player.get_name())
-	print(player)
 	
 
 func get_state(): return _STATE._CURRENT
@@ -42,39 +51,5 @@ func run_state_changed(state):
 	if(_STATE._CURRENT == "_NOTEBOOK")		: print("_NOTEBOOK is running")
 
 
-var _Dialog = {
 
-				"Actors"					:[],
-				"End_callback_functions"	:[],
-				
-			#	Example dialog_action
-			#[branch,counter]
-				['A',1]:{
-							'type'				:'Sentens',
-							'wait_time'			:1.5,
-							'actor'				:0,
-							'sentens'			:"Hola",
-							'spanish_words'		:{
-													'INTERJECTION':{
-																	'hola':{
-																			'translation'	:{1:'hello',2:'hi'},
-																			'is_processed'	:false,
-																			'aduio':{
-																						'path'		:null,
-																						'start_pos'	:null,
-																						'end_pod'	:null,
-																						'sentese'	:null,
-																					},
-																			},
-																	},
-													},
-							'callback_function'	:{
-													'function_name'				:"end_conversation",
-													'function_args'				:[],
-													'function_owner'			:0,
-													'function_execution_time'	:'start_of_action', # end_of_action
-													},
-					},
-				# test in one line
-				['A',2]:{'type':'Sentens',		'wait_time':3,		'actor':1,		'sentens':"Hey muchaco, how's it going?",		'spanish_words':{	'INTERJECTION':{'hola':{	'translation':{1:'hello',2:'hi'},	'is_processed':false,	'aduio':{'path':null,	'start_pos':null,	'end_pod':null, 	'sentese':null,},},},},'callback_function'	:{'function_name'				:"end_conversation",'function_args'				:[],'function_owner'			:0,'function_execution_time'	:'start_of_action', },}
-}
+	

@@ -67,6 +67,7 @@ tracks/2/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 )
 
 [sub_resource type="GDScript" id=8]
 
+resource/name = "audio_station"
 script/source = "#\t\t\t\t\taudio_station\nextends Node\n\nvar timer = Timer.new()\n\n\nfunc _ready():\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n#\tplay_sound_interval(8.5,2)\n\tprint(\"playing_A\")\n\tyield(timer,\'timeout\')\n\ttimer.set_wait_time(2)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n#\tplay_sound_interval(4.2,3)\n\n\n#\tget_node(\"steam_player\").seek_pos(2)\n#\tset_process(true)\n\tpass\n\t\nfunc play_sound_interval(start_time,stop_time):\n\tget_node(\"steam_player\").play(start_time)\n\ttimer.set_wait_time(stop_time)\n\ttimer.start()\n\tyield(timer,\'timeout\')\n\tget_node(\"steam_player\").stop()\n\t\nfunc _process(delta):\n\tpass\n"
 
 [sub_resource type="GDScript" id=9]
@@ -249,7 +250,6 @@ z/z = 2
 
 [node name="audio_station" type="Node" parent="."]
 
-editor/display_folded = true
 script/script = SubResource( 8 )
 
 [node name="steam_player" type="StreamPlayer" parent="audio_station"]
@@ -312,7 +312,6 @@ modulate = Color( 0.550781, 0.547251, 0.518509, 1 )
 
 [node name="word_panel" parent="notebook_ui/notebook_new_words" instance=ExtResource( 12 )]
 
-editor/display_folded = true
 transform/pos = Vector2( -397.44, -355.604 )
 
 [node name="sound_btn" parent="notebook_ui/notebook_new_words/word_panel"]

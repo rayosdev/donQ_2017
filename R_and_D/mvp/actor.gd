@@ -4,14 +4,17 @@ extends KinematicBody2D
 var target_positions = []
 var speed = 5
 
-var player_consol_color
+var actor_consol_color setget set_actor_consol_color,get_actor_consol_color
 
 
 func _ready():
 	
 	set_process(true)
 #	set_process_input(true)
-	player_consol_color = get_node("conversation_color").get_modulate()
+	set_actor_consol_color(get_node("conversation_color").get_modulate())
+
+func set_actor_consol_color(color):actor_consol_color = color
+func get_actor_consol_color(): return actor_consol_color
 
 
 func run_callback_function(function_name,function_args):

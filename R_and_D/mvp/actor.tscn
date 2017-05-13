@@ -17,12 +17,12 @@ radius = 105.5
 [sub_resource type="GDScript" id=3]
 
 resource/name = "conversation_system"
-script/source = "#\t\t\t\t\tconveration_system\nextends Node\n\nvar conversations = []\n\n\nfunc _ready():\n\t\n\tconversations = get_children()\n\tfor c in conversations:\n\t\tprint(\"CHILDEREN: %s\" % str(c.get_name()))\n\t\n#\tprint(get_node(\"dialog1\").dialog1[1])\n\tpass\n"
+script/source = "#\t\t\t\t\tconveration\nextends Node\n\nvar conversations = []\n\nvar all_dialogs\nvar dialog_counter  = 1\n\n\nfunc _ready():\n\t\n\tall_dialogs = self.get_children()\n\tpass\n\t\nfunc load_dialog(dialog_nr):\n\t_Game.set_active_dialog(all_dialogs[dialog_nr].dialog)\n\t_Game.set_active_dialog_audio(all_dialogs[dialog_nr].get_node(\'audio\'))\n\t\n\tpass\n\t\n\n"
 
 [sub_resource type="GDScript" id=4]
 
 resource/name = "dialog_orginal"
-script/source = "#\t\t\t\t\tdialog_orginal\nextends Node\n\nvar dialog1 = {\n\n\t\t\t\t1:\"hola\"\n}\n"
+script/source = "#\t\t\t\t\tdialog_template\nextends Node\n\n\nvar dialog = {\n\n\t\t\t\t\"Actors\"\t\t\t\t\t:[],\n\t\t\t\t\"End_callback_functions\"\t:[],\n\t\t\t\t\n\t\t\t#Example dialog_action\n\t\t\t#[branch,counter]\n\t\t\t\t[\'A\',1]:{\n\t\t\t\t\t\t\t\'type\'\t\t\t\t:\'Sentens\',\n\t\t\t\t\t\t\t\'wait_time\'\t\t\t:1.5,\n\t\t\t\t\t\t\t\'actor\'\t\t\t\t:0,\n\t\t\t\t\t\t\t\'sentens\'\t\t\t:\"Hola\",\n\t\t\t\t\t\t\t\'aduio\'\t\t\t\t:{\'path\':null,\t\t\'start_pos\':null,\t\t\'end_pod\':null,\t\t\'sentese\':null,},\n\t\t\t\t\t\t\t\'spanish_words\'\t\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'hola\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'translation\'\t:{1:\'hello\',2:\'hi\'},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'is_processed\'\t:false,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'grammer_group\'\t:\'INTERJECTION\',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'SPESCIAL_CASE_WORDS\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\'callback_function\'\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_name\'\t\t\t\t:\"end_conversation\",\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_args\'\t\t\t\t:[],\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_owner\'\t\t\t:0,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'function_execution_time\'\t:\'start_of_action\', # end_of_action\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t},\n\t\t\t\t# test in one line\n\t\t\t\t[\'A\',2]:{\'type\':\'Sentens\',\t\t\'wait_time\':3,\t\t\'actor\':1,\t\t\'sentens\':\"Hey muchaco, how\'s it going\?\",\t\t\'spanish_words\':{\t\'INTERJECTION\':{\'hola\':{\t\'translation\':{1:\'hello\',2:\'hi\'},\t\'is_processed\':false,\t\'aduio\':{\'path\':null,\t\'start_pos\':null,\t\'end_pod\':null, \t\'sentese\':null,},},},},\'callback_function\'\t:{\'function_name\'\t\t\t\t:\"end_conversation\",\'function_args\'\t\t\t\t:[],\'function_owner\'\t\t\t:0,\'function_execution_time\'\t:\'start_of_action\', },}\n}\n"
 
 [node name="actor" type="KinematicBody2D"]
 
@@ -70,9 +70,10 @@ _update_shape_index = 0
 
 [node name="conversations" type="Node" parent="."]
 
+editor/display_folded = true
 script/script = SubResource( 3 )
 
-[node name="dialog1" type="Node" parent="conversations"]
+[node name="dialog_template" type="Node" parent="conversations"]
 
 script/script = SubResource( 4 )
 

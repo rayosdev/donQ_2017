@@ -1,0 +1,671 @@
+[gd_scene load_steps=7 format=1]
+
+[sub_resource type="GDScript" id=2]
+
+resource/name = "conversation_tool"
+script/source = "#\t\t\t\t\tconversation_tool\nextends Node2D\n\nvar dialog = {}\nvar current_branch_and_counter = [\'A\',1]\n\nvar branch_node\nvar counter_node\nvar view_and_edit\n\nvar _Dialog = {}\n\nfunc _ready():\n\t\n\tinit_dialog()\n\t\n\tbranch_node \t= get_node(\"panel_container/branch_and_counter/branch\")\n\tcounter_node \t= get_node(\"panel_container/branch_and_counter/counter\")\n\tview_and_edit \t= get_node(\"panel_container/view_and_edit_result\")\n\t\n\t\n#\tvar timer = Timer.new()\n#\tadd_child(timer)\n#\ttimer.set_one_shot(true)\n#\ttimer.set_wait_time(1.5)\n#\ttimer.start()\n#\tyield(timer,\"timeout\")\n\t\n\tprint(_Game.player.get_name())\n\t\n\t\n#\tprint(\"PRINT ACTOR0: %s\" % str(_Dialog.Actors[0].get_name()))\n#\tprint(\"PRINT ACTOR0: %s\" % str(_Dialog.Actors[1].get_name()))\n\tprint(\"DONW\")\n\tupdate()\n\tpass\n\nfunc update():\n\tif(dialog.has(current_branch_and_counter) == false):\n\t\tdialog[current_branch_and_counter] = {}\n\t\n\tbranch_node.set_text\t(str(current_branch_and_counter[0]))\n\tcounter_node.set_text\t(str(current_branch_and_counter[1]))\n\t\n\tfor i in dialog:\n\t\tvar vae = view_and_edit.get_text()\n\t\tview_and_edit.set_text(vae + str(i) + \" : \" + str(dialog[i]) + \"\\n\")\n\tpass\n\nfunc init_dialog():\n\t\n\t_Dialog = {\n\n\t\t\t\t\"Actors\"\t\t\t\t\t:[self.get_node(\".\"),_Game.player],\n\t\t\t\t\"End_callback_functions\"\t:[],\n\t\t\t\t\n\t\t\t#\tExample dialog_action\n\t\t\t#[branch,counter]\n\t\t\t\t[\'A\',1]:{\n\t\t\t\t\t\t\t\'@type\'\t\t\t\t\t:\'Sentens\',\n\t\t\t\t\t\t\t\'@wait_time\'\t\t\t:1.5,\n\t\t\t\t\t\t\t\'@actor\'\t\t\t\t:0,\n\t\t\t\t\t\t\t\'@sentens\'\t\t\t\t:\"Hola\",\n\t\t\t\t\t\t\t\'@spanish_words\'\t\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@INTERJECTION\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@hola\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@translation\'\t:{1:\'hello\',2:\'hi\'},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@is_processed\'\t:false,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@aduio\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@path\'\t\t\t:null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@start_pos\'\t:null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@end_pod\'\t\t:null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@sentese\'\t\t:null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\'@callback_function\'\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@function_name\'\t\t\t\t:\"end_conversation\",\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@function_args\'\t\t\t\t:[],\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@function_owner\'\t\t\t\t:0,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@function_execution_time\'\t\t:\'start_of_action\', # end_of_action\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t},\n\t\t\t\t# test in one line\n\t\t\t\t[\'A\',2]:{\'type\':\'Sentens\',\t\t\'wait_time\':3,\t\t\'actor\':1,\t\t\'sentens\':\"Hey muchaco, how\'s it going\?\",\t\t\'spanish_words\':{\t\'INTERJECTION\':{\'hola\':{\t\'translation\':{1:\'hello\',2:\'hi\'},\t\'is_processed\':false,\t\'aduio\':{\'path\':null,\t\'start_pos\':null,\t\'end_pod\':null, \t\'sentese\':null,},},},},\'callback_function\'\t:{\'function_name\'\t\t\t\t:\"end_conversation\",\'function_args\'\t\t\t\t:[],\'function_owner\'\t\t\t:0,\'function_execution_time\'\t:\'start_of_action\', },}\n} \n\n"
+
+[sub_resource type="GDScript" id=3]
+
+resource/name = "sentens_step_type"
+script/source = "#\t\t\t\t\tsentens_step_type\nextends OptionButton\n\n\n\nfunc _ready():\n\t\n\tadd_item(\"Sentens\",1)\n\tadd_item(\"sentens123\",2)\n\t\n\tpass\n"
+
+[sub_resource type="GDScript" id=4]
+
+resource/name = "grammer_type"
+script/source = "#\t\t\t\t\t\tgrammer_type\nextends OptionButton\n\n\nfunc _ready():\n\t\n\tadd_item(\"INTERJECTION\")\n\tadd_item(\"NOUNS\")\n\tpass\n"
+
+[sub_resource type="GDScript" id=5]
+
+resource/name = "actor_acting"
+script/source = "#\t\t\t\t\tactor_acting\nextends OptionButton\n\nexport (NodePath) var conversation_tool\n\nfunc _ready():\n\t\n\tconversation_tool = get_node(conversation_tool)\n\t\n#\tfor a in conversation_tool._Dialog.Actors:\n#\t\tprint(a)\n#\t\tadd_item(a.get_name())\n\tpass\n"
+
+[sub_resource type="StyleBoxFlat" id=6]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.277344, 0.248093, 0.248093, 1 )
+light_color = Color( 0.664063, 0.529175, 0.529175, 1 )
+dark_color = Color( 0.425781, 0.334305, 0.334305, 1 )
+border_size = 0
+border_blend = true
+draw_bg = true
+
+[sub_resource type="GDScript" id=7]
+
+resource/name = "view_and_edit_result"
+script/source = "#\t\t\t\t\tview_and_edit_result\nextends TextEdit\n\nvar text = \"\"\n\nvar get_orginal_pos\n\nvar max_size = Vector2(950,560)\nvar min_size = Vector2(950, 40)\n\nfunc _ready():\n\tget_orginal_pos = get_pos()\n\tset_size(min_size)\n\tpass\n\n\nfunc _on_minimize_pressed(): set_size(min_size)\n\n\nfunc _on_maximize_pressed(): set_size(max_size)\n\n\n\nfunc _on_role_up_pressed():\n\tset_size(Vector2(0,0))\n\tget_node(\"button_platform/role_up\").hide()\n\tget_node(\"button_platform/role_down\").show()\n\n\nfunc _on_role_down_pressed():\n\tset_size(min_size)\n\tget_node(\"button_platform/role_down\").hide()\n\tget_node(\"button_platform/role_up\").show()"
+
+[node name="conversation_tool" type="Node2D"]
+
+editor/display_folded = true
+transform/pos = Vector2( 63, 1 )
+script/script = SubResource( 2 )
+
+[node name="panel_container" type="Panel" parent="."]
+
+visibility/self_opacity = 0.94
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -63.0
+margin/top = -1.0
+margin/right = 977.0
+margin/bottom = 599.0
+__meta__ = { "_edit_lock_":true }
+
+[node name="branch_and_counter" type="Panel" parent="panel_container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 60.0
+margin/top = 100.0
+margin/right = 100.0
+margin/bottom = 140.0
+
+[node name="branch" type="LineEdit" parent="panel_container/branch_and_counter"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 20.0
+margin/right = 58.0
+margin/bottom = 44.0
+text = "A"
+placeholder/alpha = 0.6
+align = 1
+max_length = 1
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="branc_label" type="Label" parent="panel_container/branch_and_counter"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 60.0
+margin/bottom = 20.0
+text = "branch"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="branch_btns" type="Control" parent="panel_container/branch_and_counter"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -40.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 40.0
+
+[node name="delete_counter" type="Button" parent="panel_container/branch_and_counter/branch_btns"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 92.0
+margin/top = 22.0
+margin/right = 112.0
+margin/bottom = 42.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = ">"
+flat = false
+
+[node name="next_counter" type="Button" parent="panel_container/branch_and_counter/branch_btns"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = -20.0
+margin/right = 20.0
+margin/bottom = 0.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "x"
+flat = false
+
+[node name="previous_counter" type="Button" parent="panel_container/branch_and_counter/branch_btns"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 26.0
+margin/top = 23.0
+margin/right = 46.0
+margin/bottom = 43.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "<"
+flat = false
+
+[node name="counter" type="LineEdit" parent="panel_container/branch_and_counter"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 83.0
+margin/top = 20.0
+margin/right = 141.0
+margin/bottom = 44.0
+text = "1"
+placeholder/alpha = 0.6
+align = 1
+max_length = 1
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="counter_label" type="Label" parent="panel_container/branch_and_counter"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 83.0
+margin/top = 0.0
+margin/right = 143.0
+margin/bottom = 20.0
+text = "counter"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="counter_btns" type="Control" parent="panel_container/branch_and_counter"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 142.0
+margin/top = 0.0
+margin/right = 182.0
+margin/bottom = 40.0
+
+[node name="delete_counter_pos" type="Button" parent="panel_container/branch_and_counter/counter_btns"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = -20.0
+margin/right = 40.0
+margin/bottom = 0.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "x"
+flat = false
+
+[node name="next_counter" type="Button" parent="panel_container/branch_and_counter/counter_btns"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -9.0
+margin/top = 23.0
+margin/right = 11.0
+margin/bottom = 43.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = ">"
+flat = false
+
+[node name="previous_counter" type="Button" parent="panel_container/branch_and_counter/counter_btns"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -67.0
+margin/top = 22.0
+margin/right = -47.0
+margin/bottom = 42.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "<"
+flat = false
+
+[node name="type" type="OptionButton" parent="panel_container"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 60.0
+margin/top = 180.0
+margin/right = 200.0
+margin/bottom = 200.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+align = 0
+selected = -1
+items = [  ]
+script/script = SubResource( 3 )
+__meta__ = { "_edit_group_":true }
+
+[node name="label" type="Label" parent="panel_container/type"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -20.0
+margin/right = 120.0
+margin/bottom = 0.0
+text = "type"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="sentens" type="Control" parent="panel_container"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 20.0
+margin/right = 40.0
+margin/bottom = 60.0
+
+[node name="wait_time" type="LineEdit" parent="panel_container/sentens"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 60.0
+margin/top = 220.0
+margin/right = 120.0
+margin/bottom = 244.0
+text = "1.5"
+placeholder/alpha = 0.6
+align = 1
+max_length = 4
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="label" type="Label" parent="panel_container/sentens/wait_time"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -20.0
+margin/right = 62.0
+margin/bottom = 0.0
+text = "wait_time"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="grammer_type1" type="OptionButton" parent="panel_container/sentens"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 500.0
+margin/top = 240.0
+margin/right = 640.0
+margin/bottom = 260.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+align = 0
+selected = -1
+items = [  ]
+script/script = SubResource( 4 )
+
+[node name="label" type="Label" parent="panel_container/sentens/grammer_type1"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -20.0
+margin/right = 120.0
+margin/bottom = 0.0
+text = "grammer_type"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="sentens" type="LineEdit" parent="panel_container/sentens"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 240.0
+margin/top = 160.0
+margin/right = 1000.0
+margin/bottom = 184.0
+custom_colors/font_color = Color( 0.761719, 0.9375, 0.789185, 1 )
+text = "Hola, how\'s it going\?"
+placeholder/alpha = 0.6
+align = 1
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="label" type="Label" parent="panel_container/sentens/sentens"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -20.0
+margin/right = 760.0
+margin/bottom = 0.0
+text = "sentens"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="spanish_words" type="Label" parent="panel_container/sentens"]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 300.0
+margin/top = 220.0
+margin/right = 420.0
+margin/bottom = 240.0
+text = "spanish_words"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="spanish_word" type="LineEdit" parent="panel_container/sentens/spanish_words"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -60.0
+margin/top = 20.0
+margin/right = 180.0
+margin/bottom = 44.0
+custom_colors/font_color = Color( 1, 0.722656, 0.722656, 1 )
+text = "hola"
+placeholder/alpha = 0.6
+align = 1
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="actor_acting" type="OptionButton" parent="panel_container/sentens/spanish_words"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -240.0
+margin/top = 60.0
+margin/right = -100.0
+margin/bottom = 80.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+align = 0
+selected = -1
+items = [  ]
+script/script = SubResource( 5 )
+conversation_tool = NodePath("../../../..")
+
+[node name="label" type="Label" parent="panel_container/sentens/spanish_words/actor_acting"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -20.0
+margin/right = 120.0
+margin/bottom = 0.0
+text = "actor_acting"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="btns" type="Control" parent="panel_container/sentens/spanish_words"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 0.0
+margin/right = 80.0
+margin/bottom = 40.0
+
+[node name="next_word" type="Button" parent="panel_container/sentens/spanish_words/btns"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 80.0
+margin/top = 0.0
+margin/right = 100.0
+margin/bottom = 20.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = ">"
+flat = false
+
+[node name="delete_word" type="Button" parent="panel_container/sentens/spanish_words/btns"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -120.0
+margin/top = 20.0
+margin/right = -100.0
+margin/bottom = 40.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "x"
+flat = false
+
+[node name="previous_word" type="Button" parent="panel_container/sentens/spanish_words/btns"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -60.0
+margin/top = 0.0
+margin/right = -40.0
+margin/bottom = 20.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "<"
+flat = false
+
+[node name="view_and_edit_result" type="TextEdit" parent="panel_container"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 20.0
+margin/right = 1000.0
+margin/bottom = 60.0
+custom_styles/normal = SubResource( 6 )
+custom_colors/member_variable_color = Color( 0.570313, 0.0467834, 0.0467834, 1 )
+custom_colors/function_color = Color( 0.792969, 0.605786, 0.108414, 1 )
+custom_colors/symbol_color = Color( 0.553822, 0.362854, 0.640625, 1 )
+custom_colors/caret_background_color = Color( 0.088623, 0.135326, 0.515625, 1 )
+custom_colors/selection_color = Color( 0.18158, 0.418451, 0.546875, 1 )
+custom_colors/caret_color = Color( 0.123807, 0.511719, 0.0799561, 1 )
+custom_colors/breakpoint_color = Color( 0.585938, 0.352478, 0.352478, 1 )
+custom_colors/font_color_selected = Color( 0.375137, 0.582031, 0.53354, 1 )
+custom_colors/font_color = Color( 0.127625, 0.480469, 0, 1 )
+custom_colors/line_number_color = Color( 0.652832, 0, 0.746094, 1 )
+custom_colors/completion_font_color = Color( 0.363281, 0.255743, 0.0879822, 1 )
+custom_colors/completion_scroll_color = Color( 0.112195, 0.359375, 0.0912476, 1 )
+custom_colors/number_color = Color( 0.933594, 0.698942, 0.510559, 1 )
+custom_colors/completion_background_color = Color( 1, 0.960938, 0, 1 )
+custom_colors/brace_mismatch_color = Color( 0.170471, 0.574219, 0.403888, 1 )
+custom_colors/current_line_color = Color( 0.676117, 0.739202, 0.820313, 1 )
+custom_colors/completion_selected_color = Color( 0.734375, 1, 0, 1 )
+custom_colors/mark_color = Color( 0.390625, 0, 0.78125, 1 )
+custom_colors/word_highlighted_color = Color( 0.0892334, 0.53125, 0.127219, 1 )
+custom_colors/completion_existing_color = Color( 0.976563, 0, 0.480652, 1 )
+syntax_highlighting = true
+show_line_numbers = true
+highlight_all_occurrences = true
+caret/block_caret = false
+caret/caret_blink = true
+caret/caret_blink_speed = 0.65
+script/script = SubResource( 7 )
+
+[node name="button_platform" type="Control" parent="panel_container/view_and_edit_result"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = -20.0
+margin/right = 40.0
+margin/bottom = 0.0
+
+[node name="maximize" type="Button" parent="panel_container/view_and_edit_result/button_platform"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 21.0
+margin/bottom = 20.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "#"
+flat = false
+
+[node name="minimize" type="Button" parent="panel_container/view_and_edit_result/button_platform"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 20.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "-"
+flat = false
+
+[node name="role_up" type="Button" parent="panel_container/view_and_edit_result/button_platform"]
+
+rect/rotation = 90.0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 40.0
+margin/top = 20.0
+margin/right = 60.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = ">"
+flat = false
+
+[node name="role_down" type="Button" parent="panel_container/view_and_edit_result/button_platform"]
+
+visibility/visible = false
+rect/rotation = -90.0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 60.0
+margin/top = 0.0
+margin/right = 80.0
+margin/bottom = 20.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = ">"
+flat = false
+
+[connection signal="pressed" from="panel_container/view_and_edit_result/button_platform/maximize" to="panel_container/view_and_edit_result" method="_on_maximize_pressed"]
+
+[connection signal="pressed" from="panel_container/view_and_edit_result/button_platform/minimize" to="panel_container/view_and_edit_result" method="_on_minimize_pressed"]
+
+[connection signal="pressed" from="panel_container/view_and_edit_result/button_platform/role_up" to="panel_container/view_and_edit_result" method="_on_role_up_pressed"]
+
+[connection signal="pressed" from="panel_container/view_and_edit_result/button_platform/role_down" to="panel_container/view_and_edit_result" method="_on_role_down_pressed"]
+
+
