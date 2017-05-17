@@ -101,6 +101,7 @@ script/script = SubResource( 1 )
 
 [node name="level_01" type="Sprite" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 495.077, 299.661 )
 transform/scale = Vector2( 0.628221, 0.628221 )
 texture = ExtResource( 2 )
@@ -250,6 +251,7 @@ z/z = 2
 
 [node name="audio_station" type="Node" parent="."]
 
+editor/display_folded = true
 script/script = SubResource( 8 )
 
 [node name="steam_player" type="StreamPlayer" parent="audio_station"]

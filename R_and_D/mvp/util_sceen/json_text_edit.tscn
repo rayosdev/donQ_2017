@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=1]
+
+[sub_resource type="GDScript" id=3]
+
+resource/name = "json_test"
+script/source = "extends TextEdit\n\nvar json_dict = {\n\n\t\t\'cell1\':\'content1\',\n\t\t\'cell2\':\'content2\',\n\t\t\n\t\t\'nest_test\':{\n\t\t\n\t\t\t\'nest_cell1\':\'content3\',\n\t\t\t\'nest_test2\':{\n\t\t\t\t1:\'number_test1\',\n\t\t\t\t2:\'number_test2\',\n\t\t\t\t},\n\t\t\t}\n\t\t\n}\n\nvar json_txt = \'\'\nvar space = 0\nvar past_c = \'\'\n\nfunc _ready():\n\tjson_dict = {}\n\tjson_dict.parse_json(_File_Handler.fh_load_file(\"json_formating_test.json\"))\n\tget_node(\"button\").connect(\"pressed\",self,\'reformat\')\n#\tset_text(json_dict.to_json())\n\tformat_json()\n#\tset_text(json_dict.to_json())\n\t\n\t\nfunc format_json():\n\tfor c in json_dict.to_json():\n\t\t\n#\t\tif(c == \'\"\'): json_txt += \" \"\n\t\t\n\t\tif(past_c == \':\' and c == \'{\'):\n\t\t\tspace += 15\n\t\t\tenter()\n\t\t\t\n\t\tif(c == \'}\'): enter()\n\t\t\n\t\tjson_txt += c\n\t\t\n\t\tif(c == \'{\'): enter()\n\t\t\n#\t\tif(c == \'\"\'): json_txt += \" \"\n\t\t\n\t\tif(past_c == \'}\' and c == \',\'):\n\t\t\tspace -= 15\n\t\t\tenter()\n\t\telif(past_c == \'\"\' and c == \',\'):enter()\n\t\telif(c == \',\'): enter()\n\n\t\tpast_c = c\n\n\tset_text(json_txt)\n\t\n\tjson_txt = \'\'\n\tspace = 0\n\tpast_c = \'\'\n\n\nfunc enter():\n\tjson_txt += \'\\n\'\n\tfor c in range(space): json_txt += \' \'\n\n\nfunc reformat():\n\t_File_Handler.fh_save_file(\"json_formating_test.json\",get_text())\n\tget_tree().reload_current_scene()\n"
+
+[node name="json_test" type="TextEdit"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 608.0
+syntax_highlighting = false
+show_line_numbers = false
+highlight_all_occurrences = false
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+script/script = SubResource( 3 )
+
+[node name="button" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 800.0
+margin/top = 512.0
+margin/right = 960.0
+margin/bottom = 576.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "FORMAT"
+flat = false
+
+

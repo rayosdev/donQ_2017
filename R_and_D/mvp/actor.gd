@@ -51,4 +51,13 @@ func move_player():
 	if(is_done.x == 1 and is_done.y == 1):target_positions.pop_front()
 	
 	move(direction * speed)
+
+
+func test_func(): print("TEST_FUNC: %s" % str(self.get_name()))
+
+
+func callback_function(func_name,args):
+	var callfunc = funcref(self,func_name)
+	callfunc.call_func(args)
+	pass
 	

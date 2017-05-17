@@ -28,5 +28,11 @@ func _input(event):
 			
 			
 			
+func end_conversation(args):
+	_Game.change_state("_ROMMING")
 
+
+func ask_for_rent(amount):
+	
+	pass
 
