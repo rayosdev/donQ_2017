@@ -7,14 +7,12 @@ var root_node
 func _ready():
 	
 	root_node = get_tree().get_current_scene()
-	print(root_node.get_name())
 	
 	conversations = get_node("conversations")
 #	target_positions.append(Vector2(0,200))
 #	set_process(true)
 	set_process_input(true)
 #	_Game.connect("state_changed",self,"state_changed")
-	ask_for_rent(-75)
 
 
 #func _process(delta):pass
@@ -34,7 +32,7 @@ func _input(event):
 func end_conversation(args): _Game.change_state("_ROMMING")
 
 
-func ask_for_rent(rent_sum): pass
-	
-	_Game.change_singal_player_stat("Money",rent_sum)
+func ask_for_rent(rent_sum = []):
+	if(rent_sum.empty()): return print("ERROR - ON ask_for_rent(rent_sum) HAS NO VALUES")
+	_Game.change_singal_player_stat("Money",rent_sum[0])
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=26 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=1]
 [ext_resource path="res://R_and_D/mvp/actor.tscn" type="PackedScene" id=2]
@@ -10,7 +10,13 @@
 [ext_resource path="res://conversation_system.gd" type="Script" id=8]
 [ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Black.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://R_and_D/mvp/img/mask_for_conversation.png" type="Texture" id=10]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/time_and_level.tscn" type="PackedScene" id=11]
+[ext_resource path="res://R_and_D/mvp/ui/camera.gd" type="Script" id=11]
+[ext_resource path="res://R_and_D/mvp/ui/time_and_level_ui.gd" type="Script" id=12]
+[ext_resource path="res://R_and_D/paper_prtotype/img/ui_level_and_cash.png" type="Texture" id=13]
+[ext_resource path="res://R_and_D/paper_prtotype/img/clock_and_calender.png" type="Texture" id=14]
+[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=15]
+[ext_resource path="res://R_and_D/mvp/ui/money_icon.gd" type="Script" id=16]
+[ext_resource path="res://R_and_D/paper_prtotype/img/ui_money_lost.png" type="Texture" id=17]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -19,11 +25,92 @@ font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 9 )
 
+[sub_resource type="RectangleShape2D" id=14]
+
+custom_solver_bias = 0.0
+extents = Vector2( 168, 112 )
+
+[sub_resource type="DynamicFont" id=12]
+
+font/size = 60
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 9 )
+fallback/0 = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=2]
+
+font/size = 80
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=3]
+
+font/size = 35
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 9 )
+
+[sub_resource type="DynamicFont" id=11]
+
+font/size = 200
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 9 )
+
+[sub_resource type="Animation" id=13]
+
+resource/name = "idel"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 0, 0 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 1.0 ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visibility/visible")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ true ] }
+
+[sub_resource type="Animation" id=5]
+
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ Vector2( 0, 0 ), Vector2( 0, -1129.33 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 0.0 ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:transform/scale")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 1, 1 ) ] }
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:visibility/opacity")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = { "times":FloatArray( 0, 0.5, 1 ), "transitions":FloatArray( 1, 0.25, 1 ), "update":0, "values":[ 0.0, 1.0, 0.0 ] }
+
 [node name="mvp_test_level" type="Node"]
 
 [node name="map" type="Node2D" parent="."]
 
-editor/display_folded = true
 __meta__ = { "_edit_lock_":true }
 
 [node name="level_01" type="Sprite" parent="map"]
@@ -32,21 +119,6 @@ transform/scale = Vector2( 0.614485, 0.614485 )
 texture = ExtResource( 1 )
 centered = false
 modulate = Color( 0.773598, 0.855469, 0.761902, 1 )
-__meta__ = { "_edit_lock_":true }
-
-[node name="mouse_click_area" type="TextureButton" parent="map"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 1024.0
-margin/bottom = 576.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
 __meta__ = { "_edit_lock_":true }
 
 [node name="YSort" type="YSort" parent="."]
@@ -58,6 +130,10 @@ __meta__ = { "_edit_lock_":true }
 
 editor/display_folded = true
 script/script = ExtResource( 3 )
+
+[node name="interaction_field" parent="YSort/player" groups=[ "player" ]]
+
+editor/display_folded = false
 
 [node name="collison" parent="YSort/player/interaction_field"]
 
@@ -84,6 +160,10 @@ polygon = Vector2Array( -47.8627, 32.5702, 8.30841, -0.56665, 60.0342, 31.3579, 
 [node name="interaction_field" parent="YSort/landlord"]
 
 visibility/visible = false
+
+[node name="conversations" parent="YSort/landlord"]
+
+editor/display_folded = false
 
 [node name="landlord_first_incounter__dialog" type="Node" parent="YSort/landlord/conversations"]
 
@@ -265,13 +345,384 @@ wait_time = 0.1
 one_shot = true
 autostart = false
 
-[node name="time_and_level" parent="." instance=ExtResource( 11 )]
+[node name="view_finder" type="Position2D" parent="."]
 
-transform/pos = Vector2( 1075.45, 250.844 )
+transform/pos = Vector2( 510, 290 )
 
-[connection signal="button_down" from="map/mouse_click_area" to="YSort/player" method="_on_mouse_click_area_button_down"]
+[node name="camera" type="Camera2D" parent="view_finder"]
+
+transform/pos = Vector2( 2, 2 )
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = true
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+script/script = ExtResource( 11 )
+
+[node name="init_follow_player" type="Area2D" parent="view_finder/camera"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, 20 )
+input/pickable = true
+shapes/0/shape = SubResource( 14 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+__meta__ = { "_edit_group_":true }
+
+[node name="collison" type="CollisionShape2D" parent="view_finder/camera/init_follow_player"]
+
+shape = SubResource( 14 )
+trigger = true
+_update_shape_index = 0
+
+[node name="ui_nodes" type="Control" parent="view_finder/camera"]
+
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 32.0
+margin/top = 32.0
+margin/right = 32.0
+margin/bottom = 32.0
+
+[node name="time_and_level" type="Node2D" parent="view_finder/camera/ui_nodes"]
+
+editor/display_folded = true
+transform/pos = Vector2( -116, -186.2 )
+transform/scale = Vector2( 0.4, 0.4 )
+script/script = ExtResource( 12 )
+
+[node name="ui_level_and_cash" type="Sprite" parent="view_finder/camera/ui_nodes/time_and_level"]
+
+editor/display_folded = true
+transform/pos = Vector2( -609.699, -106.926 )
+transform/scale = Vector2( 1.16559, 1.06944 )
+z/z = 2
+texture = ExtResource( 13 )
+__meta__ = { "_edit_group_":true }
+
+[node name="cash_stach" type="Label" parent="view_finder/camera/ui_nodes/time_and_level/ui_level_and_cash"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -141.0
+margin/top = -61.0
+margin/right = 165.0
+margin/bottom = 21.0
+custom_fonts/font = SubResource( 12 )
+text = "100"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="dollar_sign" type="Label" parent="view_finder/camera/ui_nodes/time_and_level/ui_level_and_cash"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -225.0
+margin/top = -76.0
+margin/right = -168.0
+margin/bottom = 19.0
+custom_fonts/font = SubResource( 2 )
+text = "$"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="shadow" type="Sprite" parent="view_finder/camera/ui_nodes/time_and_level/ui_level_and_cash"]
+
+transform/pos = Vector2( -6.86352, 9.35074 )
+z/z = 1
+z/relative = false
+texture = ExtResource( 13 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="clock_and_calender" type="Sprite" parent="view_finder/camera/ui_nodes/time_and_level"]
+
+editor/display_folded = true
+transform/pos = Vector2( 1236.97, 1002.08 )
+z/z = 2
+texture = ExtResource( 14 )
+__meta__ = { "_edit_group_":true }
+
+[node name="12" type="Label" parent="view_finder/camera/ui_nodes/time_and_level/clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -20.0
+margin/top = -127.0
+margin/right = 25.0
+margin/bottom = -85.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "12"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="10" type="Label" parent="view_finder/camera/ui_nodes/time_and_level/clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -102.0
+margin/top = -63.0
+margin/right = -57.0
+margin/bottom = -21.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 10
+text = "10"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="hour_hand_demo" type="Sprite" parent="view_finder/camera/ui_nodes/time_and_level/clock_and_calender"]
+
+visibility/self_opacity = 0.3
+transform/pos = Vector2( 0.515442, 0.572296 )
+transform/rot = -296.771
+transform/scale = Vector2( 0.0665393, 0.412816 )
+texture = ExtResource( 15 )
+offset = Vector2( 0.918198, -141.305 )
+modulate = Color( 1, 0, 0, 1 )
+
+[node name="3" type="Label" parent="view_finder/camera/ui_nodes/time_and_level/clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 84.0
+margin/top = -20.0
+margin/right = 129.0
+margin/bottom = 22.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "3"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="6" type="Label" parent="view_finder/camera/ui_nodes/time_and_level/clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -20.0
+margin/top = 74.0
+margin/right = 25.0
+margin/bottom = 116.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "6"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="9" type="Label" parent="view_finder/camera/ui_nodes/time_and_level/clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -124.0
+margin/top = -20.0
+margin/right = -79.0
+margin/bottom = 22.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "9"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="clock_shadow" type="Sprite" parent="view_finder/camera/ui_nodes/time_and_level/clock_and_calender"]
+
+transform/pos = Vector2( -10, 13 )
+z/z = 1
+z/relative = false
+texture = ExtResource( 14 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="hour_hand" type="Sprite" parent="view_finder/camera/ui_nodes/time_and_level/clock_and_calender"]
+
+transform/pos = Vector2( 0.515442, 0.572296 )
+transform/scale = Vector2( 0.0665393, 0.412816 )
+texture = ExtResource( 15 )
+offset = Vector2( 0.918198, -141.305 )
+modulate = Color( 1, 0, 0, 1 )
+
+[node name="dropdown_button" type="Sprite" parent="view_finder/camera/ui_nodes/time_and_level"]
+
+editor/display_folded = true
+transform/pos = Vector2( 1484.74, -112.134 )
+transform/scale = Vector2( 0.381975, 0.676648 )
+z/z = 1
+texture = ExtResource( 15 )
+__meta__ = { "_edit_group_":true }
+
+[node name="shadow" type="Sprite" parent="view_finder/camera/ui_nodes/time_and_level/dropdown_button"]
+
+transform/pos = Vector2( -20.9437, 14.7787 )
+z/relative = false
+texture = ExtResource( 15 )
+modulate = Color( 0, 0, 0, 1 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="btn" type="TextureButton" parent="view_finder/camera/ui_nodes/time_and_level/dropdown_button"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -92.0
+margin/top = -140.0
+margin/right = 159.0
+margin/bottom = 110.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+
+[node name="Label" type="Label" parent="view_finder/camera/ui_nodes/time_and_level/dropdown_button/btn"]
+
+rect/rotation = 90.0
+rect/scale = Vector2( 1.4, 0.6 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -84.0
+margin/top = 255.0
+margin/right = 342.0
+margin/bottom = 580.0
+custom_fonts/font = SubResource( 11 )
+custom_colors/font_color = Color( 0.332642, 0.78125, 0.602508, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -21
+text = ">"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="on_inactive_hide" type="Timer" parent="view_finder/camera/ui_nodes/time_and_level"]
+
+process_mode = 1
+wait_time = 5.0
+one_shot = true
+autostart = false
+
+[node name="money_icon" type="Node2D" parent="view_finder/camera/ui_nodes"]
+
+editor/display_folded = true
+transform/pos = Vector2( -435.2, 614.6 )
+transform/scale = Vector2( 0.4, 0.4 )
+script/script = ExtResource( 16 )
+__meta__ = { "_edit_group_":true }
+
+[node name="anim_anchor" type="Node2D" parent="view_finder/camera/ui_nodes/money_icon"]
+
+editor/display_folded = true
+
+[node name="ui_money_shadow" type="Sprite" parent="view_finder/camera/ui_nodes/money_icon/anim_anchor"]
+
+transform/pos = Vector2( -5.58482, 7.55792 )
+texture = ExtResource( 17 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="ui_money_update_img" type="Sprite" parent="view_finder/camera/ui_nodes/money_icon/anim_anchor"]
+
+editor/display_folded = true
+texture = ExtResource( 17 )
+
+[node name="label" type="Label" parent="view_finder/camera/ui_nodes/money_icon/anim_anchor/ui_money_update_img"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -82.1874
+margin/top = -37.1666
+margin/right = 71.8126
+margin/bottom = 33.8334
+custom_fonts/font = SubResource( 12 )
+text = "100"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="money_update_anim" type="AnimationPlayer" parent="view_finder/camera/ui_nodes/money_icon/anim_anchor"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/idel = SubResource( 13 )
+anims/money_update_pop = SubResource( 5 )
+playback/active = true
+playback/speed = 0.5
+blend_times = [  ]
+autoplay = ""
+
+[node name="mouse_click_area" type="TextureButton" parent="view_finder/camera"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -512.0
+margin/top = -292.0
+margin/right = 512.0
+margin/bottom = 284.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+__meta__ = { "_edit_lock_":true }
 
 [connection signal="timeout" from="conversation_system/audio_stop_timer" to="conversation_system" method="_on_audio_stop_timer_timeout"]
+
+[connection signal="mouse_enter" from="view_finder/camera/ui_nodes/time_and_level/dropdown_button/btn" to="view_finder/camera/ui_nodes/time_and_level" method="mouse_over" binds= [ true ]]
+
+[connection signal="mouse_exit" from="view_finder/camera/ui_nodes/time_and_level/dropdown_button/btn" to="view_finder/camera/ui_nodes/time_and_level" method="mouse_over" binds= [ false ]]
+
+[connection signal="pressed" from="view_finder/camera/ui_nodes/time_and_level/dropdown_button/btn" to="view_finder/camera/ui_nodes/time_and_level" method="_on_btn_pressed"]
+
+[connection signal="timeout" from="view_finder/camera/ui_nodes/time_and_level/on_inactive_hide" to="view_finder/camera/ui_nodes/time_and_level" method="_on_inactive_timeout"]
 
 
 [editable path="YSort/player"]

@@ -139,7 +139,9 @@ font/font = ExtResource( 2 )
 
 [node name="time_and_level" type="Node2D"]
 
+transform/pos = Vector2( 269.6, 49.6 )
 script/script = SubResource( 1 )
+__meta__ = { "_edit_group_":true }
 btn_to_be_rotated = NodePath("dropdown_button/btn")
 root_node = null
 

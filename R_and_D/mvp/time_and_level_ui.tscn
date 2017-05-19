@@ -5,9 +5,10 @@
 [ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Black.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://R_and_D/paper_prtotype/img/clock_and_calender.png" type="Texture" id=4]
 [ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=5]
-[ext_resource path="res://R_and_D/paper_prtotype/img/ui_money_lost.png" type="Texture" id=6]
+[ext_resource path="res://R_and_D/mvp/ui/money_icon.gd" type="Script" id=6]
+[ext_resource path="res://R_and_D/paper_prtotype/img/ui_money_lost.png" type="Texture" id=7]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=12]
 
 font/size = 60
 font/use_mipmaps = false
@@ -15,25 +16,21 @@ font/use_filter = false
 font/font = ExtResource( 3 )
 fallback/0 = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 
 font/size = 80
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 
 font/size = 35
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 3 )
 
-[sub_resource type="GDScript" id=5]
-
-script/source = "#\t\t\t\t\tui_money_update\nextends Node2D\n\nfunc money_update(value,start_pos):\n\tset_global_pos(Vector2(start_pos.x,start_pos.y + 100))\n\t#update the poping coin\n\tget_node(\"anim_anchor/ui_money_update_img/Label\").set_text(str(value))\n\tget_node(\"anim_anchor/money_update_anim\").play(\"money_update_pop\")\n\t"
-
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 
 length = 1.0
 loop = false
@@ -59,14 +56,14 @@ tracks/3/interp = 1
 tracks/3/imported = false
 tracks/3/keys = { "times":FloatArray( 0, 0.5, 1 ), "transitions":FloatArray( 1, 0.25, 1 ), "update":0, "values":[ 0.0, 1.0, 0.0 ] }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 
 resource/name = "show_arrow_on_clock"
 length = 1.0
 loop = false
 step = 0.1
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 
 resource/name = "show_arrow_on_clock"
 length = 4.5
@@ -98,7 +95,7 @@ tracks/4/interp = 1
 tracks/4/imported = false
 tracks/4/keys = { "times":FloatArray( 2.3, 2.9 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.3, 0.0 ] }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=8]
 
 length = 1.0
 loop = false
@@ -109,13 +106,13 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 0, 320 ), Vector2( 0, 0 ) ] }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 
 length = 1.0
 loop = false
 step = 0.1
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=10]
 
 length = 1.0
 loop = false
@@ -126,7 +123,7 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 0, 0 ), Vector2( 0, 320 ) ] }
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=11]
 
 font/size = 200
 font/use_mipmaps = false
@@ -135,9 +132,8 @@ font/font = ExtResource( 3 )
 
 [node name="time_and_level" type="Node2D"]
 
+transform/scale = Vector2( 0.4, 0.4 )
 script/script = ExtResource( 1 )
-btn_to_be_rotated = null
-root_node = null
 
 [node name="ui_level_and_cash" type="Sprite" parent="."]
 
@@ -157,7 +153,7 @@ margin/left = -141.0
 margin/top = -61.0
 margin/right = 165.0
 margin/bottom = 21.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 12 )
 text = "100"
 align = 2
 percent_visible = 1.0
@@ -174,7 +170,7 @@ margin/left = -225.0
 margin/top = -76.0
 margin/right = -168.0
 margin/bottom = 19.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "$"
 align = 2
 percent_visible = 1.0
@@ -205,7 +201,7 @@ margin/left = -20.0
 margin/top = -127.0
 margin/right = 25.0
 margin/bottom = -85.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "12"
 percent_visible = 1.0
@@ -222,7 +218,7 @@ margin/left = -102.0
 margin/top = -63.0
 margin/right = -57.0
 margin/bottom = -21.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_y = 1
@@ -252,7 +248,7 @@ margin/left = 84.0
 margin/top = -20.0
 margin/right = 129.0
 margin/bottom = 22.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "3"
 align = 1
@@ -270,7 +266,7 @@ margin/left = -20.0
 margin/top = 74.0
 margin/right = 25.0
 margin/bottom = 116.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "6"
 align = 1
@@ -288,7 +284,7 @@ margin/left = -124.0
 margin/top = -20.0
 margin/right = -79.0
 margin/bottom = 22.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "9"
 align = 1
@@ -315,7 +311,7 @@ modulate = Color( 1, 0, 0, 1 )
 [node name="ui_money_update" type="Node2D" parent="."]
 
 editor/display_folded = true
-script/script = SubResource( 5 )
+script/script = ExtResource( 6 )
 
 [node name="anim_anchor" type="Node2D" parent="ui_money_update"]
 
@@ -326,12 +322,12 @@ __meta__ = { "_edit_group_":true }
 [node name="ui_money_shadow" type="Sprite" parent="ui_money_update/anim_anchor"]
 
 transform/pos = Vector2( -5.58482, 7.55792 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 modulate = Color( 0, 0, 0, 1 )
 
 [node name="ui_money_update_img" type="Sprite" parent="ui_money_update/anim_anchor"]
 
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="Label" type="Label" parent="ui_money_update/anim_anchor/ui_money_update_img"]
 
@@ -343,7 +339,7 @@ margin/left = -82.1874
 margin/top = -37.1666
 margin/right = 71.8126
 margin/bottom = 33.8334
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 12 )
 text = "100"
 align = 1
 percent_visible = 1.0
@@ -355,7 +351,7 @@ max_lines_visible = -1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/money_update_pop = SubResource( 6 )
+anims/money_update_pop = SubResource( 5 )
 playback/active = true
 playback/speed = 0.5
 blend_times = [  ]
@@ -366,8 +362,8 @@ autoplay = ""
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/show_arrow_on_clock = SubResource( 7 )
-"anims/show_arrow_on_clock 2" = SubResource( 8 )
+anims/show_arrow_on_clock = SubResource( 6 )
+"anims/show_arrow_on_clock 2" = SubResource( 7 )
 "next/show_arrow_on_clock 2" = ""
 playback/active = true
 playback/speed = 1.0
@@ -379,9 +375,9 @@ autoplay = ""
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/close_panel = SubResource( 9 )
-anims/idel = SubResource( 10 )
-anims/show_panel = SubResource( 11 )
+anims/close_panel = SubResource( 8 )
+anims/idel = SubResource( 9 )
+anims/show_panel = SubResource( 10 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -389,6 +385,7 @@ autoplay = "idel"
 
 [node name="dropdown_button" type="Sprite" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( -364.873, 134.7 )
 transform/scale = Vector2( 0.381975, 0.676648 )
 z/z = 1
@@ -428,7 +425,7 @@ margin/left = -84.0
 margin/top = 255.0
 margin/right = 342.0
 margin/bottom = 580.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 11 )
 custom_colors/font_color = Color( 0.332642, 0.78125, 0.602508, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = -21

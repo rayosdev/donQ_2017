@@ -7,7 +7,7 @@ var dialog = {
 				'Actors'					:["landlord","player"],
 				'End_callback_functions'	:[],
 				'Export_Spanish_Word_List'	:{},
-				'Audio_Enabled'				:true,
+				'Audio_Enabled'				:false,
 
 #					THE_CONVERSATION
 

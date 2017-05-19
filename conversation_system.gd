@@ -55,6 +55,7 @@ func _ready():
 
 
 func _input(event):
+	if(_Game.get_current_state() != "_CONVERSATION"): return
 	if(Input.is_action_pressed("ui_right") and event.is_echo() == false):next_dialog_step()
 	if(Input.is_action_pressed("ui_left") and event.is_echo() == false):previus_dialog_step()
 
@@ -152,8 +153,9 @@ func run_conversation_step():
 			var execution_time	= call_func.execution_time
 #				
 			var args = []
-			if(call_func.has('function_args')): args = call_func.args
-#				
+			if(call_func.has('args')): args = call_func.args
+			else					 : print("WARNING - NO args IN call_function: %s" % str(call_func))
+			
 			if	(execution_time == "start_of_action"):
 				send_callback_function_scheduler(owner,func_name,args,0)
 			elif(execution_time == "end_of_action"): 

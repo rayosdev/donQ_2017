@@ -78,7 +78,7 @@ signal single_player_stat_changed(stat)
 
 func change_singal_player_stat(stat,sum):
 	if(_Player_Stats.has(stat) == false): return print("ERROR - STAT: '%s' NOT FOUND IN update_singal_player_stat" % str(stat))
-	_Player_Stats[stat] += sum
+	_Player_Stats[stat] = _Player_Stats[stat] + sum
 	emit_signal('single_player_stat_changed',[stat,_Player_Stats[stat]])
 	
 func get_single_player_stat(stat):
