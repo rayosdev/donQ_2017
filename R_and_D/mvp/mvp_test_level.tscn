@@ -10,6 +10,7 @@
 [ext_resource path="res://conversation_system.gd" type="Script" id=8]
 [ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Black.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://R_and_D/mvp/img/mask_for_conversation.png" type="Texture" id=10]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/time_and_level.tscn" type="PackedScene" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 
@@ -17,10 +18,6 @@ font/size = 25
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 9 )
-
-[sub_resource type="GDScript" id=2]
-
-script/source = "extends Node2D\n\nvar HelloWorld = \"HelloWorld\"\n\nfunc _ready():\n\tprint(HelloWorld)\n\t_Game.set_test_export(self)"
 
 [node name="mvp_test_level" type="Node"]
 
@@ -268,9 +265,9 @@ wait_time = 0.1
 one_shot = true
 autostart = false
 
-[node name="export_test" type="Node2D" parent="."]
+[node name="time_and_level" parent="." instance=ExtResource( 11 )]
 
-script/script = SubResource( 2 )
+transform/pos = Vector2( 1075.45, 250.844 )
 
 [connection signal="button_down" from="map/mouse_click_area" to="YSort/player" method="_on_mouse_click_area_button_down"]
 

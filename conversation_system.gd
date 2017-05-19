@@ -19,12 +19,12 @@ var audio
 var audio_stop_timer
 
 var late_callback = {
-					'is_active'	:false, 
-					'owner'		:null,
-					'func_name'	:null,
-					'args'		:[],
-					'wait_time'	:null,
-					}
+	is_active	= false, 
+	owner		= null,
+	func_name	= null,
+	args		= [],
+	wait_time	= null,
+	}
 
 var is_conversation_runing = false
 
@@ -64,14 +64,11 @@ func _process(delta):
 
 
 func state_changed(state):
-	if(state == "_CONVERSATION"):
-		start_conversation()
-	else:
-		end_conversation()
+	if(state == "_CONVERSATION"):start_conversation()
+	else						:end_conversation()
 
 
 func start_conversation():
-	consol.show()
 	is_conversation_runing = true
 	dialog 	= _Game.get_active_dialog()
 	audio 	= _Game.get_active_dialog_audio()
@@ -80,19 +77,20 @@ func start_conversation():
 	history = []
 	for i in dialog.Actors: 
 		actors.append(root_node.find_node(i))
+	consol.set_text("")
+	consol.show()
 
 
 func end_conversation():
 	is_conversation_runing = false
-	branch_and_counter = ['A',1]
-	if(_Game.get_state() == "_CONVERSATION"):_Game.change_state("_ROMMING")
+	if(_Game.get_current_state() == "_CONVERSATION"):_Game.change_state("_ROMMING")
 	consol.hide()
 
 
 func run_conversation_step(): 
 	
+	if(wait_for_next_step.get_time_left() > 0)			: return
 	is_conversation_step_in_progress = true
-	if(wait_for_next_step.get_time_left() > 0): return
 	
 	if(late_callback.is_active):
 		var lc = late_callback
@@ -100,6 +98,9 @@ func run_conversation_step():
 		late_callback.is_active = false
 	
 	history_update()
+	
+	
+	if(_Game.get_current_state() != "_CONVERSATION")	: return  
 	
 	if(dialog.has(branch_and_counter) == false):
 		print("ERROR - conversation_failed ON BRANCH_AND_COUNTER: %s " % str(branch_and_counter)) 
@@ -196,6 +197,7 @@ func send_callback_function_scheduler(owner,func_name,args,wait_time):
 	
 	if(wait_time == 0):
 		actors[owner].callback_function(func_name,args)
+		late_callback.is_active	= false
 	
 	if(wait_time > 0):
 		late_callback.is_active	= true

@@ -1,0 +1,492 @@
+[gd_scene load_steps=18 format=1]
+
+[ext_resource path="res://R_and_D/mvp/ui/time_and_level_ui.gd" type="Script" id=1]
+[ext_resource path="res://R_and_D/paper_prtotype/img/ui_level_and_cash.png" type="Texture" id=2]
+[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Black.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://R_and_D/paper_prtotype/img/clock_and_calender.png" type="Texture" id=4]
+[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=5]
+[ext_resource path="res://R_and_D/paper_prtotype/img/ui_money_lost.png" type="Texture" id=6]
+
+[sub_resource type="DynamicFont" id=2]
+
+font/size = 60
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 3 )
+fallback/0 = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+
+font/size = 80
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+
+font/size = 35
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 3 )
+
+[sub_resource type="GDScript" id=5]
+
+script/source = "#\t\t\t\t\tui_money_update\nextends Node2D\n\nfunc money_update(value,start_pos):\n\tset_global_pos(Vector2(start_pos.x,start_pos.y + 100))\n\t#update the poping coin\n\tget_node(\"anim_anchor/ui_money_update_img/Label\").set_text(str(value))\n\tget_node(\"anim_anchor/money_update_anim\").play(\"money_update_pop\")\n\t"
+
+[sub_resource type="Animation" id=6]
+
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ Vector2( 0, 0 ), Vector2( 0, -1129.33 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 0.0 ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:transform/scale")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 1, 1 ) ] }
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:visibility/opacity")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = { "times":FloatArray( 0, 0.5, 1 ), "transitions":FloatArray( 1, 0.25, 1 ), "update":0, "values":[ 0.0, 1.0, 0.0 ] }
+
+[sub_resource type="Animation" id=7]
+
+resource/name = "show_arrow_on_clock"
+length = 1.0
+loop = false
+step = 0.1
+
+[sub_resource type="Animation" id=8]
+
+resource/name = "show_arrow_on_clock"
+length = 4.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("clock_and_calender/hour_hand:transform/rot")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0.5 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 0.0 ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("clock_and_calender/hour_hand_demo:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0.5, 1, 1.5 ), "transitions":FloatArray( 1, 0.25, 1 ), "update":0, "values":[ 0.0, -147.736, -296.771 ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath("clock_and_calender/10:rect/scale")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 1.1, 1.7 ), "transitions":FloatArray( 0.25, 1 ), "update":0, "values":[ Vector2( 2, 2 ), Vector2( 1, 1 ) ] }
+tracks/3/type = "value"
+tracks/3/path = NodePath("clock_and_calender/10:visibility/self_opacity")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = { "times":FloatArray( 1.2, 1.7, 2.5, 3.4 ), "transitions":FloatArray( 1, 1, 1, 1 ), "update":0, "values":[ 0.0, 1.0, 1.0, 0.0 ] }
+tracks/4/type = "value"
+tracks/4/path = NodePath("clock_and_calender/hour_hand_demo:visibility/self_opacity")
+tracks/4/interp = 1
+tracks/4/imported = false
+tracks/4/keys = { "times":FloatArray( 2.3, 2.9 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.3, 0.0 ] }
+
+[sub_resource type="Animation" id=9]
+
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 0, 320 ), Vector2( 0, 0 ) ] }
+
+[sub_resource type="Animation" id=10]
+
+length = 1.0
+loop = false
+step = 0.1
+
+[sub_resource type="Animation" id=11]
+
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 0, 0 ), Vector2( 0, 320 ) ] }
+
+[sub_resource type="DynamicFont" id=12]
+
+font/size = 200
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 3 )
+
+[node name="time_and_level" type="Node2D"]
+
+script/script = ExtResource( 1 )
+btn_to_be_rotated = null
+root_node = null
+
+[node name="ui_level_and_cash" type="Sprite" parent="."]
+
+editor/display_folded = true
+transform/pos = Vector2( -575.5, -37.875 )
+transform/scale = Vector2( 1.16559, 1.06944 )
+z/z = 2
+texture = ExtResource( 2 )
+
+[node name="cash_stach" type="Label" parent="ui_level_and_cash"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -141.0
+margin/top = -61.0
+margin/right = 165.0
+margin/bottom = 21.0
+custom_fonts/font = SubResource( 2 )
+text = "100"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="dollar_sign" type="Label" parent="ui_level_and_cash"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -225.0
+margin/top = -76.0
+margin/right = -168.0
+margin/bottom = 19.0
+custom_fonts/font = SubResource( 3 )
+text = "$"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="shadow" type="Sprite" parent="ui_level_and_cash"]
+
+transform/pos = Vector2( -6.86352, 9.35074 )
+z/z = 1
+z/relative = false
+texture = ExtResource( 2 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="clock_and_calender" type="Sprite" parent="."]
+
+editor/display_folded = true
+z/z = 2
+texture = ExtResource( 4 )
+
+[node name="12" type="Label" parent="clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -20.0
+margin/top = -127.0
+margin/right = 25.0
+margin/bottom = -85.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "12"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="10" type="Label" parent="clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -102.0
+margin/top = -63.0
+margin/right = -57.0
+margin/bottom = -21.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_y = 1
+custom_constants/shadow_as_outline = 10
+text = "10"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="hour_hand_demo" type="Sprite" parent="clock_and_calender"]
+
+visibility/self_opacity = 0.3
+transform/pos = Vector2( 0.515442, 0.572296 )
+transform/rot = -296.771
+transform/scale = Vector2( 0.0665393, 0.412816 )
+texture = ExtResource( 5 )
+offset = Vector2( 0.918198, -141.305 )
+modulate = Color( 1, 0, 0, 1 )
+
+[node name="3" type="Label" parent="clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 84.0
+margin/top = -20.0
+margin/right = 129.0
+margin/bottom = 22.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "3"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="6" type="Label" parent="clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -20.0
+margin/top = 74.0
+margin/right = 25.0
+margin/bottom = 116.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "6"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="9" type="Label" parent="clock_and_calender"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -124.0
+margin/top = -20.0
+margin/right = -79.0
+margin/bottom = 22.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "9"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="clock_shadow" type="Sprite" parent="clock_and_calender"]
+
+transform/pos = Vector2( -10, 13 )
+z/z = 1
+z/relative = false
+texture = ExtResource( 4 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="hour_hand" type="Sprite" parent="clock_and_calender"]
+
+transform/pos = Vector2( 0.515442, 0.572296 )
+transform/scale = Vector2( 0.0665393, 0.412816 )
+texture = ExtResource( 5 )
+offset = Vector2( 0.918198, -141.305 )
+modulate = Color( 1, 0, 0, 1 )
+
+[node name="ui_money_update" type="Node2D" parent="."]
+
+editor/display_folded = true
+script/script = SubResource( 5 )
+
+[node name="anim_anchor" type="Node2D" parent="ui_money_update"]
+
+visibility/opacity = 0.0
+transform/pos = Vector2( 0, -1129.33 )
+__meta__ = { "_edit_group_":true }
+
+[node name="ui_money_shadow" type="Sprite" parent="ui_money_update/anim_anchor"]
+
+transform/pos = Vector2( -5.58482, 7.55792 )
+texture = ExtResource( 6 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="ui_money_update_img" type="Sprite" parent="ui_money_update/anim_anchor"]
+
+texture = ExtResource( 6 )
+
+[node name="Label" type="Label" parent="ui_money_update/anim_anchor/ui_money_update_img"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -82.1874
+margin/top = -37.1666
+margin/right = 71.8126
+margin/bottom = 33.8334
+custom_fonts/font = SubResource( 2 )
+text = "100"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="money_update_anim" type="AnimationPlayer" parent="ui_money_update/anim_anchor"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/money_update_pop = SubResource( 6 )
+playback/active = true
+playback/speed = 0.5
+blend_times = [  ]
+autoplay = ""
+
+[node name="clock_anim" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/show_arrow_on_clock = SubResource( 7 )
+"anims/show_arrow_on_clock 2" = SubResource( 8 )
+"next/show_arrow_on_clock 2" = ""
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="panel_anim" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/close_panel = SubResource( 9 )
+anims/idel = SubResource( 10 )
+anims/show_panel = SubResource( 11 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = "idel"
+
+[node name="dropdown_button" type="Sprite" parent="."]
+
+transform/pos = Vector2( -364.873, 134.7 )
+transform/scale = Vector2( 0.381975, 0.676648 )
+z/z = 1
+texture = ExtResource( 5 )
+
+[node name="shadow" type="Sprite" parent="dropdown_button"]
+
+transform/pos = Vector2( -20.9437, 14.7787 )
+z/relative = false
+texture = ExtResource( 5 )
+modulate = Color( 0, 0, 0, 1 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="btn" type="TextureButton" parent="dropdown_button"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -92.0
+margin/top = -140.0
+margin/right = 159.0
+margin/bottom = 110.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+
+[node name="Label" type="Label" parent="dropdown_button/btn"]
+
+rect/rotation = 90.0
+rect/scale = Vector2( 1.4, 0.6 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -84.0
+margin/top = 255.0
+margin/right = 342.0
+margin/bottom = 580.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0.332642, 0.78125, 0.602508, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -21
+text = ">"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="non_dot_placment_area" type="TextureButton" parent="."]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -864.0
+margin/top = -128.0
+margin/right = 288.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+
+[node name="TextureButton" type="TextureButton" parent="non_dot_placment_area"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 544.0
+margin/top = 158.0
+margin/right = 1152.0
+margin/bottom = 288.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+
+[node name="on_inactive_hide" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 5.0
+one_shot = true
+autostart = false
+
+[connection signal="mouse_enter" from="dropdown_button/btn" to="." method="mouse_over" binds= [ true ]]
+
+[connection signal="mouse_exit" from="dropdown_button/btn" to="." method="mouse_over" binds= [ false ]]
+
+[connection signal="pressed" from="dropdown_button/btn" to="." method="_on_btn_pressed"]
+
+[connection signal="mouse_enter" from="non_dot_placment_area" to="." method="mouse_over" binds= [ true ]]
+
+[connection signal="mouse_exit" from="non_dot_placment_area" to="." method="mouse_over" binds= [ false ]]
+
+[connection signal="mouse_enter" from="non_dot_placment_area/TextureButton" to="." method="mouse_over" binds= [ true ]]
+
+[connection signal="mouse_exit" from="non_dot_placment_area/TextureButton" to="." method="mouse_over" binds= [ false ]]
+
+[connection signal="timeout" from="on_inactive_hide" to="." method="_on_inactive_timeout"]
+
+

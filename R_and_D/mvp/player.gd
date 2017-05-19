@@ -10,7 +10,7 @@ func _ready():
 func _process(delta):pass
 
 func _on_mouse_click_area_button_down():
-	if(_Game._STATE._CURRENT != '_ROMMING'): return
+	if(_Game.get_current_state() != '_ROMMING'): return
 	if(target_positions.empty()):
 		target_positions.append(get_tree().get_root().get_mouse_pos())
 	else:

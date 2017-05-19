@@ -25,7 +25,7 @@ func run_callback_function(function_name,function_args):
 
 func _process(delta):
 	
-	if(_Game._STATE._CURRENT == "_ROMMING"):
+	if(_Game.get_current_state() == "_ROMMING"):
 		if(target_positions.empty() == false): move_player()
 
 
