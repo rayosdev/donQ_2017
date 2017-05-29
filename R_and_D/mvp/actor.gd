@@ -1,56 +1,65 @@
 #					actor.gd
 extends KinematicBody2D
 
-var target_positions = []
-var speed = 5
+var speed = 5.0
 
-var actor_consol_color setget set_actor_consol_color,get_actor_consol_color
+var target_positions = [] setget set_target_positions,get_target_positions
 
+func set_target_positions(array): target_positions = array
+func get_target_positions()		: return target_positions
+func add_to_target_positions(target_vector):
+	print("ADDED TO target_positions VECTOR2: %s" % str(target_vector))
+	target_positions.append(target_vector)
 
 func _ready():
-	
-	set_process(true)
+	set_fixed_process(true)
 #	set_process_input(true)
 	set_actor_consol_color(get_node("conversation_color").get_modulate())
+
+
+var actor_consol_color setget set_actor_consol_color,get_actor_consol_color
 
 func set_actor_consol_color(color):actor_consol_color = color
 func get_actor_consol_color(): return actor_consol_color
 
 
 func run_callback_function(function_name,function_args):
-#	print("test_dialog_callback_function")
 	var call_function = funcref(self,function_name)
 	call_function.call_func(function_args)
 
 
-func _process(delta):
-	
+func _fixed_process(delta):
 	if(_Game.get_current_state() == "_ROMMING"):
-		if(target_positions.empty() == false): move_player()
+		if(target_positions != null):
+			if(target_positions.empty() == false): 
+				move_player()
 
+var echo_shake_check = []
 
 func move_player():
-	
-	var is_done = Vector2(0,0)
 	var direction = Vector2(0,0)
+	var gp = get_global_pos()
+	var tp = target_positions[0]
 	
-	if(get_global_pos().x > target_positions[0].x): direction.x = -1
-	if(get_global_pos().x < target_positions[0].x): direction.x = 1
 	
-	if(get_pos().y < target_positions[0].y): direction.y = 1
-	if(get_pos().y > target_positions[0].y): direction.y = -1
+	direction = (tp - gp).normalized() * speed
+#	move_to(gp.linear_interpolate(tp,0.05))
+#	print(gp.distance_to(tp) < (speed + 1))
 	
-	if(get_pos().x > target_positions[0].x - speed and get_pos().x < target_positions[0].x + speed):
-		set_pos(Vector2(target_positions[0].x , get_pos().y))
-		is_done.x = 1
-#		
-	if(get_pos().y > target_positions[0].y - speed and get_pos().y < target_positions[0].y + speed):
-		set_pos(Vector2(get_pos().x, target_positions[0].y))
-		is_done.y = 1
+	if(gp.distance_to(tp) < (speed + 1)):
+		move_to(tp)
+		target_positions.pop_front()
+#		print("POPED THE FRONT")
+		return
 	
-	if(is_done.x == 1 and is_done.y == 1):target_positions.pop_front()
+	move(direction)
 	
-	move(direction * speed)
+	
+#	print("GLOBAL_POS: %s" % get_global_pos())
+#	print("TARGET_POS: %s" % target_positions[0])
+
+#	move(direction) #* speed)
+	
 
 
 func test_func(): print("TEST_FUNC: %s" % str(self.get_name()))

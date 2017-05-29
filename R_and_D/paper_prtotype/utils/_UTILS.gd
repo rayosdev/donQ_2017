@@ -1,7 +1,7 @@
 extends Node
 
 
-func _ready():
+func _ready():	pass
 	
 #	var dict = {"test_1":1,"test_2":2,"test_3":3}
 #	print(str(dict))
@@ -31,10 +31,73 @@ func _ready():
 #	print(" ")
 #	print(ut_from_str_to_correct_type(str([1.1,2000,3,4])))
 #	print(ut_from_str_to_correct_type(str(["1",".2","_3",",4","Dette"])))
+	ut_fprint_dict(test_deic)
 	
+var test_deic = {
 	
+	'a' : 1,
+	'b' : 2,
+	'c' : 3,
+	'd' : 	{
+			'a1':1,
+			'd' : 	{
+					'a1':1
+					},
+			},
+}
+	
+func ut_fprint_dict(dict = {}):
+	var item 	= ''
+	var item	= ''
+	var indent 	= ''
+	var tmp_arr = []
+	print(dict.to_json())
+	for c in dict.to_json():
+		
+		if(c == '{'):
+			if(item.length() > 0):
+				print(indent + item + c + '\n')
+				item = ''
+			else: print(indent + c + '\n')
+			indent += '          ' 
+	
+		elif(c == '}'):
+			if(item.length() > 0):
+				print(indent + item + '\n')
+				item = ''
+			var l = indent.length()
+			if( l > 4):indent.erase(l - 10,l)
+			print(indent + c)
+		
+		elif(c == ','):
+			item += ','
+			print(indent + item)
+			item = ''
+		
+#		elif(c == '"'):
+#			if(item)
+#			print(indent + item)
+#			item = ''
+#			item += c
+
+		else:
+			if(c == ':'):
+				item += " " + str(c) + " "
+			else: item += c
+			
 	pass
-	
+
+
+func update_indention(add_retract_sum = 0,indention = [0,'']):
+	print(indention)
+	indention[0] += add_retract_sum
+	var tmp_str = ''
+	for i in range(indention[0]): tmp_str += '-'
+	indention[1] = tmp_str
+	return indention
+	print(indention)
+
+
 func fprint_dictonarys(dict):
 	var space = ""
 	if(typeof(dict) == 20):

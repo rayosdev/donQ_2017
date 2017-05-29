@@ -76,9 +76,10 @@ func set_player_stats(_player_stats):
 
 signal single_player_stat_changed(stat)
 
-func change_singal_player_stat(stat,sum):
+func change_singal_stat(stat,sum):
 	if(_Player_Stats.has(stat) == false): return print("ERROR - STAT: '%s' NOT FOUND IN update_singal_player_stat" % str(stat))
 	_Player_Stats[stat] = _Player_Stats[stat] + sum
+	print("CHANGED STAT: %s TO: %s" % [str(stat),str(_Player_Stats[stat])])
 	emit_signal('single_player_stat_changed',[stat,_Player_Stats[stat]])
 	
 func get_single_player_stat(stat):
@@ -89,29 +90,16 @@ func get_player_stats(): 	return _Player_Stats
 
 
 
-var _Inventory = {
-	
-	notebook = {
-			
-			is_active 		= false,
-			has_done_intro 	= false,
-			
-			}
-	
-	
-} setget change_inventory_item, get_inventory
 
-signal player_inventory_changed(item)
-
-func change_inventory_item(item,value): 
-	_Inventory[item] = value
-	emit_signal('player_inventory_changed',[item,value])
-
-func get_inventory(): return _Inventory
 
 
 var _Spanish_Words = {
 	
 	
-}
+}	setget set_spanish_word_dictonary,get_spanish_word_dictonary
 
+func set_spanish_word_dictonary(dictonary)	: _Spanish_Words = dictonary
+func get_spanish_word_dictonary()			: return _Spanish_Words
+signal spanish_word_added
+func add_spanish_word(word):
+	if(_Spanish_Words.has(word)): return print("WARNING - _SPANISH_WORD ALREADY CONTAINS WORD: %s" % str(word))

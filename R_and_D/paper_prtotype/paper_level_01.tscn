@@ -367,6 +367,22 @@ player_node = NodePath("../player")
 
 [connection signal="area_enter" from="ui/notepad_icon/area" to="ui/notepad_icon/notebook_notefier" method="_on_Area2D_area_enter"]
 
+[connection signal="mouse_enter" from="ui/time_level_anchor/time_and_level/dropdown_button/btn" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ true ]]
+
+[connection signal="mouse_exit" from="ui/time_level_anchor/time_and_level/dropdown_button/btn" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ false ]]
+
+[connection signal="pressed" from="ui/time_level_anchor/time_and_level/dropdown_button/btn" to="ui/time_level_anchor/time_and_level" method="_on_btn_pressed"]
+
+[connection signal="mouse_enter" from="ui/time_level_anchor/time_and_level/non_dot_placment_area" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ true ]]
+
+[connection signal="mouse_exit" from="ui/time_level_anchor/time_and_level/non_dot_placment_area" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ false ]]
+
+[connection signal="mouse_enter" from="ui/time_level_anchor/time_and_level/non_dot_placment_area/TextureButton" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ true ]]
+
+[connection signal="mouse_exit" from="ui/time_level_anchor/time_and_level/non_dot_placment_area/TextureButton" to="ui/time_level_anchor/time_and_level" method="mouse_over" binds= [ false ]]
+
+[connection signal="timeout" from="ui/time_level_anchor/time_and_level/on_inactive_hide" to="ui/time_level_anchor/time_and_level" method="_on_inactive_timeout"]
+
 [connection signal="input_event" from="notebook_ui/notebook_new_words/word_panel/LineEdit" to="notebook_ui/notebook_new_words/word_panel" method="_on_LineEdit_input_event"]
 
 
