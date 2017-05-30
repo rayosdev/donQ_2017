@@ -1,4 +1,4 @@
-#					landlord_first_incounter__dialog.gd
+#					landlord_first_incounter_dialog.gd
 extends Node
 
 var dialog = {
@@ -29,20 +29,38 @@ var dialog = {
 
 'Spanish_Words':{
 					'dinero':{
-								'translation'	:{1:'money',},
-								'is_processed'	:false,
-								'grammer_group'	:'INTERJECTION',
+								'word'				:'dinero',
+								'translation'		:{1:'money',},
+								'is_processed'		:false,
+								'grammer_group'		:'INTERJECTION',
+								'special_status'	:null,
+								'data_of_discovery'	:null,
+								'last_test_date'	:null,
+								'progress'			:null,
+								'mnemoics'			:{},
 							},
 					'hola'	:{
-								'translation'	:{1:'hello',2:'hi'},
-								'is_processed'	:false,
-								'grammer_group'	:'INTERJECTION',
+								'word'				:'hola',
+								'translation'		:{1:'hello',2:'hi'},
+								'is_processed'		:false,
+								'grammer_group'		:'INTERJECTION',
+								'special_status'	:null,
+								'data_of_discovery'	:null,
+								'last_test_date'	:null,
+								'progress'			:null,
+								'mnemoics'			:{},
 							},
 					'adiós'	:{
-								'translation'	:{1:'goodbye ',2:'bye'},
-								'is_processed'	:false,
-								'grammer_group'	:'NOUN',
-								'gender'		:'M',
+								'word'				:'adiós',
+								'translation'		:{1:'goodbye ',2:'bye'},
+								'is_processed'		:false,
+								'grammer_group'		:'NOUN',
+								'gender'			:'M',
+								'special_status'	:null,
+								'data_of_discovery'	:null,
+								'last_test_date'	:null,
+								'progress'			:null,
+								'mnemoics'			:{},
 							},
 				},
 

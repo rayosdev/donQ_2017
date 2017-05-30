@@ -31,27 +31,27 @@ func _ready():	pass
 #	print(" ")
 #	print(ut_from_str_to_correct_type(str([1.1,2000,3,4])))
 #	print(ut_from_str_to_correct_type(str(["1",".2","_3",",4","Dette"])))
-	ut_fprint_dict(test_deic)
+#	ut_fprint_dict(test_deic)
 	
-var test_deic = {
-	
-	'a' : 1,
-	'b' : 2,
-	'c' : 3,
-	'd' : 	{
-			'a1':1,
-			'd' : 	{
-					'a1':1
-					},
-			},
-}
+#var test_deic = {
+#	
+#	'a' : 1,
+#	'b' : 2,
+#	'c' : 3,
+#	'd' : 	{
+#			'a1':1,
+#			'd' : 	{
+#					'a1':1
+#					},
+#			},
+#}
 	
 func ut_fprint_dict(dict = {}):
 	var item 	= ''
 	var item	= ''
 	var indent 	= ''
 	var tmp_arr = []
-	print(dict.to_json())
+#	print(dict.to_json())
 	for c in dict.to_json():
 		
 		if(c == '{'):

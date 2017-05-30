@@ -79,11 +79,14 @@ func start_conversation():
 
 
 func end_conversation():
+	if(is_conversation_runing == false): return
 #	{check_branch_and_ahdress_for_end}	
 	if(history_was_just_roled_back): return
 	is_conversation_runing = false
 	if(_Game.get_current_state() == "_CONVERSATION"):_Game.change_state("_ROMMING")
-	print(dialog.Export_Spanish_Word_List)
+	for key in dialog.Export_Spanish_Word_List.keys():
+		_Game.add_spanish_word(key,dialog.Export_Spanish_Word_List[key])
+#	_Utils.ut_fprint_dict(dialog.Export_Spanish_Word_List)
 	consol.hide()
 
 
@@ -136,6 +139,7 @@ func run_conversation_step():
 		var spanish_words = dialog_step.spanish_words
 		for word in spanish_words:
 			if(dialog.Spanish_Words.has(word)):
+#				print(dialog.Spanish_Words[word])
 				dialog.Export_Spanish_Word_List[word] = dialog.Spanish_Words[word] 
 			else: print("ERROR - DIALOG MISMATCH ON: - %s - AND WORD: - %s - FROM THE CONVERSATION - %s -" %[dialog.Titel,word, dialog_step.sentens])
 #			print("EXPORT_WORDS: %s" % str(dialog.Export_Spanish_Word_List))

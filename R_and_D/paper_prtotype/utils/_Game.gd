@@ -101,5 +101,8 @@ var _Spanish_Words = {
 func set_spanish_word_dictonary(dictonary)	: _Spanish_Words = dictonary
 func get_spanish_word_dictonary()			: return _Spanish_Words
 signal spanish_word_added
-func add_spanish_word(word):
-	if(_Spanish_Words.has(word)): return print("WARNING - _SPANISH_WORD ALREADY CONTAINS WORD: %s" % str(word))
+
+func add_spanish_word(word_name,word_contents):
+	if(_Spanish_Words.has(word_name)): return print("WARNING - _SPANISH_WORD ALREADY CONTAINS WORD: %s" % str(word_name))
+	_Spanish_Words[word_name] = word_contents
+	print(_Utils.ut_fprint_dict(word_contents))

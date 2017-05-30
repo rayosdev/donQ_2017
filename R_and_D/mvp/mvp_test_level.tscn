@@ -249,11 +249,11 @@ modulate = Color( 0.976217, 0.988281, 0.602234, 1 )
 
 polygon = Vector2Array( -50.8798, 34.6545, 8.30841, -0.56665, 58.8854, 32.216, 9.81158, 65.8832 )
 
-[node name="landlord_first_incounter__dialog" type="Node" parent="YSort/landlord/conversations"]
+[node name="landlord_first_incounter_dialog" type="Node" parent="YSort/landlord/conversations"]
 
 script/script = ExtResource( 6 )
 
-[node name="audio" type="StreamPlayer" parent="YSort/landlord/conversations/landlord_first_incounter__dialog"]
+[node name="audio" type="StreamPlayer" parent="YSort/landlord/conversations/landlord_first_incounter_dialog"]
 
 stream/stream = ExtResource( 7 )
 stream/play = false
@@ -264,21 +264,21 @@ stream/paused = false
 stream/loop_restart_time = 0.0
 stream/buffering_ms = 500
 
-[node name="exit_path" type="Node2D" parent="YSort/landlord/conversations/landlord_first_incounter__dialog"]
+[node name="exit_path" type="Node2D" parent="YSort/landlord/conversations/landlord_first_incounter_dialog"]
 
 editor/display_folded = true
 transform/pos = Vector2( 582.386, 338.85 )
 __meta__ = { "_edit_group_":true, "_edit_lock_":true }
 
-[node name="pos_1" type="Position2D" parent="YSort/landlord/conversations/landlord_first_incounter__dialog/exit_path"]
+[node name="pos_1" type="Position2D" parent="YSort/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
 
 transform/pos = Vector2( 123, 152 )
 
-[node name="pos_2" type="Position2D" parent="YSort/landlord/conversations/landlord_first_incounter__dialog/exit_path"]
+[node name="pos_2" type="Position2D" parent="YSort/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
 
 transform/pos = Vector2( 312, 14 )
 
-[node name="pos_3" type="Position2D" parent="YSort/landlord/conversations/landlord_first_incounter__dialog/exit_path"]
+[node name="pos_3" type="Position2D" parent="YSort/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
 
 transform/pos = Vector2( 760, 14 )
 
