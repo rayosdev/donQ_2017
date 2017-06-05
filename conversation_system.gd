@@ -85,7 +85,7 @@ func end_conversation():
 	is_conversation_runing = false
 	if(_Game.get_current_state() == "_CONVERSATION"):_Game.change_state("_ROMMING")
 	for key in dialog.Export_Spanish_Word_List.keys():
-		_Game.add_spanish_word(key,dialog.Export_Spanish_Word_List[key])
+		_Words.add_spanish_word(key,dialog.Export_Spanish_Word_List[key])
 #	_Utils.ut_fprint_dict(dialog.Export_Spanish_Word_List)
 	consol.hide()
 

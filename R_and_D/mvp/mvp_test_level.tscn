@@ -251,6 +251,7 @@ polygon = Vector2Array( -50.8798, 34.6545, 8.30841, -0.56665, 58.8854, 32.216, 9
 
 [node name="landlord_first_incounter_dialog" type="Node" parent="YSort/landlord/conversations"]
 
+editor/display_folded = true
 script/script = ExtResource( 6 )
 
 [node name="audio" type="StreamPlayer" parent="YSort/landlord/conversations/landlord_first_incounter_dialog"]

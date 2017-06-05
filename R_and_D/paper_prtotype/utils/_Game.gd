@@ -88,21 +88,3 @@ func get_single_player_stat(stat):
 
 func get_player_stats(): 	return _Player_Stats
 
-
-
-
-
-
-var _Spanish_Words = {
-	
-	
-}	setget set_spanish_word_dictonary,get_spanish_word_dictonary
-
-func set_spanish_word_dictonary(dictonary)	: _Spanish_Words = dictonary
-func get_spanish_word_dictonary()			: return _Spanish_Words
-signal spanish_word_added
-
-func add_spanish_word(word_name,word_contents):
-	if(_Spanish_Words.has(word_name)): return print("WARNING - _SPANISH_WORD ALREADY CONTAINS WORD: %s" % str(word_name))
-	_Spanish_Words[word_name] = word_contents
-	print(_Utils.ut_fprint_dict(word_contents))
