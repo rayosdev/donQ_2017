@@ -34,8 +34,8 @@ func firstRun(localFile,stringToWrite):
 # Load Function 	
 func fh_load_file(localFile):
 	if !savedFile.file_exists("user://" + str(localFile)):
-		print("no file")
-		return "Error - file not found"
+		print("ERROR - FILE: %s NOT FOUND" % str(localFile))
+		return null
 	
 	savedFile.open("user://" + str(localFile), File.READ)
 	
@@ -180,4 +180,9 @@ func fh_load_csv_file(path_to_csv_file):
 	csv_file.close()
 	
 	return tmp_arr	
-	
+
+
+func fh_del_file(dir,file):
+	var d = Directory.new()
+	d.remove("user://" + dir + "/" + file)
+#	print(d.list_dir_begin())
