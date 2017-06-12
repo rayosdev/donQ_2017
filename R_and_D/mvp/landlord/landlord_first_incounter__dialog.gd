@@ -15,6 +15,7 @@ var dialog = {
 			['A',2]:{'actor':0,		'sentens':"How are you?",					'audio_pos'	:{'start':03.37,	'stop':04.02},	},
 			['A',3]:{'actor':0,		'sentens':"Do you like your new home?",		'audio_pos'	:{'start':04.78,	'stop':06.28},	},
 			['A',4]:{'actor':1,		'sentens':"Yes",							'audio_pos'	:{'start':07.57,	'stop':08.08},	},
+			['A',5]:{'actor':0,		'sentens':"Bien, bien!",							'audio_pos'	:{'start':07.57,	'stop':08.08},	},
 
 			['A',5]:{'actor':0,		'sentens':"I'll be expecting you to pay the 75 dineros at the start of every month",	'audio_pos'	:{'start':11.39,'stop':18.66},	'spanish_words':['dinero'],		'callback_functions':['ask_for_rent'],	'wait_time':7,	},
 

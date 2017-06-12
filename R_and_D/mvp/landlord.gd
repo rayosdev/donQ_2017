@@ -8,18 +8,6 @@ var incounters_with_player = 0
 
 func _ready():
 	
-	var test = {
-		't1':{
-				'a1':1
-			},
-		}
-	
-	var test1 = {}
-	
-	for i in test:
-		test1[i] = test[i]
-	print(test1)
-	
 	root_node = get_tree().get_current_scene()
 	
 	conversations	 = get_node("conversations")
