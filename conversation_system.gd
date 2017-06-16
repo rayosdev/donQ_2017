@@ -106,7 +106,7 @@ func run_conversation_step():
 	if(_Game.get_current_state() != "_CONVERSATION")	: return  
 	
 	if(dialog.has(branch_and_counter) == false):
-		print("ERROR - conversation_failed ON BRANCH_AND_COUNTER: %s " % str(branch_and_counter)) 
+		if(_Game.debug):	print("ERROR - conversation_failed ON BRANCH_AND_COUNTER: %s " % str(branch_and_counter)) 
 		end_conversation()
 		return
 
@@ -158,7 +158,8 @@ func run_conversation_step():
 			
 			var args = []
 			if(call_func.has('args')): args = call_func.args
-			else					 : print("WARNING - NO args IN call_function: %s" % str(call_func))
+			else					 : 
+				if(_Game.debug):	print("WARNING - NO args IN call_function: %s" % str(call_func))
 				
 				
 			if	(execution_time == "start_of_action"):

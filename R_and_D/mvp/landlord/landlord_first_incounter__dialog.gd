@@ -42,9 +42,10 @@ var dialog = {
 					'dinero':{
 								'word'				:'dinero',
 								'translation'		:{1:'money',},
-								'is_processed'		:false,
 								'grammer_group'		:'INTERJECTION',
 								'special_status'	:null,
+								
+								'is_processed'		:false,
 								'dates'				:{'data_of_discovery':null},
 								'progress'			:null,
 								'mnemoics'			:{},
@@ -62,6 +63,17 @@ var dialog = {
 					'adiós'	:{
 								'word'				:'adiós',
 								'translation'		:{1:'goodbye ',2:'bye'},
+								'is_processed'		:false,
+								'grammer_group'		:'NOUN',
+								'gender'			:'M',
+								'dates'				:{'data_of_discovery':null},
+								'progress'			:null,
+								'mnemoics'			:{},
+								'data_of_discovery'	:null,
+							},
+					'trabajo'	:{
+								'word'				:'trabajo',
+								'translation'		:{1:'work ',2:'job'},
 								'is_processed'		:false,
 								'grammer_group'		:'NOUN',
 								'gender'			:'M',

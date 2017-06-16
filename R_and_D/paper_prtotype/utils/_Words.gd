@@ -11,27 +11,30 @@ func get_spanish_word_dictonary()			: return _Spanish_Words
 signal spanish_word_added
 
 func add_spanish_word(word_name,word_contents):
-	if(_Spanish_Words.has(word_name)): return print("WARNING - _SPANISH_WORD ALREADY CONTAINS WORD: %s" % str(word_name))
+	if(_Spanish_Words.has(word_name)): 
+		if(_Game.debug): print("WARNING - _SPANISH_WORD ALREADY CONTAINS WORD: %s" % str(word_name))
+		return
 	_Spanish_Words[word_name] = word_contents
 
-	if(_Spanish_Words[word_name].has("dates")):
-		if(_Spanish_Words[word_name].dates.has("data_of_discovery")):
-			_Spanish_Words[word_name].dates.data_of_discovery = OS.get_unix_time()
-		else:	return print("WARRING - WORD: %s IS MISSING 'data_of_discovery' DICTONARY" % str(word_name))
-		var dates = schedule_next_date_for_a_test(_Spanish_Words[word_name].dates)
-		_Spanish_Words[word_name].dates = dates
-#		print("DATES: %s FOR WORD: %s" % [str(dates),str(word_name)])
-#		print("SIZE: %s" % str(dates.size() - 1))
-		var last_added_test_date = dates[dates.size() - 1]
-		add_to_words_test_schedular(last_added_test_date,word_name)
-#		print("DATES SIZE -1: " + )
-		print("WORDS_TEST_SCHEDUAL: %s" % str(words_test_schedular))
-	else:	return print("WARRING - WORD: %s IS MISSING 'dates' DICTONARY" % str(word_name))
+	if(_Spanish_Words[word_name].has('is_processed') 	== false): _Spanish_Words[word_name]['is_processed'] = false
+	if(_Spanish_Words[word_name].has('progress') 		== false): _Spanish_Words[word_name]['progress'] = null
+	if(_Spanish_Words[word_name].has('mnemoics') 		== false): _Spanish_Words[word_name]['mnemoics'] = {}
+	if(_Spanish_Words[word_name].has('dates') 			== false): _Spanish_Words[word_name]['dates']	= {}
+	if(_Spanish_Words[word_name]['dates'].has("data_of_discovery") == false): 
+		_Spanish_Words[word_name]['dates']["data_of_discovery"] = null
+	_Spanish_Words[word_name]['dates']['data_of_discovery'] = OS.get_unix_time()
+	var dates = schedule_next_date_for_a_test(_Spanish_Words[word_name].dates)
+	_Spanish_Words[word_name].dates = dates
+#	print("DATES: %s FOR WORD: %s" % [str(dates),str(word_name)])
+#	print("SIZE: %s" % str(dates.size() - 1))
+	var last_added_test_date = dates[dates.size() - 1]
+	add_to_words_test_schedular(last_added_test_date,word_name)
+#	print("DATES SIZE -1: " + )
+	print("WORDS_TEST_SCHEDUAL: %s" % str(words_test_schedular))
 
-#	print(_Utils.ut_fprint_dict(word_contents))
+	print(_Utils.ut_fprint_dict(word_contents))
 #	print("DATA: " + str(OS.get_datetime_from_unix_time(_Spanish_Words[word_name].data_of_discovery + (60 * 60 * 24 * 7 * 4))))
 #	print("DATA2: " + str(OS.get_datetime(true)))
-
 
 var game_directory = ""
 
@@ -110,7 +113,6 @@ func schedule_next_date_for_a_test(dates_dictonary):
 		years	= 1 * 60 * 60 * 24 * 365,
 	}
 
-	print(dates_dictonary)
 
 	# First sheduled test date is three days after data_of_discovery
 	if(dates_dictonary.size() == 1):

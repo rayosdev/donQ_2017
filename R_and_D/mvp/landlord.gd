@@ -56,7 +56,6 @@ func end_conversation(args):
 	
 	conversation_system.end_conversation()
 	var tmp_arr 		= find_node("exit_path").get_children()
-	print("EXIT_PATH: %s" % str(tmp_arr))
 	var exit_path_arr 	= []
 	for p in tmp_arr: exit_path_arr.append(p.get_global_pos())
 	set_target_positions(exit_path_arr)
