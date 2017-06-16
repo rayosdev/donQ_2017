@@ -3,6 +3,8 @@ extends Node
 
 var player
 
+var debug = false
+
 signal state_changed(state)
 
 
@@ -41,7 +43,7 @@ func get_current_state(): return _State._CURRENT
 
 func change_state(state):
 	_State._CURRENT = state
-	print("change_state: @ %s" % _State._CURRENT)
+	if(debug):	print("change_state: @ %s" % _State._CURRENT)
 	emit_signal("state_changed", _State._CURRENT)
 
 
@@ -79,7 +81,7 @@ signal single_player_stat_changed(stat)
 func change_singal_stat(stat,sum):
 	if(_Player_Stats.has(stat) == false): return print("ERROR - STAT: '%s' NOT FOUND IN update_singal_player_stat" % str(stat))
 	_Player_Stats[stat] = _Player_Stats[stat] + sum
-	print("CHANGED STAT: %s TO: %s" % [str(stat),str(_Player_Stats[stat])])
+	if(debug):	print("CHANGED STAT: %s TO: %s" % [str(stat),str(_Player_Stats[stat])])
 	emit_signal('single_player_stat_changed',[stat,_Player_Stats[stat]])
 	
 func get_single_player_stat(stat):

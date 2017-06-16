@@ -8,13 +8,14 @@ var target_positions = [] setget set_target_positions,get_target_positions
 func set_target_positions(array): target_positions = array
 func get_target_positions()		: return target_positions
 func add_to_target_positions(target_vector):
-	print("ADDED TO target_positions VECTOR2: %s" % str(target_vector))
+#	print("ADDED TO target_positions VECTOR2: %s" % str(target_vector))
 	target_positions.append(target_vector)
 
 func _ready():
 	set_fixed_process(true)
 #	set_process_input(true)
 	set_actor_consol_color(get_node("conversation_color").get_modulate())
+	
 
 
 var actor_consol_color setget set_actor_consol_color,get_actor_consol_color
@@ -34,7 +35,7 @@ func _fixed_process(delta):
 			if(target_positions.empty() == false): 
 				move_player()
 
-var echo_shake_check = []
+#var echo_shake_check = []
 
 func move_player():
 	var direction = Vector2(0,0)
@@ -66,6 +67,8 @@ func test_func(): print("TEST_FUNC: %s" % str(self.get_name()))
 
 
 func callback_function(func_name,args):
+	if(_Game.debug): print("CALL: %s" % str(func_name))
+	if(has_method(func_name) == false): return print("ERROR - CALLBACK_FUNCTION;ACTOR: '%s' IS MISSING FUNCTION '%s' " % [str(get_name()),str(func_name)]) 
 	var callfunc = funcref(self,func_name)
 	callfunc.call_func(args)
 	

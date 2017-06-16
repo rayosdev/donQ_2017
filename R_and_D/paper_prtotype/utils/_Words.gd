@@ -20,15 +20,15 @@ func add_spanish_word(word_name,word_contents):
 		else:	return print("WARRING - WORD: %s IS MISSING 'data_of_discovery' DICTONARY" % str(word_name))
 		var dates = schedule_next_date_for_a_test(_Spanish_Words[word_name].dates)
 		_Spanish_Words[word_name].dates = dates
-		print("DATES: %s FOR WORD: %s" % [str(dates),str(word_name)])
-		print("SIZE: %s" % str(dates.size() - 1))
+#		print("DATES: %s FOR WORD: %s" % [str(dates),str(word_name)])
+#		print("SIZE: %s" % str(dates.size() - 1))
 		var last_added_test_date = dates[dates.size() - 1]
 		add_to_words_test_schedular(last_added_test_date,word_name)
 #		print("DATES SIZE -1: " + )
 		print("WORDS_TEST_SCHEDUAL: %s" % str(words_test_schedular))
 	else:	return print("WARRING - WORD: %s IS MISSING 'dates' DICTONARY" % str(word_name))
 
-	print(_Utils.ut_fprint_dict(word_contents))
+#	print(_Utils.ut_fprint_dict(word_contents))
 #	print("DATA: " + str(OS.get_datetime_from_unix_time(_Spanish_Words[word_name].data_of_discovery + (60 * 60 * 24 * 7 * 4))))
 #	print("DATA2: " + str(OS.get_datetime(true)))
 
@@ -39,7 +39,7 @@ func _ready():
 	
 #	print("DATE: %s" % str(OS.get_unix_time()))
 #	_File_Handler.fh_del_file("","_Spanish_Words")
-	print(_File_Handler.fh_ls())
+#	print(_File_Handler.fh_ls())
 	
 	#		Words loading 
 	var _spanish_words = {}
@@ -50,7 +50,7 @@ func _ready():
 		_File_Handler.fh_save_file(game_directory +"/"+ "_Spanish_Words",_Spanish_Words.to_json())
 		_spanish_words = _Spanish_Words
 	
-	print(_Utils.ut_fprint_dict(_spanish_words))
+#	print(_Utils.ut_fprint_dict(_spanish_words))
 	_Spanish_Words = _spanish_words
 
 

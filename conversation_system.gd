@@ -47,7 +47,7 @@ func _ready():
 	branch_and_counter = ['A',1] 
 	
 	var string_length = "I'll be expecting you to pay the 75 dineros at the"
-	print("MAX LENGTH OF CONSOL BRFOR NEW LINE: %s" % str(string_length.length()))
+#	print("MAX LENGTH OF CONSOL BRFOR NEW LINE: %s" % str(string_length.length()))
 
 
 func _input(event):
@@ -127,9 +127,9 @@ func run_conversation_step():
 		consol.set_text(sentens)
 	
 	
-	if(dialog_step.has('audio_pos')):
+	if(dialog_step.has('audio_pos') and dialog_step.audio_pos != null):
 		var audio_pos = dialog_step.audio_pos 
-	
+		
 		if(dialog.Audio_Enabled == true):
 			audio.play(audio_pos.start)
 			audio_stop_timer.set_wait_time(audio_pos.stop - audio_pos.start)

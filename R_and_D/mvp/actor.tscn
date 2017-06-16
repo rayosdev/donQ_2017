@@ -9,12 +9,12 @@
 custom_solver_bias = 0.0
 points = Vector2Array( -46.9476, 33.5211, 0.449829, 4.556, 47.5181, 25.9507, 6.70367, 63.8027 )
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=2]
 
 resource/name = "conversation_system"
 script/source = "#\t\t\t\t\tconveration\nextends Node\n\nvar conversations = []\n\nvar all_dialogs\nvar dialog_counter  = 1\n\n\nfunc _ready():\n\t\n\tall_dialogs = self.get_children()\n\tpass\n\t\nfunc load_dialog(dialog_nr):\n\t_Game.set_active_dialog(all_dialogs[dialog_nr].dialog)\n\t_Game.set_active_dialog_audio(all_dialogs[dialog_nr].get_node(\'audio\'))\n\t\n\tpass\n\t\n\n"
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 
 resource/name = "dialog_orginal"
 script/source = "#\t\t\t\t\tdialog_template\nextends Node\n\n\nvar dialog = {\n\n\t\t\t\t\'Titel\'\t\t\t\t\t\t:\"dialog_template\",\n\t\t\t\t\'Actors\'\t\t\t\t\t:[\"landlord\",\"player\"],\n\t\t\t\t\'End_callback_functions\'\t:[],\n\t\t\t\t\'Export_Spanish_Word_List\'\t:{},\n\t\t\t\t\'Audio_Enabled\'\t\t\t\t:true,\n\n#\t\t\t\t\tTHE_CONVERSATION\n\n\t\t\t[\'A\',1]:{\'actor\':0,\t\t\'sentens\':\"Hola\",\t\t\t\t\t\t\t\t\t\t\t\t\t\'audio_pos\'\t:{\'start\':01.25,\t\t\'stop\':02.09},\t\'spanish_words\':[\'hola\']\t},\n\t\t\t[\'A\',2]:{\'actor\':0,\t\t\'sentens\':\"How are you\?\",\t\t\t\t\t\t\t\t\t\'audio_pos\'\t:{\'start\':03.37,\t\t\'stop\':04.02},\t},\n\t\t\t[\'A\',3]:{\'actor\':0,\t\t\'sentens\':\"Do you like your new home\?\",\t\t\'audio_pos\'\t:{\'start\':04.78,\t\t\'stop\':06.28},\t},\n\t\t\t[\'A\',4]:{\'actor\':1,\t\t\'sentens\':\"Yes\",\t\t\t\t\t\t\t\t\t\t\t\t\t\'audio_pos\'\t:{\'start\':07.57,\t\t\'stop\':08.08},\t},\n\n\t\t\t[\'A\',5]:{\'actor\':0,\t\t\'sentens\':\"I\'ll be expecting you to pay the 75 dineros at the start of every month\",\t\'audio_pos\'\t:{\'start\':11.39,\t\t\'stop\':18.66}, \'wait_time\':07.27,\t\'spanish_words\':[\'dinero\']\t},\n\t\t\t[\'A\',6]:{\'wait_time\':3,\t\'callback_functions\':[\'ask_for_rent\']\t},\n\n\t\t\t[\'A\',7]:{\'actor\':0,\t\t\'sentens\':\"I have to go. Adiós\",\t\t\t\t\t\'audio_pos\'\t:{\'start\':04.78,\t\t\'stop\':06.28},\t\t\'spanish_words\':[\'adiós\'],\t\t \'callback_functions\':[\'end_conversation\']},\n\n\n\n\n\n\n#\t\t\t\t\tSPANISH_WORDS\n\n\'Spanish_Words\':{\n\t\t\t\t\t\'dinero\':{\n\t\t\t\t\t\t\t\t\'translation\'\t:{1:\'money\',},\n\t\t\t\t\t\t\t\t\'is_processed\'\t:false,\n\t\t\t\t\t\t\t\t\'grammer_group\'\t:\'INTERJECTION\',\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\'hola\'\t:{\n\t\t\t\t\t\t\t\t\'translation\'\t:{1:\'hello\',2:\'hi\'},\n\t\t\t\t\t\t\t\t\'is_processed\'\t:false,\n\t\t\t\t\t\t\t\t\'grammer_group\'\t:\'INTERJECTION\',\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\'adiós\'\t:{\n\t\t\t\t\t\t\t\t\'translation\'\t:{1:\'goodbye \',2:\'bye\'},\n\t\t\t\t\t\t\t\t\'is_processed\'\t:false,\n\t\t\t\t\t\t\t\t\'grammer_group\'\t:\'NOUN\',\n\t\t\t\t\t\t\t\t\'gender\'\t\t:\'M\',\n\t\t\t\t\t\t\t},\n\t\t\t\t},\n\n\n#\t\t\t\t\tCALLBACK_FUNCTIONS\n\n\'Callback_Functions\':{\n\t\t\t\t\t\t\'ask_for_rent\'\t\t:{\n\t\t\t\t\t\t\t\t\t\t\t\'args\'\t\t\t:[75],\n\t\t\t\t\t\t\t\t\t\t\t\'owner\'\t\t\t:0,\n\t\t\t\t\t\t\t\t\t\t\t\'execution_time\':\'start_of_action\',\n\t\t\t\t\t\t\t\t\t\t\t},\n\n\t\t\t\t\t\t\'end_conversation\'\t:{\n\t\t\t\t\t\t\t\t\t\t\t\'args\'\t\t\t:[\"test\"],\n\t\t\t\t\t\t\t\t\t\t\t\'owner\'\t\t\t:0,\n\t\t\t\t\t\t\t\t\t\t\t\'execution_time\':\'end_of_action\',\n\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t}\n\n}\n"
@@ -48,11 +48,11 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="conversations" type="Node" parent="."]
 
-script/script = SubResource( 3 )
+script/script = SubResource( 2 )
 
 [node name="dialog_template" type="Node" parent="conversations"]
 
-script/script = SubResource( 4 )
+script/script = SubResource( 3 )
 
 [node name="conversation_color" type="Sprite" parent="."]
 

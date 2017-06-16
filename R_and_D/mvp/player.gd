@@ -7,6 +7,7 @@ func _ready():
 	set_process(true)
 	set_process_input(true)
 	
+	
 	root_node 		= get_tree().get_current_scene()
 	_Game.connect("state_changed",self,"run_state_changed")
 
