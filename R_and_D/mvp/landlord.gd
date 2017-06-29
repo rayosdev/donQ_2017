@@ -82,7 +82,11 @@ func ask_for_rent(args):
 
 
 func activate_notepad(args):
-	
+	var node_refrences = _Game.get_node_refrences()
+	if(node_refrences.has('notepad') == false): return print('ERROR - NODE_REFRANCE is MISSING OBJ: "notepad" [landlord.gd] ')
+	if(node_refrences['notepad'].has('refrence') == false): return print('ERROR - NODE_REFRANCE.NOTEPAD is MISSING: "refrence" [landlord.gd] ')
+	var notepad = node_refrences.notepad['refrence']
+	notepad.make_active(true)
 	pass
 
 

@@ -32,16 +32,17 @@ func add_spanish_word(word_name,word_contents):
 #	print("DATES SIZE -1: " + )
 	print("WORDS_TEST_SCHEDUAL: %s" % str(words_test_schedular))
 
-	print(_Utils.ut_fprint_dict(word_contents))
+	print("WOORD_CONTENNTS: %s" % _Utils.ut_fprint_dict(word_contents))
 #	print("DATA: " + str(OS.get_datetime_from_unix_time(_Spanish_Words[word_name].data_of_discovery + (60 * 60 * 24 * 7 * 4))))
 #	print("DATA2: " + str(OS.get_datetime(true)))
+	emit_signal("spanish_word_added", {'word_name':word_name,'word_contents':word_contents})
 
 var game_directory = ""
 
 func _ready():
 	
 #	print("DATE: %s" % str(OS.get_unix_time()))
-#	_File_Handler.fh_del_file("","_Spanish_Words")
+	_File_Handler.fh_del_file("","_Spanish_Words")
 #	print(_File_Handler.fh_ls())
 	
 	#		Words loading 

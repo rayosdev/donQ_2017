@@ -12,7 +12,7 @@ func _ready():
 	
 #	dropdown_button.connect("pressed",self,"show_ui")
 	_Game.connect("single_player_stat_changed",self,"stat_changed")
-
+	
 
 func stat_changed(stat_and_value):
 #	print("STAT AND VALUE: %s" % str(stat_and_value))

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=1]
+
+[sub_resource type="Theme" id=1]
+
+
+[sub_resource type="GDScript" id=2]
+
+script/source = "extends ItemList\n\n# class member variables go here, for example:\n# var a = 2\n# var b = \"textvar\"\n\nfunc _ready():\n\tadd_item(\"test\")\n\tadd_item(\"test\")\n\tadd_item(\"test\")\n\tadd_item(\"test\")\n\tadd_item(\"test\")\n\t\n\tconnect(\"item_selected\",self,\"eelect_test\")\n\t\nfunc eelect_test(selected):\n\tprint(\"THIS IS: %s\" % str(selected))\n\tpass\n"
+
+[node name="ItemList" type="ItemList"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 1 )
+margin/left = 96.0
+margin/top = 16.0
+margin/right = 553.0
+margin/bottom = 257.0
+script/script = SubResource( 2 )
+
+

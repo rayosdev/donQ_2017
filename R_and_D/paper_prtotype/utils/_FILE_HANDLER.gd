@@ -1,15 +1,19 @@
+#					_File_Handler.gd
 extends Node
 
 
 # Imortan common File obj
 var savedFile = File.new()
 var csv_file = File.new()
-	
-	
-func _init():
-	pass
-	
-	
+var hidden_space = "                                                        - SCRIPT: " + str(get_script().get_path())
+
+
+func _init():pass
+
+
+func _ready():pass
+
+
 # Main Save File Function	
 func fh_save_file(localFile,stringToWrite):
 	
@@ -29,12 +33,12 @@ func firstRun(localFile,stringToWrite):
 		savedFile.open("user://" + str(localFile), File.WRITE)
 		savedFile.store_line(stringToWrite)
 		savedFile.close()
-	
-	
+
+
 # Load Function 	
 func fh_load_file(localFile):
 	if !savedFile.file_exists("user://" + str(localFile)):
-		print("ERROR - FILE: %s NOT FOUND" % str(localFile))
+		print("ERROR - FILE: %s NOT FOUND %s" % [str(localFile), hidden_space + str(get_name())])
 		return null
 	
 	savedFile.open("user://" + str(localFile), File.READ)

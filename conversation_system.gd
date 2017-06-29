@@ -151,7 +151,7 @@ func run_conversation_step():
 			var call_func
 			if(dialog.Callback_Functions.has(func_name)): 
 				call_func = dialog.Callback_Functions[func_name]
-			else: print("ERROR - CALLBACK: - %s - CULD NOT BE FOUND IN: - %s -" % [func_name,dialog.Titel])
+			else: print("ERROR - CALLBACK: - %s - COULD NOT BE FOUND IN: - %s -" % [func_name,dialog.Titel])
 			
 			var owner			= call_func.owner
 			var execution_time	= call_func.execution_time

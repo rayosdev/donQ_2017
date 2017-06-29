@@ -90,3 +90,15 @@ func get_single_player_stat(stat):
 
 func get_player_stats(): 	return _Player_Stats
 
+
+var node_refrences = {
+	'example_name':{
+			'referance':null,
+			'other_configs':'...',
+			},
+} setget set_node_refrences, get_node_refrences
+func set_node_refrences(_node_refrences): node_refrences = _node_refrences
+func get_node_refrences(): return node_refrences
+func add_to_node_refrnaces(node_name,refrance):
+	node_refrences[node_name] = {'refrence':refrance}
+	return node_refrences

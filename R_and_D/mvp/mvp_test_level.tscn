@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=1]
+[gd_scene load_steps=43 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=1]
 [ext_resource path="res://R_and_D/mvp/actor.tscn" type="PackedScene" id=2]
@@ -93,7 +93,7 @@ tracks/3/keys = { "times":FloatArray( 0, 0.5, 1 ), "transitions":FloatArray( 1, 
 [sub_resource type="GDScript" id=7]
 
 resource/name = "mouse_click_area"
-script/source = "#\t\t\t\t\tmouse_click_area\nextends TextureButton\n\nvar player\nvar root_node\n\nfunc _ready():\n\t\n\troot_node = get_tree().get_current_scene()\n\tplayer = root_node.find_node(\"player\")\n\tself.connect(\"pressed\",player,\"_on_mouse_click_area_button_down\")\n\t\n\n"
+script/source = "#\t\t\t\t\tmouse_click_area\nextends TextureButton\n\nvar player\nvar root_node\n\nfunc _ready():\n\t\n\troot_node = get_tree().get_current_scene()\n\tplayer = root_node.find_node(\"player\")\n\tself.connect(\"pressed\",player,\"_on_mouse_click_area_button_down\")\n\n\tset_process(true)\n\tprint(_Game.node_refrences)\n\n\nvar do_once = false\n\nfunc _process(delta):\n\tif(do_once == false):\n#\t\tprint(_Game.node_refrences[\'notepad\'][\'refrence\'].get_name())\n\t\tdo_once = true\n#\t\tprint(_Game.node_refrences.notepad.get_name())\n\n"
 
 [sub_resource type="GDScript" id=8]
 
@@ -173,7 +173,7 @@ font/font = ExtResource( 11 )
 [sub_resource type="GDScript" id=14]
 
 resource/name = "notepad"
-script/source = "#\t\t\t\t\tnotepad\nextends Node2D\n\n\n\nfunc _ready():\n\tpass"
+script/source = "#\t\t\t\t\tnotepad\nextends Node2D\n\nvar is_active\nvar anim\n\nvar new_words_list = []\n\nfunc _ready():\n\t_Game.add_to_node_refrnaces(get_name(),self)\n\t\n\tanim = get_node(\"notepad_anim\")\n\tanim.play(\"idel_off\")\n\t\n\t_Words.connect(\'spanish_word_added\',self,\"new_words_added\")\n\n\nfunc new_words_added(new_word):\n\tprint(new_word)\n\tpass\n\n\nfunc make_active(active):\n\tis_active = active\n\tif(is_active):\n\t\tanim.play(\"make_visable\")"
 
 [sub_resource type="RectangleShape2D" id=15]
 
@@ -183,7 +183,7 @@ extents = Vector2( 99.4393, 110 )
 [sub_resource type="GDScript" id=16]
 
 resource/name = "word_notefication"
-script/source = "#\t\t\t\t\tword_notefication\nextends Sprite\n\nvar word_count = 0\nvar timer = Timer.new()\nvar final_word_count = 0\n\nfunc _ready():\n\tvisual_update()\n\t_Player.connect(\"new_word_added\",self,\"update_final_word_count\")\n\t\n\tadd_child(timer)\n\ttimer.set_one_shot(true)\n\ttimer.set_wait_time(25)\n\ttimer.connect(\"timeout\",self,\"final_word_count_check\")\n\tpass\n\nfunc final_word_count_check():\n\tfinal_word_count += 1\n\ttimer.start()\n\nfunc update_final_word_count():\n\tif(word_count != final_word_count):\n\t\tword_count = final_word_count\n\t\tvisual_update()\n\tpass\n\nfunc add_to_word_count():\n\tword_count += 1\n\tvisual_update()\n\nfunc visual_update():\n\tif(word_count > 0): show()\n\telse: \n\t\thide()\n\t\treturn\n\tget_node(\"anim\").play(\"word_added\")\n\tget_node(\"label\").set_text(str(word_count))\n\nfunc _on_Area2D_area_enter( area ): \n\tif(area.get_groups().has(\"word\")):\n\t\tadd_to_word_count()\n"
+script/source = "#\t\t\t\t\tword_notefication\nextends Sprite\n\n\n\n\nfunc _ready(): pass \n#\t_Words.\n\t\n\nvar word_count = 0 setget set_word_count, get_word_count\nfunc set_word_count(_word_count): word_count = _word_count\nfunc get_word_count(): return word_count\nfunc change_word_count(by_number): word_count += by_number\n\n\nfunc visual_update():\n\tif(word_count > 0): show()\n\telse: \n\t\thide()\n\t\treturn\n\tget_node(\"anim\").play(\"word_added\")\n\tget_node(\"label\").set_text(str(word_count))"
 
 [sub_resource type="DynamicFont" id=17]
 
@@ -211,14 +211,58 @@ tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = { "times":FloatArray( 0, 0.3, 0.5 ), "transitions":FloatArray( -4, 1, 1 ), "update":0, "values":[ Vector2( 0.40604, 0.40604 ), Vector2( 0.494879, 0.494879 ), Vector2( 0.40604, 0.40604 ) ] }
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="Animation" id=20]
+
+resource/name = "idel_off"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visibility/opacity")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 0.0 ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/visible")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ false ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:transform/scale")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 1e-05, 1e-05 ) ] }
+
+[sub_resource type="Animation" id=21]
+
+resource/name = "make_visable"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/scale")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 1e-05, 1e-05 ), Vector2( 0.5, 0.5 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/visible")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0, 0.1, 1 ), "transitions":FloatArray( -4, 1, 1 ), "update":1, "values":[ false, true, true ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visibility/opacity")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
+
+[sub_resource type="DynamicFont" id=22]
 
 font/size = 200
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=23]
 
 font/size = 35
 font/use_mipmaps = false
@@ -229,6 +273,7 @@ font/font = ExtResource( 11 )
 
 [node name="map" type="Node2D" parent="."]
 
+editor/display_folded = true
 __meta__ = { "_edit_lock_":true }
 
 [node name="level_01" type="Sprite" parent="map"]
@@ -239,29 +284,30 @@ centered = false
 modulate = Color( 1, 0.937164, 0.722656, 1 )
 __meta__ = { "_edit_lock_":true }
 
-[node name="YSort" type="YSort" parent="."]
+[node name="game_items" type="YSort" parent="."]
 
+editor/display_folded = true
 sort/enabled = true
 __meta__ = { "_edit_lock_":true }
 
-[node name="player" parent="YSort" instance=ExtResource( 2 )]
+[node name="player" parent="game_items" instance=ExtResource( 2 )]
 
 editor/display_folded = true
 script/script = ExtResource( 3 )
 
-[node name="sprite" parent="YSort/player"]
+[node name="sprite" parent="game_items/player"]
 
 modulate = Color( 0.548111, 0.886719, 0.439896, 1 )
 
-[node name="conversations" parent="YSort/player"]
+[node name="conversations" parent="game_items/player"]
 
 editor/display_folded = true
 
-[node name="conversation_color" parent="YSort/player"]
+[node name="conversation_color" parent="game_items/player"]
 
 modulate = Color( 0, 1, 0.554688, 1 )
 
-[node name="Interaction_area" type="Area2D" parent="YSort/player" groups=[ "player" ]]
+[node name="Interaction_area" type="Area2D" parent="game_items/player" groups=[ "player" ]]
 
 editor/display_folded = true
 visibility/visible = false
@@ -274,32 +320,33 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="collision" type="CollisionShape2D" parent="YSort/player/Interaction_area"]
+[node name="collision" type="CollisionShape2D" parent="game_items/player/Interaction_area"]
 
 shape = SubResource( 1 )
 trigger = true
 _update_shape_index = 0
 
-[node name="landlord" parent="YSort" instance=ExtResource( 2 )]
+[node name="landlord" parent="game_items" instance=ExtResource( 2 )]
 
+editor/display_folded = true
 transform/pos = Vector2( 577.153, 325.338 )
 script/script = ExtResource( 4 )
 
-[node name="sprite" parent="YSort/landlord"]
+[node name="sprite" parent="game_items/landlord"]
 
 texture = ExtResource( 5 )
 modulate = Color( 0.602234, 0.789226, 0.988281, 1 )
 
-[node name="collision" parent="YSort/landlord"]
+[node name="collision" parent="game_items/landlord"]
 
 polygon = Vector2Array( -50.8798, 34.6545, 8.30841, -0.56665, 58.8854, 32.216, 9.81158, 65.8832 )
 
-[node name="landlord_first_incounter_dialog" type="Node" parent="YSort/landlord/conversations"]
+[node name="landlord_first_incounter_dialog" type="Node" parent="game_items/landlord/conversations"]
 
 editor/display_folded = true
 script/script = ExtResource( 6 )
 
-[node name="audio" type="StreamPlayer" parent="YSort/landlord/conversations/landlord_first_incounter_dialog"]
+[node name="audio" type="StreamPlayer" parent="game_items/landlord/conversations/landlord_first_incounter_dialog"]
 
 stream/stream = ExtResource( 7 )
 stream/play = false
@@ -310,29 +357,29 @@ stream/paused = false
 stream/loop_restart_time = 0.0
 stream/buffering_ms = 500
 
-[node name="exit_path" type="Node2D" parent="YSort/landlord/conversations/landlord_first_incounter_dialog"]
+[node name="exit_path" type="Node2D" parent="game_items/landlord/conversations/landlord_first_incounter_dialog"]
 
 editor/display_folded = true
 transform/pos = Vector2( 582.386, 338.85 )
 __meta__ = { "_edit_group_":true, "_edit_lock_":true }
 
-[node name="pos_1" type="Position2D" parent="YSort/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
+[node name="pos_1" type="Position2D" parent="game_items/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
 
 transform/pos = Vector2( 123, 152 )
 
-[node name="pos_2" type="Position2D" parent="YSort/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
+[node name="pos_2" type="Position2D" parent="game_items/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
 
 transform/pos = Vector2( 312, 14 )
 
-[node name="pos_3" type="Position2D" parent="YSort/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
+[node name="pos_3" type="Position2D" parent="game_items/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
 
 transform/pos = Vector2( 760, 14 )
 
-[node name="conversation_color" parent="YSort/landlord"]
+[node name="conversation_color" parent="game_items/landlord"]
 
 modulate = Color( 0, 0.765625, 1, 1 )
 
-[node name="Interaction_area" type="Area2D" parent="YSort/landlord"]
+[node name="Interaction_area" type="Area2D" parent="game_items/landlord"]
 
 editor/display_folded = true
 visibility/visible = false
@@ -345,7 +392,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="collision" type="CollisionShape2D" parent="YSort/landlord/Interaction_area"]
+[node name="collision" type="CollisionShape2D" parent="game_items/landlord/Interaction_area"]
 
 shape = SubResource( 2 )
 trigger = true
@@ -744,28 +791,29 @@ wait_time = 0.1
 one_shot = true
 autostart = false
 
-[node name="notpad" type="Node2D" parent="ui"]
+[node name="notepad" type="Node2D" parent="ui"]
 
 editor/display_folded = true
-visibility/visible = false
-transform/pos = Vector2( 894, 482 )
-transform/scale = Vector2( 0.7, 0.7 )
+transform/pos = Vector2( 935, 498 )
+transform/scale = Vector2( 0.5, 0.5 )
 script/script = SubResource( 14 )
 
-[node name="shadow" type="Sprite" parent="ui/notpad"]
+[node name="shadow" type="Sprite" parent="ui/notepad"]
 
 transform/pos = Vector2( -7.14287, 12.8572 )
 transform/scale = Vector2( 0.794985, 1 )
 texture = ExtResource( 16 )
 modulate = Color( 0, 0, 0, 1 )
 
-[node name="icon" type="Sprite" parent="ui/notpad"]
+[node name="icon" type="Sprite" parent="ui/notepad"]
 
 transform/scale = Vector2( 0.794985, 1 )
 texture = ExtResource( 16 )
+modulate = Color( 0.845707, 0.63916, 0.929688, 1 )
 
-[node name="button" type="TextureButton" parent="ui/notpad"]
+[node name="button" type="TextureButton" parent="ui/notepad"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -779,8 +827,10 @@ enabled_focus_mode = 2
 shortcut = null
 __meta__ = { "_edit_group_":true }
 
-[node name="area" type="Area2D" parent="ui/notpad/button"]
+[node name="area" type="Area2D" parent="ui/notepad/button"]
 
+editor/display_folded = true
+visibility/visible = false
 input/pickable = true
 shapes/0/shape = SubResource( 15 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 90, 120 )
@@ -790,7 +840,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="area_collison" type="CollisionShape2D" parent="ui/notpad/button/area"]
+[node name="area_collison" type="CollisionShape2D" parent="ui/notepad/button/area"]
 
 transform/pos = Vector2( 90, 120 )
 shape = SubResource( 15 )
@@ -798,16 +848,17 @@ trigger = false
 _update_shape_index = 0
 __meta__ = { "_edit_group_":true }
 
-[node name="notefication" type="Sprite" parent="ui/notpad"]
+[node name="notefication" type="Sprite" parent="ui/notepad"]
 
 editor/display_folded = true
+visibility/visible = false
 transform/pos = Vector2( 106.263, -112.302 )
-transform/scale = Vector2( 0.40604, 0.40604 )
+transform/scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 17 )
 modulate = Color( 0.871094, 0.333466, 0.333466, 1 )
 script/script = SubResource( 16 )
 
-[node name="label" type="Label" parent="ui/notpad/notefication"]
+[node name="label" type="Label" parent="ui/notepad/notefication"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
@@ -825,13 +876,25 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="anim" type="AnimationPlayer" parent="ui/notpad/notefication"]
+[node name="anim" type="AnimationPlayer" parent="ui/notepad/notefication"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/idel = SubResource( 18 )
 anims/word_added = SubResource( 19 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="notepad_anim" type="AnimationPlayer" parent="ui/notepad"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/idel_off = SubResource( 20 )
+anims/make_visable = SubResource( 21 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -884,7 +947,7 @@ margin/left = -18.0
 margin/top = 183.0
 margin/right = 124.0
 margin/bottom = 420.0
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 22 )
 custom_colors/font_color = Color( 0.332642, 0.78125, 0.602508, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = -21
@@ -917,7 +980,7 @@ margin/left = -20.0
 margin/top = -127.0
 margin/right = 25.0
 margin/bottom = -85.0
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "12"
 percent_visible = 1.0
@@ -934,7 +997,7 @@ margin/left = -102.0
 margin/top = -63.0
 margin/right = -57.0
 margin/bottom = -21.0
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_y = 1
@@ -964,7 +1027,7 @@ margin/left = 84.0
 margin/top = -20.0
 margin/right = 129.0
 margin/bottom = 22.0
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "3"
 align = 1
@@ -982,7 +1045,7 @@ margin/left = -20.0
 margin/top = 74.0
 margin/right = 25.0
 margin/bottom = 116.0
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "6"
 align = 1
@@ -1000,7 +1063,7 @@ margin/left = -124.0
 margin/top = -20.0
 margin/right = -79.0
 margin/bottom = 22.0
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "9"
 align = 1
@@ -1048,5 +1111,5 @@ autostart = false
 [connection signal="timeout" from="ui/conversation_system/audio_stop_timer" to="ui/conversation_system" method="_on_audio_stop_timer_timeout"]
 
 
-[editable path="YSort/player"]
-[editable path="YSort/landlord"]
+[editable path="game_items/player"]
+[editable path="game_items/landlord"]
