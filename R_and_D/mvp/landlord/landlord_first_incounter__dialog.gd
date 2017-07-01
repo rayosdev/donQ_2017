@@ -29,7 +29,7 @@ var dialog = {
 			['A',13]:{'actor':0,	'sentens':"Then here is a house warming present for you",		'callback_functions':['activate_notepad'],	'wait_time':7,	},
 			
 			
-			['A',14]:{'actor':0,		'sentens':"I have to go. Adiós",			'audio_pos'	:{'start':04.78,		'stop':06.28},		'spanish_words':['adiós'],		 'callback_functions':['end_conversation']},
+			['A',14]:{'actor':0,	'sentens':"I have to go. Adiós",			'audio_pos'	:{'start':04.78,		'stop':06.28},		'spanish_words':['adiós'],		 'callback_functions':['end_conversation']},
 
 
 
@@ -45,42 +45,27 @@ var dialog = {
 								'grammer_group'		:'INTERJECTION',
 								'special_status'	:null,
 								
-								'is_processed'		:false,
-								'dates'				:{'data_of_discovery':null},
-								'progress'			:null,
-								'mnemoics'			:{},
+#								'is_processed'		:false,
+#								'dates'				:{'data_of_discovery':null},
+#								'progress'			:null,
+#								'mnemoics'			:{},
 							},
 					'hola'	:{
 								'word'				:'hola',
 								'translation'		:{1:'hello',2:'hi'},
-								'is_processed'		:false,
 								'grammer_group'		:'INTERJECTION',
-								'dates'				:{'data_of_discovery':null},
-								'last_test_date'	:null,
-								'progress'			:null,
-								'mnemoics'			:{},
 							},
 					'adiós'	:{
 								'word'				:'adiós',
 								'translation'		:{1:'goodbye ',2:'bye'},
-								'is_processed'		:false,
 								'grammer_group'		:'NOUN',
 								'gender'			:'M',
-								'dates'				:{'data_of_discovery':null},
-								'progress'			:null,
-								'mnemoics'			:{},
-								'data_of_discovery'	:null,
 							},
 					'trabajo'	:{
 								'word'				:'trabajo',
 								'translation'		:{1:'work ',2:'job'},
-								'is_processed'		:false,
 								'grammer_group'		:'NOUN',
 								'gender'			:'M',
-								'dates'				:{'data_of_discovery':null},
-								'progress'			:null,
-								'mnemoics'			:{},
-								'data_of_discovery'	:null,
 							},
 				},
 

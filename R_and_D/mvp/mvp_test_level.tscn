@@ -173,7 +173,7 @@ font/font = ExtResource( 11 )
 [sub_resource type="GDScript" id=14]
 
 resource/name = "notepad"
-script/source = "#\t\t\t\t\tnotepad\nextends Node2D\n\nvar is_active\nvar anim\n\nvar new_words_list = []\n\nfunc _ready():\n\t_Game.add_to_node_refrnaces(get_name(),self)\n\t\n\tanim = get_node(\"notepad_anim\")\n\tanim.play(\"idel_off\")\n\t\n\t_Words.connect(\'spanish_word_added\',self,\"new_words_added\")\n\n\nfunc new_words_added(new_word):\n\tprint(new_word)\n\tpass\n\n\nfunc make_active(active):\n\tis_active = active\n\tif(is_active):\n\t\tanim.play(\"make_visable\")"
+script/source = "#\t\t\t\t\tnotepad\nextends Node2D\n\nvar is_active\nvar anim\n\nvar new_words_list = []\n\nfunc _ready():\n\t_Game.add_to_node_refrnaces(get_name(),self)\n\t\n\tanim = get_node(\"notepad_anim\")\n\tanim.play(\"idel_off\")\n\t\n\t_Words.connect(\'spanish_word_added\',self,\"new_words_added\")\n\n\nfunc new_words_added(new_word):\n\tprint(new_word[\'word_name\'])\n\tpass\n\n\nfunc make_active(active):\n\tis_active = active\n\tif(is_active):\n\t\tanim.play(\"make_visable\")"
 
 [sub_resource type="RectangleShape2D" id=15]
 
@@ -286,7 +286,6 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="game_items" type="YSort" parent="."]
 
-editor/display_folded = true
 sort/enabled = true
 __meta__ = { "_edit_lock_":true }
 
@@ -328,7 +327,6 @@ _update_shape_index = 0
 
 [node name="landlord" parent="game_items" instance=ExtResource( 2 )]
 
-editor/display_folded = true
 transform/pos = Vector2( 577.153, 325.338 )
 script/script = ExtResource( 4 )
 

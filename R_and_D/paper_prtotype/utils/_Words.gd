@@ -40,21 +40,16 @@ func add_spanish_word(word_name,word_contents):
 var game_directory = ""
 
 func _ready():
-	
-#	print("DATE: %s" % str(OS.get_unix_time()))
+	_word_database_init()
 	_File_Handler.fh_del_file("","_Spanish_Words")
-#	print(_File_Handler.fh_ls())
-	
-	#		Words loading 
+
 	var _spanish_words = {}
 	if(_File_Handler.fh_load_file(game_directory +"/"+ "_Spanish_Words") != null):
 		_spanish_words.parse_json(_File_Handler.fh_load_file(game_directory +"/"+ "_Spanish_Words"))
-#		print(_spanish_words.empty())
 	elif(_spanish_words == null):
 		_File_Handler.fh_save_file(game_directory +"/"+ "_Spanish_Words",_Spanish_Words.to_json())
 		_spanish_words = _Spanish_Words
 	
-#	print(_Utils.ut_fprint_dict(_spanish_words))
 	_Spanish_Words = _spanish_words
 
 
@@ -95,6 +90,7 @@ func add_to_words_test_schedular(test_date,word):
 	var dir_size = words_test_schedular[test_date].size()
 	words_test_schedular[test_date][dir_size + 1] = word
 
+
 func remove_from_words_test_schedular(test_date,word):
 	var wts = words_test_schedular[test_date]
 	for key in wts.keys():
@@ -113,7 +109,6 @@ func schedule_next_date_for_a_test(dates_dictonary):
 		months	= 1 * 60 * 60 * 24 * 30,
 		years	= 1 * 60 * 60 * 24 * 365,
 	}
-
 
 	# First sheduled test date is three days after data_of_discovery
 	if(dates_dictonary.size() == 1):
@@ -141,3 +136,31 @@ func schedule_next_date_for_a_test(dates_dictonary):
 	return dates_dictonary
 
 
+func _word_database_init():
+	
+	var wait_time = Timer.new()
+	add_child(wait_time)
+	wait_time.start()
+	yield(wait_time,"timeout")
+	print("start")
+	
+	for i in range(5000):
+		_word_database["word" + str(i)] = "cool"
+		
+	print("start1")
+	_File_Handler.fh_save_file("test_wordDB",_word_database.to_json())
+		
+	print("start2")
+	var tmp_wordDb = {}.parse_json(_File_Handler.fh_load_file("test_wordDB"))
+	
+	print("start3")
+	if(_word_database.has("word2500")):
+		print("done " + str(_word_database["word2500"]))
+	else:
+		print("WHAT")
+	for i in _word_database: pass
+#		print(i)
+
+var _word_database = {
+
+}
