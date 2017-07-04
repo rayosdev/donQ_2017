@@ -1,26 +1,26 @@
 [gd_scene load_steps=7 format=1]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 
 resource/name = "conversation_tool"
 script/source = "#\t\t\t\t\tconversation_tool\nextends Node2D\n\nvar dialog = {}\nvar current_branch_and_counter = [\'A\',1]\n\nvar branch_node\nvar counter_node\nvar view_and_edit\n\nvar _Dialog = {}\n\nfunc _ready():\n\t\n\tinit_dialog()\n\t\n\tbranch_node \t= get_node(\"panel_container/branch_and_counter/branch\")\n\tcounter_node \t= get_node(\"panel_container/branch_and_counter/counter\")\n\tview_and_edit \t= get_node(\"panel_container/view_and_edit_result\")\n\t\n\t\n#\tvar timer = Timer.new()\n#\tadd_child(timer)\n#\ttimer.set_one_shot(true)\n#\ttimer.set_wait_time(1.5)\n#\ttimer.start()\n#\tyield(timer,\"timeout\")\n\t\n\tprint(_Game.player.get_name())\n\t\n\t\n#\tprint(\"PRINT ACTOR0: %s\" % str(_Dialog.Actors[0].get_name()))\n#\tprint(\"PRINT ACTOR0: %s\" % str(_Dialog.Actors[1].get_name()))\n\tprint(\"DONW\")\n\tupdate()\n\tpass\n\nfunc update():\n\tif(dialog.has(current_branch_and_counter) == false):\n\t\tdialog[current_branch_and_counter] = {}\n\t\n\tbranch_node.set_text\t(str(current_branch_and_counter[0]))\n\tcounter_node.set_text\t(str(current_branch_and_counter[1]))\n\t\n\tfor i in dialog:\n\t\tvar vae = view_and_edit.get_text()\n\t\tview_and_edit.set_text(vae + str(i) + \" : \" + str(dialog[i]) + \"\\n\")\n\tpass\n\nfunc init_dialog():\n\t\n\t_Dialog = {\n\n\t\t\t\t\"Actors\"\t\t\t\t\t:[self.get_node(\".\"),_Game.player],\n\t\t\t\t\"End_callback_functions\"\t:[],\n\t\t\t\t\n\t\t\t#\tExample dialog_action\n\t\t\t#[branch,counter]\n\t\t\t\t[\'A\',1]:{\n\t\t\t\t\t\t\t\'@type\'\t\t\t\t\t:\'Sentens\',\n\t\t\t\t\t\t\t\'@wait_time\'\t\t\t:1.5,\n\t\t\t\t\t\t\t\'@actor\'\t\t\t\t:0,\n\t\t\t\t\t\t\t\'@sentens\'\t\t\t\t:\"Hola\",\n\t\t\t\t\t\t\t\'@spanish_words\'\t\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@INTERJECTION\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@hola\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@translation\'\t:{1:\'hello\',2:\'hi\'},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@is_processed\'\t:false,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@aduio\':{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@path\'\t\t\t:null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@start_pos\'\t:null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@end_pod\'\t\t:null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\'@sentese\'\t\t:null,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\'@callback_function\'\t:{\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@function_name\'\t\t\t\t:\"end_conversation\",\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@function_args\'\t\t\t\t:[],\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@function_owner\'\t\t\t\t:0,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\'@function_execution_time\'\t\t:\'start_of_action\', # end_of_action\n\t\t\t\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t},\n\t\t\t\t# test in one line\n\t\t\t\t[\'A\',2]:{\'type\':\'Sentens\',\t\t\'wait_time\':3,\t\t\'actor\':1,\t\t\'sentens\':\"Hey muchaco, how\'s it going\?\",\t\t\'spanish_words\':{\t\'INTERJECTION\':{\'hola\':{\t\'translation\':{1:\'hello\',2:\'hi\'},\t\'is_processed\':false,\t\'aduio\':{\'path\':null,\t\'start_pos\':null,\t\'end_pod\':null, \t\'sentese\':null,},},},},\'callback_function\'\t:{\'function_name\'\t\t\t\t:\"end_conversation\",\'function_args\'\t\t\t\t:[],\'function_owner\'\t\t\t:0,\'function_execution_time\'\t:\'start_of_action\', },}\n} \n\n"
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=2]
 
 resource/name = "sentens_step_type"
 script/source = "#\t\t\t\t\tsentens_step_type\nextends OptionButton\n\n\n\nfunc _ready():\n\t\n\tadd_item(\"Sentens\",1)\n\tadd_item(\"sentens123\",2)\n\t\n\tpass\n"
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 
 resource/name = "grammer_type"
 script/source = "#\t\t\t\t\t\tgrammer_type\nextends OptionButton\n\n\nfunc _ready():\n\t\n\tadd_item(\"INTERJECTION\")\n\tadd_item(\"NOUNS\")\n\tpass\n"
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=4]
 
 resource/name = "actor_acting"
 script/source = "#\t\t\t\t\tactor_acting\nextends OptionButton\n\nexport (NodePath) var conversation_tool\n\nfunc _ready():\n\t\n\tconversation_tool = get_node(conversation_tool)\n\t\n#\tfor a in conversation_tool._Dialog.Actors:\n#\t\tprint(a)\n#\t\tadd_item(a.get_name())\n\tpass\n"
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=5]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
@@ -33,7 +33,7 @@ border_size = 0
 border_blend = true
 draw_bg = true
 
-[sub_resource type="GDScript" id=7]
+[sub_resource type="GDScript" id=6]
 
 resource/name = "view_and_edit_result"
 script/source = "#\t\t\t\t\tview_and_edit_result\nextends TextEdit\n\nvar text = \"\"\n\nvar get_orginal_pos\n\nvar max_size = Vector2(950,560)\nvar min_size = Vector2(950, 40)\n\nfunc _ready():\n\tget_orginal_pos = get_pos()\n\tset_size(min_size)\n\tpass\n\n\nfunc _on_minimize_pressed(): set_size(min_size)\n\n\nfunc _on_maximize_pressed(): set_size(max_size)\n\n\n\nfunc _on_role_up_pressed():\n\tset_size(Vector2(0,0))\n\tget_node(\"button_platform/role_up\").hide()\n\tget_node(\"button_platform/role_down\").show()\n\n\nfunc _on_role_down_pressed():\n\tset_size(min_size)\n\tget_node(\"button_platform/role_down\").hide()\n\tget_node(\"button_platform/role_up\").show()"
@@ -42,7 +42,7 @@ script/source = "#\t\t\t\t\tview_and_edit_result\nextends TextEdit\n\nvar text =
 
 editor/display_folded = true
 transform/pos = Vector2( 63, 1 )
-script/script = SubResource( 2 )
+script/script = SubResource( 1 )
 
 [node name="panel_container" type="Panel" parent="."]
 
@@ -276,7 +276,7 @@ flat = false
 align = 0
 selected = -1
 items = [  ]
-script/script = SubResource( 3 )
+script/script = SubResource( 2 )
 __meta__ = { "_edit_group_":true }
 
 [node name="label" type="Label" parent="panel_container/type"]
@@ -358,7 +358,7 @@ flat = false
 align = 0
 selected = -1
 items = [  ]
-script/script = SubResource( 4 )
+script/script = SubResource( 3 )
 
 [node name="label" type="Label" parent="panel_container/sentens/grammer_type1"]
 
@@ -463,7 +463,7 @@ flat = false
 align = 0
 selected = -1
 items = [  ]
-script/script = SubResource( 5 )
+script/script = SubResource( 4 )
 conversation_tool = NodePath("../../../..")
 
 [node name="label" type="Label" parent="panel_container/sentens/spanish_words/actor_acting"]
@@ -553,7 +553,7 @@ margin/left = 40.0
 margin/top = 20.0
 margin/right = 1000.0
 margin/bottom = 60.0
-custom_styles/normal = SubResource( 6 )
+custom_styles/normal = SubResource( 5 )
 custom_colors/member_variable_color = Color( 0.570313, 0.0467834, 0.0467834, 1 )
 custom_colors/function_color = Color( 0.792969, 0.605786, 0.108414, 1 )
 custom_colors/symbol_color = Color( 0.553822, 0.362854, 0.640625, 1 )
@@ -580,7 +580,7 @@ highlight_all_occurrences = true
 caret/block_caret = false
 caret/caret_blink = true
 caret/caret_blink_speed = 0.65
-script/script = SubResource( 7 )
+script/script = SubResource( 6 )
 
 [node name="button_platform" type="Control" parent="panel_container/view_and_edit_result"]
 

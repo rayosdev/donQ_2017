@@ -84,9 +84,10 @@ func end_conversation():
 	if(history_was_just_roled_back): return
 	is_conversation_runing = false
 	if(_Game.get_current_state() == "_CONVERSATION"):_Game.change_state("_ROMMING")
-	for key in dialog.Export_Spanish_Word_List.keys():
-		_Words.add_spanish_word(key,dialog.Export_Spanish_Word_List[key])
+#	for key in dialog.Export_Spanish_Word_List.keys():
+#		_Words.add_spanish_word(key,dialog.Export_Spanish_Word_List[key])
 #	_Utils.ut_fprint_dict(dialog.Export_Spanish_Word_List)
+	
 	consol.hide()
 
 
@@ -135,13 +136,16 @@ func run_conversation_step():
 			audio_stop_timer.set_wait_time(audio_pos.stop - audio_pos.start)
 			audio_stop_timer.start()
 	
-	if(dialog_step.has('spanish_words')):pass
-		var spanish_words = dialog_step.spanish_words
-		for word in spanish_words:
-			if(dialog.Spanish_Words.has(word)):
+	if(dialog_step.has('spanish_words')):
+		print("SPANISH WORDS: %s" % str(dialog_step.spanish_words))
+		for word in dialog_step.spanish_words:
+			_Words.add_spanish_word(word)
+#		var spanish_words = dialog_step.spanish_words
+#		for word in spanish_words:
+#			if(dialog.Spanish_Words.has(word)):
 #				print(dialog.Spanish_Words[word])
-				dialog.Export_Spanish_Word_List[word] = dialog.Spanish_Words[word] 
-			else: print("ERROR - DIALOG MISMATCH ON: - %s - AND WORD: - %s - FROM THE CONVERSATION - %s -" %[dialog.Titel,word, dialog_step.sentens])
+#				dialog.Export_Spanish_Word_List[word] = dialog.Spanish_Words[word] 
+#			else: print("ERROR - DIALOG MISMATCH ON: - %s - AND WORD: - %s - FROM THE CONVERSATION - %s -" %[dialog.Titel,word, dialog_step.sentens])
 #			print("EXPORT_WORDS: %s" % str(dialog.Export_Spanish_Word_List))
 	
 	if(dialog_step.has('callback_functions')):

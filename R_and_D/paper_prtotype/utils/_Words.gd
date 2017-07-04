@@ -10,10 +10,11 @@ func set_spanish_word_dictonary(dictonary)	: _Spanish_Words = dictonary
 func get_spanish_word_dictonary()			: return _Spanish_Words
 signal spanish_word_added
 
-func add_spanish_word(word_name,word_contents):
+func add_spanish_word(word_name):
 	if(_Spanish_Words.has(word_name)): 
 		if(_Game.debug): print("WARNING - _SPANISH_WORD ALREADY CONTAINS WORD: %s" % str(word_name))
 		return
+	var word_contents = get_word_from_word_database(word_name)
 	_Spanish_Words[word_name] = word_contents
 
 	if(_Spanish_Words[word_name].has('is_processed') 	== false): _Spanish_Words[word_name]['is_processed'] = false
@@ -33,9 +34,9 @@ func add_spanish_word(word_name,word_contents):
 	print("WORDS_TEST_SCHEDUAL: %s" % str(words_test_schedular))
 
 	print("WOORD_CONTENNTS: %s" % _Utils.ut_fprint_dict(word_contents))
-#	print("DATA: " + str(OS.get_datetime_from_unix_time(_Spanish_Words[word_name].data_of_discovery + (60 * 60 * 24 * 7 * 4))))
-#	print("DATA2: " + str(OS.get_datetime(true)))
 	emit_signal("spanish_word_added", {'word_name':word_name,'word_contents':word_contents})
+#	print("(ON: _Words.gd) TEST PRINT _Spanish_Words: %s" % str(_Spanish_Words))
+
 
 var game_directory = ""
 
@@ -137,30 +138,44 @@ func schedule_next_date_for_a_test(dates_dictonary):
 
 
 func _word_database_init():
-	
-	var wait_time = Timer.new()
-	add_child(wait_time)
-	wait_time.start()
-	yield(wait_time,"timeout")
-	print("start")
-	
-	for i in range(5000):
-		_word_database["word" + str(i)] = "cool"
-		
-	print("start1")
-	_File_Handler.fh_save_file("test_wordDB",_word_database.to_json())
-		
-	print("start2")
-	var tmp_wordDb = {}.parse_json(_File_Handler.fh_load_file("test_wordDB"))
-	
-	print("start3")
-	if(_word_database.has("word2500")):
-		print("done " + str(_word_database["word2500"]))
-	else:
-		print("WHAT")
-	for i in _word_database: pass
-#		print(i)
+	pass
+
 
 var _word_database = {
 
+'dinero':{
+			'word'				:'dinero',
+			'translation'		:{1:'money',},
+			'grammer_group'		:'INTERJECTION',
+			'special_status'	:null,
+			
+#								'is_processed'		:false,
+#								'dates'				:{'data_of_discovery':null},
+#								'progress'			:null,
+#								'mnemoics'			:{},
+		},
+'hola'	:{
+			'word'				:'hola',
+			'translation'		:{1:'hello',2:'hi'},
+			'grammer_group'		:'INTERJECTION',
+		},
+'adiós'	:{
+			'word'				:'adiós',
+			'translation'		:{1:'goodbye ',2:'bye'},
+			'grammer_group'		:'NOUN',
+			'gender'			:'M',
+		},
+'trabajo'	:{
+			'word'				:'trabajo',
+			'translation'		:{1:'work ',2:'job'},
+			'grammer_group'		:'NOUN',
+			'gender'			:'M',
+		},
+
+
 }
+func get_word_from_word_database(word_name):
+	if(_word_database.has(word_name)):
+		return _word_database[word_name]
+
+
