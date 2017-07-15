@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=1]
+[gd_scene load_steps=57 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=1]
 [ext_resource path="res://R_and_D/mvp/actor.tscn" type="PackedScene" id=2]
@@ -17,8 +17,14 @@
 [ext_resource path="res://R_and_D/mvp/img/mask_for_conversation.png" type="Texture" id=15]
 [ext_resource path="res://R_and_D/paper_prtotype/img/ui_notepad_icon.png" type="Texture" id=16]
 [ext_resource path="res://R_and_D/paper_prtotype/img/notebook_notefier.png" type="Texture" id=17]
-[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=18]
-[ext_resource path="res://R_and_D/paper_prtotype/img/clock_and_calender.png" type="Texture" id=19]
+[ext_resource path="res://R_and_D/mvp/ui/notepad_gui.gd" type="Script" id=18]
+[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=19]
+[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=20]
+[ext_resource path="res://R_and_D/paper_prtotype/utils/word_panel.tscn" type="PackedScene" id=21]
+[ext_resource path="res://R_and_D/paper_prtotype/img/clock_and_calender.png" type="Texture" id=22]
+[ext_resource path="res://R_and_D/mvp/ui/reminder_ui.gd" type="Script" id=23]
+[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_reminder_repeat.png" type="Texture" id=24]
+[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Light.ttf" type="DynamicFontData" id=25]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -173,7 +179,7 @@ font/font = ExtResource( 11 )
 [sub_resource type="GDScript" id=14]
 
 resource/name = "notepad"
-script/source = "#\t\t\t\t\tnotepad\nextends Node2D\n\nvar is_active\nvar anim\nvar notification\n\nvar new_words_list = []\n\nfunc _ready():\n\t_Game.add_to_node_refrnaces(get_name(),self)\n\t\n\tanim = get_node(\"notepad_anim\")\n\tanim.play(\"idel_off\")\n\tnotification = get_node(\"notefication\")\n\t\n\t_Words.connect(\'spanish_word_added\',self,\"new_words_added\")\n\n\nfunc new_words_added(new_word):\n\tprint(\"WORD ADDED TO notepad, WORD: %s\" % str(new_word[\'word_name\']))\n\tnew_words_list.append(new_word)\n\tnotification.add_to_queue()\n\tfor key in new_words_list: \n\t\tprint(\"(ON notepad)\tWODS ADDED: %s\" % str(key.word_name))\n\tpass\n\n\nfunc make_active(active):\n\tis_active = active\n\tif(is_active):\n\t\tanim.play(\"make_visable\")"
+script/source = "#\t\t\t\t\tnotepad\nextends Node2D\n\n\nonready var anim \t\t= get_node(\"notepad_anim\")\nonready var button_area = get_node(\"button_area\")\n\nfunc _ready():\n\t#\t\tStart Setup For Global Connections\n\t_Game.add_to_node_refrnaces(get_name(),self)\n\t_Words.connect(\'spanish_word_added\',self,\"new_words_added\")\n\t\n\t#\t\tLocal Start Settings \n\tanim.play(\"idel_off\")\n\tbutton_area_conections()\n\n\n#\t\t\t\t\tNEW_WORDS_ADDED()\nvar new_words_list = []\nonready var notification = get_node(\"notefication\")\n\nfunc new_words_added(new_word):\n\tif(_Game.debug): print(\"(ON notepad)\tWORD ADDED TO notepad, WORD: %s\" % str(new_word[\'word_name\']))\n\tnew_words_list.append(new_word)\n\tnotification.add_to_queue()\n\tif(_Game.debug):\tfor key in new_words_list:\tprint(\"(ON notepad)\tWORDS ADDED: %s\" % str(key.word_name))\n\n\n#\t\t\t\t\tMAKE_ACTIVE()\nvar is_active\n\nfunc make_active(active):\n\tis_active = active\n\tif(is_active):\n\t\tanim.play(\"make_visable\")\n\n\n#\t\t\t\t\tSetup Button Functions\nfunc button_area_conections():\n\tbutton_area.connect(\"mouse_enter\"\t,self,\"on_mouse_over\")\n\tbutton_area.connect(\"mouse_exit\"\t,self,\"on_mouse_exit\")\n\tbutton_area.connect(\"button_up\"\t\t,self,\"on_mouse_button_up\")\n\tbutton_area.connect(\"button_down\"\t,self,\"on_mouse_button_down\")\n\nonready var icon = get_node(\"icon\")\nonready var orgianal_modul_collor = icon.get_modulate()\nvar btn_down_collor \t= Color(\"e299d8\")\nvar btn_hover_collor\t= Color(\"b077c8\")\n\nfunc on_mouse_over()\t\t: icon.set_modulate(btn_hover_collor)\nfunc on_mouse_exit()\t\t: icon.set_modulate(orgianal_modul_collor)\nfunc on_mouse_button_up()\t: icon.set_modulate(btn_hover_collor)\nfunc on_mouse_button_down(): \n\ticon.set_modulate(btn_down_collor)\n\tget_node(\"notepad_gui\").make_gui_active()\n\n\n"
 
 [sub_resource type="RectangleShape2D" id=15]
 
@@ -255,19 +261,117 @@ tracks/2/interp = 1
 tracks/2/imported = false
 tracks/2/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="GDScript" id=22]
+
+resource/name = "word_panel"
+script/source = "#\t\t\t\t\tword\?panel\nextends Node2D\n\nexport (NodePath) var word_icon\nexport (NodePath) var root_node\n\nvar control_node\n\nvar word_label setget set_word_label, get_word_label\nvar is_active setget set_active, get_activity\n\nvar translation_atempt\n\nfunc _ready():\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\tif(word_icon != null): word_icon = get_node(word_icon)\n\tset_active(false)\n\nfunc set_word_label(_word_label):\n\tword_label = _word_label\n\tword_icon.set_word_label(word_label)\n\nfunc get_word_label(): return word_label\n\nfunc set_active(_is_active = false):\n\tis_active = _is_active\n\t\n\tif(is_active): \n\t\tset_opacity(1)\n\t\tget_node(\"LineEdit\").grab_focus()\n\telse: \n\t\tset_opacity(0.3)\n#\t\tget_node(\"LineEdit\").set_focus_mode(0)\n\nfunc get_activity(): return is_active\n\nfunc _on_LineEdit_input_event( ev ):\n#\tprint(ev.is_echo())\n\t\n\tif(ev.is_action_pressed(\"ui_accept\") and ev.is_echo() == false):\n\t\tif(control_node == null): return print(\"ERROR @%s: no control_node found\" %self.get_name())\n\t\ttranslation_atempt = get_node(\"LineEdit\").get_text()\n\t\tcontrol_node.queue_next_panel(self)\n#\tif(InputEvent..is_key_pressed(KEY_RETURN) and ev.is_echo()): print(ev)\n\tpass # replace with function body\n"
+
+[sub_resource type="Animation" id=23]
+
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("notebook_new_words:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 0.7, 1 ), "transitions":FloatArray( 0.25, 0.25, 0.25 ), "update":0, "values":[ Vector2( 493.059, -314.978 ), Vector2( 493.059, 305.021 ), Vector2( 493.059, 305.021 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("black_background:visibility/opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0.2, 0.8 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
+
+[sub_resource type="DynamicFont" id=24]
 
 font/size = 200
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="DynamicFont" id=25]
 
 font/size = 35
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 11 )
+
+[sub_resource type="CanvasItemShaderGraph" id=26]
+
+_code = { "fragment":"vec3 nd2sl0=vec3(0.988281,0.988281,0.988281);\nfloat nd2sl1=1;\nCOLOR.rgb=nd2sl0;\n", "fragment_ofs":0, "light":"", "light_ofs":0, "vertex":"", "vertex_ofs":0 }
+_data = { "shaders":[ [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ], [ 0, 33, Vector2( 350, 40 ), null, null, [ 0, 2, 0 ], 1, 0, Vector2( 50, 40 ), null, null, [  ], 2, 3, Vector2( 243, 117 ), Color( 0.988281, 0.988281, 0.988281, 1 ), null, [  ] ], [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ] ] }
+
+[sub_resource type="CanvasItemMaterial" id=27]
+
+shader/shader = SubResource( 26 )
+shader/shading_mode = 0
+
+[sub_resource type="DynamicFont" id=28]
+
+font/size = 27
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 25 )
+
+[sub_resource type="Animation" id=29]
+
+resource/name = "appear"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 0, 288 ), Vector2( 0, 0 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/visible")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0, 0.1, 1 ), "transitions":FloatArray( 1, 1, 1 ), "update":1, "values":[ false, true, true ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visibility/opacity")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0, 0.6 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
+
+[sub_resource type="Animation" id=30]
+
+resource/name = "disapear"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, -4 ), "update":0, "values":[ Vector2( 0, 0 ), Vector2( 0, 288 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/visible")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0, 0.9, 1 ), "transitions":FloatArray( 1, 1, 1 ), "update":1, "values":[ true, true, false ] }
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visibility/opacity")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = { "times":FloatArray( 0.5, 1 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 1.0, 0.0 ] }
+
+[sub_resource type="Animation" id=31]
+
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 0, 288 ) ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visibility/opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 0.0 ] }
 
 [node name="mvp_test_level" type="Node"]
 
@@ -327,7 +431,6 @@ _update_shape_index = 0
 
 [node name="landlord" parent="game_items" instance=ExtResource( 2 )]
 
-editor/display_folded = true
 transform/pos = Vector2( 577.153, 325.338 )
 script/script = ExtResource( 4 )
 
@@ -342,7 +445,6 @@ polygon = Vector2Array( -50.8798, 34.6545, 8.30841, -0.56665, 58.8854, 32.216, 9
 
 [node name="landlord_first_incounter_dialog" type="Node" parent="game_items/landlord/conversations"]
 
-editor/display_folded = true
 script/script = ExtResource( 6 )
 
 [node name="audio" type="StreamPlayer" parent="game_items/landlord/conversations/landlord_first_incounter_dialog"]
@@ -373,6 +475,20 @@ transform/pos = Vector2( 312, 14 )
 [node name="pos_3" type="Position2D" parent="game_items/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
 
 transform/pos = Vector2( 760, 14 )
+
+[node name="pause_time_before_movment_starts" type="Timer" parent="game_items/landlord/conversations/landlord_first_incounter_dialog"]
+
+process_mode = 1
+wait_time = 0.5
+one_shot = true
+autostart = false
+
+[node name="countdown_for_notepad_reminder" type="Timer" parent="game_items/landlord/conversations/landlord_first_incounter_dialog"]
+
+process_mode = 1
+wait_time = 8.0
+one_shot = true
+autostart = false
 
 [node name="conversation_color" parent="game_items/landlord"]
 
@@ -537,6 +653,7 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="time_and_level" type="Node2D" parent="ui"]
 
+editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 396, 105.8 )
 transform/scale = Vector2( 0.4, 0.4 )
@@ -792,6 +909,7 @@ autostart = false
 
 [node name="notepad" type="Node2D" parent="ui"]
 
+editor/display_folded = true
 transform/pos = Vector2( 935, 498 )
 transform/scale = Vector2( 0.5, 0.5 )
 script/script = SubResource( 14 )
@@ -809,23 +927,23 @@ transform/scale = Vector2( 0.794985, 1 )
 texture = ExtResource( 16 )
 modulate = Color( 0.845707, 0.63916, 0.929688, 1 )
 
-[node name="button" type="TextureButton" parent="ui/notepad"]
+[node name="button_area" type="TextureButton" parent="ui/notepad"]
 
 editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = -94.0
-margin/top = -129.0
-margin/right = 103.0
-margin/bottom = 85.0
+margin/left = -96.0
+margin/top = -110.0
+margin/right = 101.0
+margin/bottom = 104.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 __meta__ = { "_edit_group_":true }
 
-[node name="area" type="Area2D" parent="ui/notepad/button"]
+[node name="area" type="Area2D" parent="ui/notepad/button_area"]
 
 editor/display_folded = true
 visibility/visible = false
@@ -838,7 +956,7 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 
-[node name="area_collison" type="CollisionShape2D" parent="ui/notepad/button/area"]
+[node name="area_collison" type="CollisionShape2D" parent="ui/notepad/button_area/area"]
 
 transform/pos = Vector2( 90, 120 )
 shape = SubResource( 15 )
@@ -848,6 +966,7 @@ __meta__ = { "_edit_group_":true }
 
 [node name="notefication" type="Sprite" parent="ui/notepad"]
 
+editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 106.263, -112.302 )
 transform/scale = Vector2( 0.40604, 0.40604 )
@@ -904,6 +1023,101 @@ playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
 
+[node name="notepad_gui" type="Node2D" parent="ui/notepad"]
+
+visibility/visible = false
+transform/pos = Vector2( -1840, -996 )
+transform/scale = Vector2( 2, 2 )
+z/z = 3
+script/script = ExtResource( 18 )
+
+[node name="black_background" type="Sprite" parent="ui/notepad/notepad_gui"]
+
+visibility/opacity = 0.6
+transform/pos = Vector2( 501.426, 297.54 )
+transform/scale = Vector2( 3.55357, 2.10348 )
+texture = ExtResource( 19 )
+modulate = Color( 0.132813, 0.114655, 0.114655, 1 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="notebook_new_words" type="Sprite" parent="ui/notepad/notepad_gui"]
+
+editor/display_folded = true
+transform/pos = Vector2( 493.059, 305.021 )
+transform/scale = Vector2( 0.47806, 0.47806 )
+texture = ExtResource( 20 )
+
+[node name="blocks" type="Sprite" parent="ui/notepad/notepad_gui/notebook_new_words"]
+
+transform/pos = Vector2( -232.161, -274.664 )
+transform/scale = Vector2( 1.39459, 0.457372 )
+texture = ExtResource( 19 )
+modulate = Color( 0.492188, 0.488823, 0.461426, 1 )
+__meta__ = { "_edit_group_":true, "_edit_lock_":true }
+
+[node name="blocks" type="Sprite" parent="ui/notepad/notepad_gui/notebook_new_words/blocks"]
+
+transform/pos = Vector2( 0, 4.57349 )
+texture = ExtResource( 19 )
+modulate = Color( 0.542969, 0.538561, 0.50267, 1 )
+
+[node name="blocks1" type="Sprite" parent="ui/notepad/notepad_gui/notebook_new_words/blocks"]
+
+transform/pos = Vector2( 331.368, 2.23243 )
+transform/scale = Vector2( 1.10018, 1.39988 )
+texture = ExtResource( 19 )
+modulate = Color( 0.550781, 0.547251, 0.518509, 1 )
+
+[node name="word_panel" parent="ui/notepad/notepad_gui/notebook_new_words" instance=ExtResource( 21 )]
+
+transform/pos = Vector2( -397.44, -355.604 )
+script/script = SubResource( 22 )
+
+[node name="panel" type="Panel" parent="ui/notepad/notepad_gui/notebook_new_words"]
+
+visibility/self_opacity = 0.0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -467.0
+margin/top = -366.0
+margin/right = 475.0
+margin/bottom = 533.0
+
+[node name="shadow" type="Sprite" parent="ui/notepad/notepad_gui/notebook_new_words"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( -25.1016, 25.1016 )
+texture = ExtResource( 20 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="background_click_disabler" type="TextureButton" parent="ui/notepad/notepad_gui/notebook_new_words"]
+
+visibility/behind_parent = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -1063.0
+margin/top = -638.0
+margin/right = 1079.0
+margin/bottom = 634.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+
+[node name="anim" type="AnimationPlayer" parent="ui/notepad/notepad_gui"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/appear = SubResource( 23 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
 [node name="dropdown" type="Node2D" parent="ui"]
 
 editor/display_folded = true
@@ -914,14 +1128,14 @@ visibility/visible = false
 transform/pos = Vector2( 989.896, 60.9464 )
 transform/scale = Vector2( 0.15279, 0.270659 )
 z/z = 1
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 __meta__ = { "_edit_group_":true }
 
 [node name="shadow" type="Sprite" parent="ui/dropdown/icon"]
 
 transform/pos = Vector2( -20.9437, 14.7787 )
 z/relative = false
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 modulate = Color( 0, 0, 0, 1 )
 __meta__ = { "_edit_lock_":true }
 
@@ -951,7 +1165,7 @@ margin/left = -18.0
 margin/top = 183.0
 margin/right = 124.0
 margin/bottom = 420.0
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 24 )
 custom_colors/font_color = Color( 0.332642, 0.78125, 0.602508, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = -21
@@ -971,7 +1185,7 @@ editor/display_folded = true
 transform/pos = Vector2( 399.261, 67.8004 )
 transform/scale = Vector2( 0.35608, 0.333548 )
 z/z = 2
-texture = ExtResource( 19 )
+texture = ExtResource( 22 )
 __meta__ = { "_edit_group_":true }
 
 [node name="12" type="Label" parent="ui/clock_adn_calander/clock_and_calender"]
@@ -984,7 +1198,7 @@ margin/left = -20.0
 margin/top = -127.0
 margin/right = 25.0
 margin/bottom = -85.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "12"
 percent_visible = 1.0
@@ -1001,7 +1215,7 @@ margin/left = -102.0
 margin/top = -63.0
 margin/right = -57.0
 margin/bottom = -21.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_y = 1
@@ -1017,7 +1231,7 @@ visibility/self_opacity = 0.3
 transform/pos = Vector2( 0.515442, 0.572296 )
 transform/rot = -296.771
 transform/scale = Vector2( 0.0665393, 0.412816 )
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 offset = Vector2( 0.918198, -141.305 )
 modulate = Color( 1, 0, 0, 1 )
 
@@ -1031,7 +1245,7 @@ margin/left = 84.0
 margin/top = -20.0
 margin/right = 129.0
 margin/bottom = 22.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "3"
 align = 1
@@ -1049,7 +1263,7 @@ margin/left = -20.0
 margin/top = 74.0
 margin/right = 25.0
 margin/bottom = 116.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "6"
 align = 1
@@ -1067,7 +1281,7 @@ margin/left = -124.0
 margin/top = -20.0
 margin/right = -79.0
 margin/bottom = 22.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "9"
 align = 1
@@ -1080,14 +1294,14 @@ max_lines_visible = -1
 transform/pos = Vector2( -10, 13 )
 z/z = 1
 z/relative = false
-texture = ExtResource( 19 )
+texture = ExtResource( 22 )
 modulate = Color( 0, 0, 0, 1 )
 
 [node name="hour_hand" type="Sprite" parent="ui/clock_adn_calander/clock_and_calender"]
 
 transform/pos = Vector2( 0.515442, 0.572296 )
 transform/scale = Vector2( 0.0665393, 0.412816 )
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 offset = Vector2( 0.918198, -141.305 )
 modulate = Color( 0.140625, 0.113708, 0.113708, 1 )
 
@@ -1109,6 +1323,66 @@ shortcut = null
 
 process_mode = 1
 wait_time = 5.0
+one_shot = true
+autostart = false
+
+[node name="reminder" type="Node2D" parent="ui"]
+
+visibility/visible = false
+visibility/opacity = 0.0
+transform/pos = Vector2( 0, 288 )
+script/script = ExtResource( 23 )
+
+[node name="reminder_palat" type="Sprite" parent="ui/reminder"]
+
+material/material = SubResource( 27 )
+transform/pos = Vector2( 542.25, 455.734 )
+texture = ExtResource( 24 )
+
+[node name="shadow" type="Sprite" parent="ui/reminder/reminder_palat"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( -5, 10 )
+texture = ExtResource( 24 )
+modulate = Color( 0.015625, 0.015625, 0.015625, 1 )
+
+[node name="text" type="Label" parent="ui/reminder/reminder_palat"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -242.0
+margin/top = -97.0
+margin/right = 238.0
+margin/bottom = 88.0
+custom_fonts/font = SubResource( 28 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Reminder"
+align = 1
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="anim" type="AnimationPlayer" parent="ui/reminder"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/appear = SubResource( 29 )
+anims/disapear = SubResource( 30 )
+anims/idel = SubResource( 31 )
+next/disapear = ""
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="wait_timer" type="Timer" parent="ui/reminder"]
+
+process_mode = 1
+wait_time = 1.0
 one_shot = true
 autostart = false
 

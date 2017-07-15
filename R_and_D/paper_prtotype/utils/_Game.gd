@@ -102,3 +102,6 @@ func get_node_refrences(): return node_refrences
 func add_to_node_refrnaces(node_name,refrance):
 	node_refrences[node_name] = {'refrence':refrance}
 	return node_refrences
+func get_singel_node_refrence(node_name):
+	if(node_refrences.has(node_name)): return node_refrences[node_name].refrence
+	else: return print("(ON _Game.gd)	ERROR - FAILD TO FIND NODE REFERANCE: %s IN node_refremces" % str(node_name))

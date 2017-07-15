@@ -6,7 +6,7 @@ var dialog = {
 				'Titel'						:"landlord the fist encounter",
 				'Actors'					:["landlord","player"],
 				'End_callback_functions'	:[],
-				'Export_Spanish_Word_List'	:{},
+#				'Export_Spanish_Word_List'	:{},
 				'Audio_Enabled'				:false,
 
 #					THE_CONVERSATION
@@ -38,36 +38,36 @@ var dialog = {
 
 #					SPANISH_WORDS
 
-'Spanish_Words':{
-					'dinero':{
-								'word'				:'dinero',
-								'translation'		:{1:'money',},
-								'grammer_group'		:'INTERJECTION',
-								'special_status'	:null,
-								
-#								'is_processed'		:false,
-#								'dates'				:{'data_of_discovery':null},
-#								'progress'			:null,
-#								'mnemoics'			:{},
-							},
-					'hola'	:{
-								'word'				:'hola',
-								'translation'		:{1:'hello',2:'hi'},
-								'grammer_group'		:'INTERJECTION',
-							},
-					'adiós'	:{
-								'word'				:'adiós',
-								'translation'		:{1:'goodbye ',2:'bye'},
-								'grammer_group'		:'NOUN',
-								'gender'			:'M',
-							},
-					'trabajo'	:{
-								'word'				:'trabajo',
-								'translation'		:{1:'work ',2:'job'},
-								'grammer_group'		:'NOUN',
-								'gender'			:'M',
-							},
-				},
+#'Spanish_Words':{
+#					'dinero':{
+#								'word'				:'dinero',
+#								'translation'		:{1:'money',},
+#								'grammer_group'		:'INTERJECTION',
+#								'special_status'	:null,
+#								
+								'is_processed'		:false,
+								'dates'				:{'data_of_discovery':null},
+								'progress'			:null,
+								'mnemoics'			:{},
+#							},
+#					'hola'	:{
+#								'word'				:'hola',
+#								'translation'		:{1:'hello',2:'hi'},
+#								'grammer_group'		:'INTERJECTION',
+#							},
+#					'adiós'	:{
+#								'word'				:'adiós',
+#								'translation'		:{1:'goodbye ',2:'bye'},
+#								'grammer_group'		:'NOUN',
+#								'gender'			:'M',
+#							},
+#					'trabajo'	:{
+#								'word'				:'trabajo',
+#								'translation'		:{1:'work ',2:'job'},
+#								'grammer_group'		:'NOUN',
+#								'gender'			:'M',
+#							},
+#				},
 
 
 #					CALLBACK_FUNCTIONS

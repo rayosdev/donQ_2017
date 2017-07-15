@@ -44,25 +44,35 @@ func _input(event):
 			_Game.change_state("_CONVERSATION")
 
 
+#					END_CONVERSATION
+onready var pause_time_before_movment_starts 		= get_node("conversations/landlord_first_incounter_dialog/pause_time_before_movment_starts")
+onready var countdown_for_notepad_reminder 			= get_node("conversations/landlord_first_incounter_dialog/countdown_for_notepad_reminder")
+
 func end_conversation(args): 
-	var conversation_system = root_node.find_node("conversation_system")
-	if(conversation_system == null): return print("ERROR - FAILD TO FIND 'conversation_system'")
-	
-	var wait_timer = Timer.new()
-	add_child(wait_timer)
-	wait_timer.set_wait_time(0.5)
-	wait_timer.start()
-	yield(wait_timer,'timeout')
-	
+	var conversation_system = _Game.get_singel_node_refrence("conversation_system")
+	if(typeof(conversation_system) != TYPE_OBJECT): return
 	conversation_system.end_conversation()
+	
+	countdown_for_notepad_reminder.connect("timeout",self,"player_check_notepad_reminder")
+	countdown_for_notepad_reminder.start()
+	
+	pause_time_before_movment_starts.start()
+	yield(pause_time_before_movment_starts,'timeout')
 	var tmp_arr 		= find_node("exit_path").get_children()
-	var exit_path_arr 	= []
-	for p in tmp_arr: exit_path_arr.append(p.get_global_pos())
-	set_target_positions(exit_path_arr)
-	wait_timer.queue_free()
+	var end_movement_list 	= []
+	for p in tmp_arr: end_movement_list.append( p.get_global_pos())
+	set_target_positions(end_movement_list)
 
 
-var times_executed = 0
+func player_check_notepad_reminder():
+	var notepad_gui = _Game.get_singel_node_refrence("notepad_gui")
+	var reminder	= _Game.get_singel_node_refrence("reminder")
+	if(notepad_gui.has_been_activated_once): return
+	
+	reminder.activate_reminder("I Better check the notepad before I try to find the docs")
+
+
+var times_asked_for_rent = 0
 
 func ask_for_rent(args):
 	if(args.has('rent_sum') == false): return print("ERROR - FAILD TO FIND 'rent_sum' IN 'args' IN FUNC 'ask_for_rent()' ") 
@@ -75,8 +85,8 @@ func ask_for_rent(args):
 	wait_time.start()
 	yield(wait_time,'timeout')
 	
-	times_executed += 1
-	if(times_executed > 1): return
+	times_asked_for_rent += 1
+	if(times_asked_for_rent > 1): return
 	_Game.change_singal_stat("Money",sum)
 	wait_time.queue_free()
 

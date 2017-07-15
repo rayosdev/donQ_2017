@@ -23,7 +23,7 @@ var is_conversation_runing = false
 
 
 func _ready():
-	
+	_Game.add_to_node_refrnaces(self.get_name(),self)
 	
 	consol 				= get_node("consol")
 	next_btn 			= get_node("consol/next")
