@@ -1,100 +1,68 @@
-[gd_scene load_steps=8 format=1]
+[gd_scene load_steps=3 format=1]
 
-[ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=1]
-[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Regular.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=3]
-[ext_resource path="res://R_and_D/paper_prtotype/utils/word_icon.tscn" type="PackedScene" id=4]
+[ext_resource path="res://R_and_D/mvp/ui/notepad_word_item.tscn" type="PackedScene" id=1]
 
 [sub_resource type="GDScript" id=1]
 
 resource/name = "word_panel"
-script/source = "#\t\t\t\t\tword\?panel\nextends Node2D\n\nexport (NodePath) var word_icon\nexport (NodePath) var root_node\n\nvar control_node\n\nvar word_label setget set_word_label, get_word_label\nvar is_active setget set_active, get_activity\n\nvar translation_atempt\n\nfunc _ready():\n\t\n\tif(root_node != null): root_node = get_node(root_node)\n\tif(word_icon != null): word_icon = get_node(word_icon)\n\tset_active(false)\n\nfunc set_word_label(_word_label):\n\tword_label = _word_label\n\tword_icon.set_word_label(word_label)\n\nfunc get_word_label(): return word_label\n\nfunc set_active(_is_active = false):\n\tis_active = _is_active\n\t\n\tif(is_active): \n\t\tset_opacity(1)\n\t\tget_node(\"LineEdit\").grab_focus()\n\telse: \n\t\tset_opacity(0.3)\n#\t\tget_node(\"LineEdit\").set_focus_mode(0)\n\nfunc get_activity(): return is_active\n\nfunc _on_LineEdit_input_event( ev ):\n#\tprint(ev.is_echo())\n\t\n\tif(ev.is_action_pressed(\"ui_accept\") and ev.is_echo() == false):\n\t\tif(control_node == null): return print(\"ERROR @%s: no control_node found\" %self.get_name())\n\t\ttranslation_atempt = get_node(\"LineEdit\").get_text()\n\t\tcontrol_node.queue_next_panel(self)\n#\tif(InputEvent..is_key_pressed(KEY_RETURN) and ev.is_echo()): print(ev)\n\tpass # replace with function body\n"
+script/source = "#\t\t\t\t\tword_panel\nextends Control\n\n#\t\tWords to be instanciated\nvar new_word_list\n\n\nfunc _ready():pass\n\n\n#func on_activated "
 
-[sub_resource type="DynamicFont" id=2]
+[node name="word_panel" type="Control"]
 
-font/size = 43
-extra_spacing/top = 10
-extra_spacing/space = 2
-font/use_mipmaps = false
-font/use_filter = false
-font/font = ExtResource( 2 )
-
-[sub_resource type="GDScript" id=3]
-
-resource/name = "word_icon"
-script/source = "extends Node2D\n\nvar word_label setget set_word_label, get_word_label\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tpass\n\nfunc set_word_label(_word_label):\n\tword_label = _word_label\n\tget_node(\"word_label1\").set_text(_word_label)\n\tpass\n\t\nfunc get_word_label(): return word_label\n"
-
-[node name="word_panel" type="Node2D"]
-
+rect/min_size = Vector2( 500, 600 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 500.0
+margin/bottom = 600.0
 script/script = SubResource( 1 )
-word_icon = NodePath("word_icon")
-root_node = null
 
-[node name="panel_background" type="Sprite" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 
-transform/pos = Vector2( 457.352, 62.5394 )
-transform/scale = Vector2( 2.92707, 0.428352 )
-texture = ExtResource( 1 )
-modulate = Color( 0.785137, 0.736084, 0.736084, 1 )
-
-[node name="LineEdit" type="LineEdit" parent="."]
-
+anchor/right = 1
+anchor/bottom = 1
+rect/min_size = Vector2( 500, 600 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 428.0
-margin/top = 21.0
-margin/right = 867.0
-margin/bottom = 105.0
-custom_fonts/font = SubResource( 2 )
-placeholder/text = "translation"
-placeholder/alpha = 0.2
-focus_mode = 2
-caret/caret_blink = false
-caret/caret_blink_speed = 0.65
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+custom_constants/margin_right = 20
+custom_constants/margin_left = 0
 
-[node name="sound_btn" type="TextureButton" parent="."]
+[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer"]
 
-editor/display_folded = true
+rect/min_size = Vector2( 500, 600 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 51.0
-margin/top = 22.0
-margin/right = 135.0
-margin/bottom = 105.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 500.0
+margin/bottom = 600.0
+split/offset = 0
+split/collapsed = false
+split/dragger_visibility = 0
 
-[node name="sound_shadow" type="Sprite" parent="sound_btn"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VSplitContainer"]
 
-transform/pos = Vector2( 37.7318, 45.7484 )
-transform/scale = Vector2( 1.19531, 1.19531 )
-texture = ExtResource( 3 )
-modulate = Color( 0, 0, 0, 0.726784 )
-region = true
-region_rect = Rect2( 140, 330, 70, 70 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 500.0
+margin/bottom = 600.0
+alignment = 0
 
-[node name="sound" type="Sprite" parent="sound_btn"]
-
-transform/pos = Vector2( 41.9152, 41.5648 )
-transform/scale = Vector2( 1.19531, 1.19531 )
-texture = ExtResource( 3 )
-modulate = Color( 0.926414, 0.933594, 0.703842, 1 )
-region = true
-region_rect = Rect2( 140, 330, 70, 70 )
-
-[node name="word_icon" parent="." instance=ExtResource( 4 )]
-
-editor/display_folded = true
-transform/pos = Vector2( 293.175, 70.1114 )
-transform/scale = Vector2( 1.65368, 1.65368 )
-script/script = SubResource( 3 )
-
-[connection signal="input_event" from="LineEdit" to="." method="_on_LineEdit_input_event"]
+[node name="word_item" parent="MarginContainer/VSplitContainer/VBoxContainer" instance=ExtResource( 1 )]
 
 
-[editable path="word_icon"]

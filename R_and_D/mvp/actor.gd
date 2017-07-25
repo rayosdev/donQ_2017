@@ -9,6 +9,7 @@ func set_target_positions(array): target_positions = array
 func get_target_positions()		: return target_positions
 func add_to_target_positions(target_vector):
 #	print("ADDED TO target_positions VECTOR2: %s" % str(target_vector))
+	if(_Game.get_current_state() != "_ROMMING"): return
 	target_positions.append(target_vector)
 
 func _ready():

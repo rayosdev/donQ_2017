@@ -1,18 +1,16 @@
 #					_Words.gd
 extends Node
 
-
-var _Spanish_Words = {
-
-}	setget set_spanish_word_dictonary,get_spanish_word_dictonary
+#		Dictonary containing spanish words added by the game play and important information
+var _Spanish_Words = {}	setget set_spanish_word_dictonary,get_spanish_word_dictonary
 
 func set_spanish_word_dictonary(dictonary)	: _Spanish_Words = dictonary
 func get_spanish_word_dictonary()			: return _Spanish_Words
 signal spanish_word_added
-
+#		Adding a single word and processing it
 func add_spanish_word(word_name):
 	if(_Spanish_Words.has(word_name)): 
-		if(_Game.debug): print("WARNING - _SPANISH_WORD ALREADY CONTAINS WORD: %s" % str(word_name))
+		if(_Game.debug): print("WARNING - _SPANISH_WORDS ALREADY CONTAINS WORD: %s" % str(word_name))
 		return
 	var word_contents = get_word_from_word_database(word_name)
 	_Spanish_Words[word_name] = word_contents
@@ -30,7 +28,6 @@ func add_spanish_word(word_name):
 #	print("SIZE: %s" % str(dates.size() - 1))
 	var last_added_test_date = dates[dates.size() - 1]
 	add_to_words_test_schedular(last_added_test_date,word_name)
-#	print("DATES SIZE -1: " + )
 	print("WORDS_TEST_SCHEDUAL: %s" % str(words_test_schedular))
 
 	print("WOORD_CONTENNTS: %s" % _Utils.ut_fprint_dict(word_contents))

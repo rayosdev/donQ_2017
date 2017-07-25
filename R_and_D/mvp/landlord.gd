@@ -69,7 +69,7 @@ func player_check_notepad_reminder():
 	var reminder	= _Game.get_singel_node_refrence("reminder")
 	if(notepad_gui.has_been_activated_once): return
 	
-	reminder.activate_reminder("I Better check the notepad before I try to find the docs")
+	reminder.activate_reminder("I Better check the notepad before I try to find the docs",2,8)
 
 
 var times_asked_for_rent = 0
@@ -93,10 +93,11 @@ func ask_for_rent(args):
 
 func activate_notepad(args):
 	var node_refrences = _Game.get_node_refrences()
-	if(node_refrences.has('notepad') == false): return print('ERROR - NODE_REFRANCE is MISSING OBJ: "notepad" [landlord.gd] ')
-	if(node_refrences['notepad'].has('refrence') == false): return print('ERROR - NODE_REFRANCE.NOTEPAD is MISSING: "refrence" [landlord.gd] ')
-	var notepad = node_refrences.notepad['refrence']
-	notepad.make_active(true)
+	if(node_refrences.has('notepad_icon') == false): return print('ERROR - NODE_REFRANCE is MISSING OBJ: "notepad" [landlord.gd] ')
+	if(node_refrences['notepad_icon'].has('refrence') == false): return print('ERROR - NODE_REFRANCE.NOTEPAD is MISSING: "refrence" [landlord.gd] ')
+	var notepad_icon = node_refrences.notepad_icon['refrence']
+	print("OK")
+	notepad_icon.make_active(true)
 	pass
 
 

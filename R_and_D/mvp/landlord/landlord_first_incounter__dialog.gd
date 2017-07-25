@@ -28,8 +28,10 @@ var dialog = {
 			['A',12]:{'actor':1,	'sentens':"Yes ofcorse",	},
 			['A',13]:{'actor':0,	'sentens':"Then here is a house warming present for you",		'callback_functions':['activate_notepad'],	'wait_time':7,	},
 			
+			['A',14]:{'actor':1,	'sentens':"Hey Thanks" },
 			
-			['A',14]:{'actor':0,	'sentens':"I have to go. Adiós",			'audio_pos'	:{'start':04.78,		'stop':06.28},		'spanish_words':['adiós'],		 'callback_functions':['end_conversation']},
+			
+			['A',15]:{'actor':0,	'sentens':"I have to go. Adiós",			'audio_pos'	:{'start':04.78,		'stop':06.28},		'spanish_words':['adiós'],		 'callback_functions':['end_conversation']},
 
 
 

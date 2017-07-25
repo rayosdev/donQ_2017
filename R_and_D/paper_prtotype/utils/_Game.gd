@@ -19,7 +19,6 @@ var _State = {
 } setget get_current_state, change_state
 
 
-
 var active_dialog = {} setget set_active_dialog,get_active_dialog
 
 func set_active_dialog(dialog): active_dialog = dialog

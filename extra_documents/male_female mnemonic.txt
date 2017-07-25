@@ -1,0 +1,2 @@
+LORENS 	masculine
+DAMIN 	femenin
