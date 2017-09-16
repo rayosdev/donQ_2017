@@ -7,7 +7,7 @@ onready var button_area = get_node("button_area")
 func _ready():
 	#		Start Setup For Global Connections
 	_Game.add_to_node_refrnaces(get_name(),self)
-	_Words.connect('spanish_word_added',self,"new_words_added")
+	_Words.connect('gameplay_word_added',self,"new_words_added")
 	
 	#		Local Start Settings 
 	anim.play("idel_off")

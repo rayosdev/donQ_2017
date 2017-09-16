@@ -15,9 +15,8 @@ margin/top = 0.0
 margin/right = 500.0
 margin/bottom = 600.0
 script/script = ExtResource( 1 )
-word_item = ExtResource( 2 )
 
-[node name="margins" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 
 anchor/right = 1
 anchor/bottom = 1
@@ -33,7 +32,7 @@ margin/bottom = 0.0
 custom_constants/margin_right = 20
 custom_constants/margin_left = 0
 
-[node name="vsplitt" type="VSplitContainer" parent="margins"]
+[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer"]
 
 rect/min_size = Vector2( 500, 600 )
 focus/ignore_mouse = false
@@ -48,8 +47,9 @@ split/offset = 0
 split/collapsed = false
 split/dragger_visibility = 0
 
-[node name="vbox" type="VBoxContainer" parent="margins/vsplitt"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VSplitContainer"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -60,9 +60,6 @@ margin/right = 500.0
 margin/bottom = 600.0
 alignment = 0
 
-[node name="word_item" parent="margins/vsplitt/vbox" instance=ExtResource( 2 )]
-
-visibility/visible = false
+[node name="word_item" parent="MarginContainer/VSplitContainer/VBoxContainer" instance=ExtResource( 2 )]
 
 
-[editable path="margins/vsplitt/vbox/word_item"]

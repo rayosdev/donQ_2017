@@ -2,28 +2,27 @@
 extends Node
 
 #		Dictonary containing spanish words added by the game play and important information
-var _Spanish_Words = {}	setget set_spanish_word_dictonary,get_spanish_word_dictonary
+var _words_from_gameplay = {}	setget set_spanish_word_dictonary,get_spanish_word_dictonary
 
-func set_spanish_word_dictonary(dictonary)	: _Spanish_Words = dictonary
-func get_spanish_word_dictonary()			: return _Spanish_Words
-signal spanish_word_added
+func set_spanish_word_dictonary(dictonary)	: _words_from_gameplay = dictonary
+func get_spanish_word_dictonary()			: return _words_from_gameplay
+signal gameplay_word_added
 #		Adding a single word and processing it
 func add_spanish_word(word_name):
-	if(_Spanish_Words.has(word_name)): 
-		if(_Game.debug): print("WARNING - _SPANISH_WORDS ALREADY CONTAINS WORD: %s" % str(word_name))
+	if(_words_from_gameplay.has(word_name)): 
+		if(_Game.debug): print("WARNING - _words_from_gameplay ALREADY CONTAINS WORD: %s" % str(word_name))
 		return
 	var word_contents = get_word_from_word_database(word_name)
-	_Spanish_Words[word_name] = word_contents
+	_words_from_gameplay[word_name] = word_contents
 
-	if(_Spanish_Words[word_name].has('is_processed') 	== false): _Spanish_Words[word_name]['is_processed'] = false
-	if(_Spanish_Words[word_name].has('progress') 		== false): _Spanish_Words[word_name]['progress'] = null
-	if(_Spanish_Words[word_name].has('mnemoics') 		== false): _Spanish_Words[word_name]['mnemoics'] = {}
-	if(_Spanish_Words[word_name].has('dates') 			== false): _Spanish_Words[word_name]['dates']	= {}
-	if(_Spanish_Words[word_name]['dates'].has("data_of_discovery") == false): 
-		_Spanish_Words[word_name]['dates']["data_of_discovery"] = null
-	_Spanish_Words[word_name]['dates']['data_of_discovery'] = OS.get_unix_time()
-	var dates = schedule_next_date_for_a_test(_Spanish_Words[word_name].dates)
-	_Spanish_Words[word_name].dates = dates
+	if(_words_from_gameplay[word_name].has('is_processed') 				 == false): _words_from_gameplay[word_name]['is_processed'] = false
+	if(_words_from_gameplay[word_name].has('progress') 					 == false): _words_from_gameplay[word_name]['progress'] = null
+	if(_words_from_gameplay[word_name].has('mnemoics') 					 == false): _words_from_gameplay[word_name]['mnemoics'] = {}
+	if(_words_from_gameplay[word_name].has('dates') 					 == false): _words_from_gameplay[word_name]['dates']	= {}
+	if(_words_from_gameplay[word_name]['dates'].has("data_of_discovery") == false): _words_from_gameplay[word_name]['dates']["data_of_discovery"] = null
+	_words_from_gameplay[word_name]['dates']['data_of_discovery'] = OS.get_unix_time()
+	var dates = schedule_next_date_for_a_test(_words_from_gameplay[word_name].dates)
+	_words_from_gameplay[word_name].dates = dates
 #	print("DATES: %s FOR WORD: %s" % [str(dates),str(word_name)])
 #	print("SIZE: %s" % str(dates.size() - 1))
 	var last_added_test_date = dates[dates.size() - 1]
@@ -31,29 +30,29 @@ func add_spanish_word(word_name):
 	print("WORDS_TEST_SCHEDUAL: %s" % str(words_test_schedular))
 
 	print("WOORD_CONTENNTS: %s" % _Utils.ut_fprint_dict(word_contents))
-	emit_signal("spanish_word_added", {'word_name':word_name,'word_contents':word_contents})
-#	print("(ON: _Words.gd) TEST PRINT _Spanish_Words: %s" % str(_Spanish_Words))
+	emit_signal("gameplay_word_added", {'word_name':word_name,'word_contents':word_contents})
+#	print("(ON: _Words.gd) TEST PRINT _words_from_gameplay: %s" % str(_words_from_gameplay))
 
 
 var game_directory = ""
 
 func _ready():
 	_word_database_init()
-	_File_Handler.fh_del_file("","_Spanish_Words")
+	_File_Handler.fh_del_file("","_words_from_gameplay")
 
-	var _spanish_words = {}
-	if(_File_Handler.fh_load_file(game_directory +"/"+ "_Spanish_Words") != null):
-		_spanish_words.parse_json(_File_Handler.fh_load_file(game_directory +"/"+ "_Spanish_Words"))
-	elif(_spanish_words == null):
-		_File_Handler.fh_save_file(game_directory +"/"+ "_Spanish_Words",_Spanish_Words.to_json())
-		_spanish_words = _Spanish_Words
+	var _words_from_gameplay = {}
+	if(_File_Handler.fh_load_file(game_directory +"/"+ "_words_from_gameplay") != null):
+		_words_from_gameplay.parse_json(_File_Handler.fh_load_file(game_directory +"/"+ "_words_from_gameplay"))
+	elif(_words_from_gameplay == null):
+		_File_Handler.fh_save_file(game_directory +"/"+ "_words_from_gameplay",_words_from_gameplay.to_json())
+		_words_from_gameplay = _words_from_gameplay
 	
-	_Spanish_Words = _spanish_words
+	_words_from_gameplay = _words_from_gameplay
 
 
 func _notification(what):
 	if(what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST):
-		_File_Handler.fh_save_file("_Spanish_Words",_Spanish_Words.to_json())
+		_File_Handler.fh_save_file("_words_from_gameplay",_words_from_gameplay.to_json())
 		print("NOTIFICATION: %s" % str(what))
 
 
@@ -108,7 +107,7 @@ func schedule_next_date_for_a_test(dates_dictonary):
 		years	= 1 * 60 * 60 * 24 * 365,
 	}
 
-	# First sheduled test date is three days after data_of_discovery
+	#		Shedluling review date
 	if(dates_dictonary.size() == 1):
 		dates_dictonary[1] = dates_dictonary.data_of_discovery + (t.hours * 3)
 

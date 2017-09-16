@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=1]
+[gd_scene load_steps=56 format=1]
 
 [ext_resource path="res://R_and_D/paper_prtotype/img/level_01.png" type="Texture" id=1]
 [ext_resource path="res://R_and_D/mvp/actor.tscn" type="PackedScene" id=2]
@@ -59,17 +59,32 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 0, 0 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 1.0 ] }
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:visibility/visible")
 tracks/2/interp = 1
 tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ true ] }
+tracks/2/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=6]
 
@@ -80,32 +95,132 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ Vector2( 0, 0 ), Vector2( 0, -1129.33 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 1 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -1129.33 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:transform/rot")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 0.0 ] }
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:transform/scale")
 tracks/2/interp = 1
 tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 1, 1 ) ] }
+tracks/2/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
 tracks/3/type = "value"
 tracks/3/path = NodePath(".:visibility/opacity")
 tracks/3/interp = 1
 tracks/3/imported = false
-tracks/3/keys = { "times":FloatArray( 0, 0.5, 1 ), "transitions":FloatArray( 1, 0.25, 1 ), "update":0, "values":[ 0.0, 1.0, 0.0 ] }
+tracks/3/keys = {
+"times": FloatArray( 0, 0.5, 1 ),
+"transitions": FloatArray( 1, 0.25, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 0.0 ]
+}
 
 [sub_resource type="GDScript" id=7]
 
 resource/name = "mouse_click_area"
-script/source = "#\t\t\t\t\tmouse_click_area\nextends TextureButton\n\nvar player\nvar root_node\n\nfunc _ready():\n\t\n\troot_node = get_tree().get_current_scene()\n\tplayer = root_node.find_node(\"player\")\n\tself.connect(\"pressed\",player,\"_on_mouse_click_area_button_down\")\n\n\tset_process(true)\n\tprint(_Game.node_refrences)\n\n\nvar do_once = false\n\nfunc _process(delta):\n\tif(do_once == false):\n#\t\tprint(_Game.node_refrences[\'notepad\'][\'refrence\'].get_name())\n\t\tdo_once = true\n#\t\tprint(_Game.node_refrences.notepad.get_name())\n\n"
+script/source = "#					mouse_click_area
+extends TextureButton
+
+var player
+var root_node
+
+func _ready():
+	
+	root_node = get_tree().get_current_scene()
+	player = root_node.find_node(\"player\")
+	self.connect(\"pressed\",player,\"_on_mouse_click_area_button_down\")
+
+	set_process(true)
+	print(_Game.node_refrences)
+
+
+var do_once = false
+
+func _process(delta):
+	if(do_once == false):
+#		print(_Game.node_refrences['notepad']['refrence'].get_name())
+		do_once = true
+#		print(_Game.node_refrences.notepad.get_name())
+
+"
 
 [sub_resource type="GDScript" id=8]
 
 resource/name = "ui_level_and_cash"
-script/source = "#\t\t\t\t\tui_level_and_cash\nextends Sprite\n\nvar ui_cash_label\nvar current_ui_cash\nvar game_cash\nvar stay_active_timer\nvar anim\nvar is_counting = false\nvar count_down_or_up_timer = Timer.new()\n\nfunc _ready():\n\t\n\tadd_child(count_down_or_up_timer)\n\tui_cash_label\t\t= get_node(\"cash_label\")\n\tstay_active_timer\t= get_node(\"stay_active_timer\")\n\tanim\t\t\t\t= get_node(\"anim\")\n\t\n\tstay_active_timer.connect(\"timeout\",self,\"fade_out\")\n\t\n\n\nfunc update_cash(_game_cash):\n\tgame_cash = _game_cash\n\tis_counting = true\n\tmake_visable()\n\t\n\tcount_down_or_up_timer.connect(\"timeout\",self,\"count_down_or_up\")\n\tcount_down_or_up_timer.set_wait_time(0.015)\n\t\n\tcount_down_or_up_timer.start()\n\n\nfunc count_down_or_up():\n\tcurrent_ui_cash = int(ui_cash_label.get_text())\n\tif(current_ui_cash \t< \tgame_cash): current_ui_cash += 1\n\tif(current_ui_cash \t> \tgame_cash): current_ui_cash -= 1\n\tui_cash_label.set_text(str(current_ui_cash))\n\t\n\tif(current_ui_cash \t== \tgame_cash): \n\t\tcount_down_or_up_timer.disconnect(\"timeout\",self,\"count_down_or_up\")\n\t\tstay_active_timer.start()\n\t\tis_counting = false\n\t\treturn\n\tcount_down_or_up_timer.start()\n\t\n\nfunc make_visable():\n\tshow()\n\tif(is_counting == false): stay_active_timer.start()\n\tanim.play(\"fade_in\")\n\t\nfunc make_invisable()\t: hide()\nfunc fade_out()\t\t\t: anim.play(\"fade_out\")\n\t\n\n"
+script/source = "#					ui_level_and_cash
+extends Sprite
+
+var ui_cash_label
+var current_ui_cash
+var game_cash
+var stay_active_timer
+var anim
+var is_counting = false
+var count_down_or_up_timer = Timer.new()
+
+func _ready():
+	
+	add_child(count_down_or_up_timer)
+	ui_cash_label		= get_node(\"cash_label\")
+	stay_active_timer	= get_node(\"stay_active_timer\")
+	anim				= get_node(\"anim\")
+	
+	stay_active_timer.connect(\"timeout\",self,\"fade_out\")
+	
+
+
+func update_cash(_game_cash):
+	game_cash = _game_cash
+	is_counting = true
+	make_visable()
+	
+	count_down_or_up_timer.connect(\"timeout\",self,\"count_down_or_up\")
+	count_down_or_up_timer.set_wait_time(0.015)
+	
+	count_down_or_up_timer.start()
+
+
+func count_down_or_up():
+	current_ui_cash = int(ui_cash_label.get_text())
+	if(current_ui_cash 	< 	game_cash): current_ui_cash += 1
+	if(current_ui_cash 	> 	game_cash): current_ui_cash -= 1
+	ui_cash_label.set_text(str(current_ui_cash))
+	
+	if(current_ui_cash 	== 	game_cash): 
+		count_down_or_up_timer.disconnect(\"timeout\",self,\"count_down_or_up\")
+		stay_active_timer.start()
+		is_counting = false
+		return
+	count_down_or_up_timer.start()
+	
+
+func make_visable():
+	show()
+	if(is_counting == false): stay_active_timer.start()
+	anim.play(\"fade_in\")
+	
+func make_invisable()	: hide()
+func fade_out()			: anim.play(\"fade_out\")
+	
+
+"
 
 [sub_resource type="DynamicFont" id=9]
 
@@ -124,12 +239,22 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/scale")
 tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.5, 1 ), "transitions":FloatArray( 2.21914, 0.25, 1 ), "update":0, "values":[ Vector2( 1.16559, 1.06944 ), Vector2( 1.32849, 1.21891 ), Vector2( 1.16559, 1.06944 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 0.5, 1 ),
+"transitions": FloatArray( 2.21914, 0.25, 1 ),
+"update": 0,
+"values": [ Vector2( 1.16559, 1.06944 ), Vector2( 1.32849, 1.21891 ), Vector2( 1.16559, 1.06944 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
+tracks/1/keys = {
+"times": FloatArray( 0, 0.5 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
 
 [sub_resource type="Animation" id=11]
 
@@ -141,17 +266,34 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/scale")
 tracks/0/interp = 2
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.5, 1 ), "transitions":FloatArray( 2.46229, 0.420448, 2.21914 ), "update":0, "values":[ Vector2( 1.16559, 1.06944 ), Vector2( 1.32849, 1.21891 ), Vector2( 1.16559, 1.06944 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 0.5, 1 ),
+"transitions": FloatArray( 2.46229, 0.420448, 2.21914 ),
+"update": 0,
+"values": [ Vector2( 1.16559, 1.06944 ), Vector2( 1.32849, 1.21891 ), Vector2( 1.16559, 1.06944 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 1.0, 0.0 ] }
+tracks/1/keys = {
+"times": FloatArray( 0, 1 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
 tracks/2/type = "method"
 tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 1 ), "transitions":FloatArray( 1 ), "values":[ { "args":[  ], "method":"make_invisable" } ] }
+tracks/2/keys = {
+"times": FloatArray( 1 ),
+"transitions": FloatArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "make_invisable"
+} ]
+}
 
 [sub_resource type="Animation" id=12]
 
@@ -163,12 +305,22 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/scale")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 1.16559, 1.06944 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1.16559, 1.06944 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 1.0 ] }
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
 
 [sub_resource type="DynamicFont" id=13]
 
@@ -177,7 +329,7 @@ font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 11 )
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=14]
 
 length = 1.0
 loop = false
@@ -186,17 +338,22 @@ tracks/0/type = "value"
 tracks/0/path = NodePath("background_image:transform/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.7, 1 ), "transitions":FloatArray( 0.25, 0.25, 0.25 ), "update":0, "values":[ Vector2( 493.059, -314.978 ), Vector2( 493.059, 305.021 ), Vector2( 493.059, 305.021 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 0.7, 1 ),
+"transitions": FloatArray( 0.25, 0.25, 0.25 ),
+"update": 0,
+"values": [ Vector2( 493.059, -314.978 ), Vector2( 493.059, 305.021 ), Vector2( 493.059, 305.021 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath("background_image/black_background:visibility/opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0.2, 0.8 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
-
-[sub_resource type="GDScript" id=22]
-
-resource/name = "word_panel"
-script/source = "#\t\t\t\t\tword\?panel\nextends Control\n"
+tracks/1/keys = {
+"times": FloatArray( 0.2, 0.8 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
 
 [sub_resource type="RectangleShape2D" id=15]
 
@@ -206,7 +363,52 @@ extents = Vector2( 99.4393, 110 )
 [sub_resource type="GDScript" id=16]
 
 resource/name = "word_notefication"
-script/source = "#\t\t\t\t\tword_notefication\nextends Sprite\n\nvar wait_timer\nvar wait_queue = 0\n\n\nfunc _ready(): \n\twait_timer = get_node(\"wait_timer\")\n\twait_timer.connect(\"timeout\",self,\"run_queue_step\")\n#\t_Words.connect(\n\t\n\nvar word_count = 0 setget set_word_count, get_word_count\nfunc set_word_count(_word_count): word_count = _word_count\nfunc get_word_count(): return word_count\nfunc change_word_count(by_number): \n\tword_count += by_number\n\n\nfunc add_to_queue():\n\twait_queue += 1\n\twait_timer.start()\n\tshow()\n\n\nfunc visual_update():\n\tif(word_count > 0): show()\n\telse: \n\t\thide()\n\t\treturn\n\tget_node(\"anim\").play(\"word_added\")\n\tget_node(\"label\").set_text(str(word_count))\n\n\nfunc run_queue_step():\n\tif(self.is_visible() == false):\n\t\twait_timer.start()\n\t\treturn\n\tif(wait_queue > 0):\n\t\twait_timer.start()\n\t\twait_queue -= 1\n\t\tchange_word_count(1)\n\t\tvisual_update()\n\t\t\n\tpass"
+script/source = "#					word_notefication
+extends Sprite
+
+var wait_timer
+var wait_queue = 0
+
+
+func _ready(): 
+	wait_timer = get_node(\"wait_timer\")
+	wait_timer.connect(\"timeout\",self,\"run_queue_step\")
+#	_Words.connect(
+	
+
+var word_count = 0 setget set_word_count, get_word_count
+func set_word_count(_word_count): word_count = _word_count
+func get_word_count(): return word_count
+func change_word_count(by_number): 
+	word_count += by_number
+
+
+func add_to_queue():
+	wait_queue += 1
+	wait_timer.start()
+	show()
+
+
+func visual_update():
+	if(word_count > 0): show()
+	else: 
+		hide()
+		return
+	get_node(\"anim\").play(\"word_added\")
+	get_node(\"label\").set_text(str(word_count))
+
+
+func run_queue_step():
+	if(self.is_visible() == false):
+		wait_timer.start()
+		return
+	if(wait_queue > 0):
+		wait_timer.start()
+		wait_queue -= 1
+		change_word_count(1)
+		visual_update()
+		
+	pass"
 
 [sub_resource type="DynamicFont" id=17]
 
@@ -232,7 +434,12 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/scale")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 0.3, 0.5 ), "transitions":FloatArray( -4, 1, 1 ), "update":0, "values":[ Vector2( 0.40604, 0.40604 ), Vector2( 0.494879, 0.494879 ), Vector2( 0.40604, 0.40604 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 0.3, 0.5 ),
+"transitions": FloatArray( -4, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.40604, 0.40604 ), Vector2( 0.494879, 0.494879 ), Vector2( 0.40604, 0.40604 ) ]
+}
 
 [sub_resource type="Animation" id=20]
 
@@ -244,17 +451,32 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:visibility/opacity")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 0.0 ] }
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/visible")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":1, "values":[ false ] }
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:transform/scale")
 tracks/2/interp = 1
 tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 1e-05, 1e-05 ) ] }
+tracks/2/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ) ]
+}
 
 [sub_resource type="Animation" id=21]
 
@@ -266,50 +488,77 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/scale")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 1e-05, 1e-05 ), Vector2( 0.5, 0.5 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 1 ),
+"transitions": FloatArray( -4, 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 0.5, 0.5 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/visible")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 0.1, 1 ), "transitions":FloatArray( -4, 1, 1 ), "update":1, "values":[ false, true, true ] }
+tracks/1/keys = {
+"times": FloatArray( 0, 0.1, 1 ),
+"transitions": FloatArray( -4, 1, 1 ),
+"update": 1,
+"values": [ false, true, true ]
+}
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:visibility/opacity")
 tracks/2/interp = 1
 tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
+tracks/2/keys = {
+"times": FloatArray( 0, 1 ),
+"transitions": FloatArray( -4, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
 
-[sub_resource type="DynamicFont" id=24]
+[sub_resource type="DynamicFont" id=22]
 
 font/size = 200
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=25]
+[sub_resource type="DynamicFont" id=23]
 
 font/size = 35
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 11 )
 
-[sub_resource type="CanvasItemShaderGraph" id=26]
+[sub_resource type="CanvasItemShaderGraph" id=24]
 
-_code = { "fragment":"vec3 nd2sl0=vec3(0.988281,0.988281,0.988281);\nfloat nd2sl1=1;\nCOLOR.rgb=nd2sl0;\n", "fragment_ofs":0, "light":"", "light_ofs":0, "vertex":"", "vertex_ofs":0 }
-_data = { "shaders":[ [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ], [ 0, 33, Vector2( 350, 40 ), null, null, [ 0, 2, 0 ], 1, 0, Vector2( 50, 40 ), null, null, [  ], 2, 3, Vector2( 243, 117 ), Color( 0.988281, 0.988281, 0.988281, 1 ), null, [  ] ], [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ] ] }
+_code = {
+"fragment": "vec3 nd2sl0=vec3(0.988281,0.988281,0.988281);
+float nd2sl1=1;
+COLOR.rgb=nd2sl0;
+",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+_data = {
+"shaders": [ [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ], [ 0, 33, Vector2( 350, 40 ), null, null, [ 0, 2, 0 ], 1, 0, Vector2( 50, 40 ), null, null, [  ], 2, 3, Vector2( 243, 117 ), Color( 0.988281, 0.988281, 0.988281, 1 ), null, [  ] ], [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ] ]
+}
 
-[sub_resource type="CanvasItemMaterial" id=27]
+[sub_resource type="CanvasItemMaterial" id=25]
 
-shader/shader = SubResource( 26 )
+shader/shader = SubResource( 24 )
 shader/shading_mode = 0
 
-[sub_resource type="DynamicFont" id=28]
+[sub_resource type="DynamicFont" id=26]
 
 font/size = 27
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 26 )
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=27]
 
 resource/name = "appear"
 length = 1.0
@@ -319,19 +568,34 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, 1 ), "update":0, "values":[ Vector2( 0, 288 ), Vector2( 0, 0 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 1 ),
+"transitions": FloatArray( -4, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 288 ), Vector2( 0, 0 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/visible")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 0.1, 1 ), "transitions":FloatArray( 1, 1, 1 ), "update":1, "values":[ false, true, true ] }
+tracks/1/keys = {
+"times": FloatArray( 0, 0.1, 1 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true ]
+}
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:visibility/opacity")
 tracks/2/interp = 1
 tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 0, 0.6 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 0.0, 1.0 ] }
+tracks/2/keys = {
+"times": FloatArray( 0, 0.6 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=28]
 
 resource/name = "disapear"
 length = 1.0
@@ -341,19 +605,34 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( -4, -4 ), "update":0, "values":[ Vector2( 0, 0 ), Vector2( 0, 288 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0, 1 ),
+"transitions": FloatArray( -4, -4 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 288 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/visible")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0, 0.9, 1 ), "transitions":FloatArray( 1, 1, 1 ), "update":1, "values":[ true, true, false ] }
+tracks/1/keys = {
+"times": FloatArray( 0, 0.9, 1 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, true, false ]
+}
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:visibility/opacity")
 tracks/2/interp = 1
 tracks/2/imported = false
-tracks/2/keys = { "times":FloatArray( 0.5, 1 ), "transitions":FloatArray( 1, 1 ), "update":0, "values":[ 1.0, 0.0 ] }
+tracks/2/keys = {
+"times": FloatArray( 0.5, 1 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=29]
 
 length = 1.0
 loop = false
@@ -362,19 +641,31 @@ tracks/0/type = "value"
 tracks/0/path = NodePath(".:transform/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
-tracks/0/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ Vector2( 0, 288 ) ] }
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 288 ) ]
+}
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:visibility/opacity")
 tracks/1/interp = 1
 tracks/1/imported = false
-tracks/1/keys = { "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "update":0, "values":[ 0.0 ] }
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 
 [node name="mvp_test_level" type="Node"]
 
 [node name="map" type="Node2D" parent="."]
 
 editor/display_folded = true
-__meta__ = { "_edit_lock_":true }
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="level_01" type="Sprite" parent="map"]
 
@@ -382,12 +673,16 @@ transform/scale = Vector2( 0.614485, 0.614485 )
 texture = ExtResource( 1 )
 centered = false
 modulate = Color( 1, 0.937164, 0.722656, 1 )
-__meta__ = { "_edit_lock_":true }
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="game_items" type="YSort" parent="."]
 
 sort/enabled = true
-__meta__ = { "_edit_lock_":true }
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="player" parent="game_items" instance=ExtResource( 2 )]
 
@@ -406,7 +701,9 @@ editor/display_folded = true
 
 modulate = Color( 0, 1, 0.554688, 1 )
 
-[node name="Interaction_area" type="Area2D" parent="game_items/player" groups=[ "player" ]]
+[node name="Interaction_area" type="Area2D" parent="game_items/player" groups=[
+"player",
+]]
 
 editor/display_folded = true
 visibility/visible = false
@@ -459,7 +756,10 @@ stream/buffering_ms = 500
 
 editor/display_folded = true
 transform/pos = Vector2( 582.386, 338.85 )
-__meta__ = { "_edit_group_":true, "_edit_lock_":true }
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="pos_1" type="Position2D" parent="game_items/landlord/conversations/landlord_first_incounter_dialog/exit_path"]
 
@@ -512,7 +812,6 @@ _update_shape_index = 0
 
 [node name="view_finder" type="Position2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 510, 290 )
 
 [node name="camera" type="Camera2D" parent="view_finder"]
@@ -530,7 +829,7 @@ limit/bottom = 10000000
 drag_margin/h_enabled = true
 drag_margin/v_enabled = true
 smoothing/enable = true
-smoothing/speed = 10.0
+smoothing/speed = 2.0
 drag_margin/left = 0.2
 drag_margin/top = 0.2
 drag_margin/right = 0.2
@@ -550,7 +849,9 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-__meta__ = { "_edit_group_":true }
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="collison" type="CollisionShape2D" parent="view_finder/camera/init_follow_player"]
 
@@ -579,7 +880,9 @@ editor/display_folded = true
 transform/pos = Vector2( -435.2, 614.6 )
 transform/scale = Vector2( 0.4, 0.4 )
 script/script = ExtResource( 9 )
-__meta__ = { "_edit_group_":true }
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="anim_anchor" type="Node2D" parent="view_finder/camera/ui_nodes/money_icon"]
 
@@ -645,8 +948,12 @@ margin/bottom = 909.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
 script/script = SubResource( 7 )
-__meta__ = { "_edit_lock_":true }
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="time_and_level" type="Node2D" parent="ui"]
 
@@ -720,6 +1027,8 @@ margin/bottom = 96.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="stay_active_timer" type="Timer" parent="ui/time_and_level/ui_level_and_cash"]
 
@@ -736,7 +1045,6 @@ root/root = NodePath("..")
 anims/fade_in = SubResource( 10 )
 anims/fade_out = SubResource( 11 )
 anims/idel = SubResource( 12 )
-next/fade_out = ""
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -768,7 +1076,9 @@ highlight_all_occurrences = false
 caret/block_caret = false
 caret/caret_blink = false
 caret/caret_blink_speed = 0.65
-__meta__ = { "_edit_lock_":true }
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="next" type="Button" parent="ui/conversation_system/consol"]
 
@@ -810,7 +1120,9 @@ visibility/light_mask = 2
 transform/pos = Vector2( 34, -13 )
 z/relative = false
 texture = ExtResource( 5 )
-__meta__ = { "_edit_group_":true }
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Light2D" type="Light2D" parent="ui/conversation_system/consol/actor_1"]
 
@@ -854,7 +1166,9 @@ visibility/light_mask = 2
 transform/pos = Vector2( 614, -13 )
 z/relative = false
 texture = ExtResource( 5 )
-__meta__ = { "_edit_group_":true }
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Light2D" type="Light2D" parent="ui/conversation_system/consol/actor_2"]
 
@@ -912,9 +1226,12 @@ script/script = ExtResource( 16 )
 
 [node name="background_image" type="Sprite" parent="ui/notepad_gui"]
 
-transform/pos = Vector2( 493.059, 305.021 )
-transform/scale = Vector2( 0.47806, 0.47806 )
+transform/pos = Vector2( 499.531, 364.009 )
+transform/scale = Vector2( 0.576788, 0.576788 )
 texture = ExtResource( 17 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="black_background" type="Sprite" parent="ui/notepad_gui/background_image"]
 
@@ -924,7 +1241,9 @@ transform/pos = Vector2( 17.5021, -15.6486 )
 transform/scale = Vector2( 7.43331, 4.40003 )
 texture = ExtResource( 18 )
 modulate = Color( 0.132813, 0.114655, 0.114655, 1 )
-__meta__ = { "_edit_lock_":true }
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="image_tuchup" type="Sprite" parent="ui/notepad_gui/background_image"]
 
@@ -933,7 +1252,9 @@ transform/pos = Vector2( -232.161, -274.664 )
 transform/scale = Vector2( 1.39459, 0.457372 )
 texture = ExtResource( 18 )
 modulate = Color( 0.492188, 0.488823, 0.461426, 1 )
-__meta__ = { "_edit_group_":true }
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="blocks" type="Sprite" parent="ui/notepad_gui/background_image/image_tuchup"]
 
@@ -955,7 +1276,9 @@ transform/pos = Vector2( -232.161, -408.538 )
 transform/scale = Vector2( 1.39459, 0.457372 )
 texture = ExtResource( 18 )
 modulate = Color( 0.492188, 0.488823, 0.461426, 1 )
-__meta__ = { "_edit_group_":true }
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="blocks" type="Sprite" parent="ui/notepad_gui/background_image/image_tuchup1"]
 
@@ -982,7 +1305,7 @@ modulate = Color( 0, 0, 0, 1 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/appear = SubResource( 23 )
+anims/appear = SubResource( 14 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -994,9 +1317,9 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 753.0
+margin/left = 809.0
 margin/top = 0.0
-margin/right = 785.0
+margin/right = 841.0
 margin/bottom = 32.0
 toggle_mode = false
 enabled_focus_mode = 2
@@ -1004,16 +1327,17 @@ shortcut = null
 text = "X"
 flat = false
 
-[node name="test" type="Node2D" parent="ui/notepad_gui"]
+[node name="word_panel_manipluator" type="Node2D" parent="ui/notepad_gui"]
 
 transform/pos = Vector2( 298.6, 84.6 )
-transform/scale = Vector2( 0.8, 0.8 )
+transform/scale = Vector2( 1.2, 1.2 )
 
-[node name="word_panel" parent="ui/notepad_gui/test" instance=ExtResource( 19 )]
+[node name="word_panel" parent="ui/notepad_gui/word_panel_manipluator" instance=ExtResource( 19 )]
 
-margin/left = -15.0
-margin/right = 485.0
-script/script = SubResource( 22 )
+margin/left = -80.0
+margin/top = 21.0
+margin/right = 420.0
+margin/bottom = 621.0
 
 [node name="notepad_icon" type="Node2D" parent="ui"]
 
@@ -1049,7 +1373,11 @@ margin/bottom = 104.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-__meta__ = { "_edit_group_":true }
+params/resize_mode = 0
+params/stretch_mode = 0
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="area" type="Area2D" parent="ui/notepad_icon/button_area"]
 
@@ -1070,7 +1398,9 @@ transform/pos = Vector2( 90, 120 )
 shape = SubResource( 15 )
 trigger = false
 _update_shape_index = 0
-__meta__ = { "_edit_group_":true }
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="notefication" type="Sprite" parent="ui/notepad_icon"]
 
@@ -1142,7 +1472,9 @@ transform/pos = Vector2( 989.896, 60.9464 )
 transform/scale = Vector2( 0.15279, 0.270659 )
 z/z = 1
 texture = ExtResource( 18 )
-__meta__ = { "_edit_group_":true }
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="shadow" type="Sprite" parent="ui/dropdown/icon"]
 
@@ -1150,7 +1482,9 @@ transform/pos = Vector2( -20.9437, 14.7787 )
 z/relative = false
 texture = ExtResource( 18 )
 modulate = Color( 0, 0, 0, 1 )
-__meta__ = { "_edit_lock_":true }
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="button" type="TextureButton" parent="ui/dropdown/icon"]
 
@@ -1165,6 +1499,8 @@ margin/bottom = 148.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="label" type="Label" parent="ui/dropdown/icon/button"]
 
@@ -1178,7 +1514,7 @@ margin/left = -18.0
 margin/top = 183.0
 margin/right = 124.0
 margin/bottom = 420.0
-custom_fonts/font = SubResource( 24 )
+custom_fonts/font = SubResource( 22 )
 custom_colors/font_color = Color( 0.332642, 0.78125, 0.602508, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = -21
@@ -1199,7 +1535,9 @@ transform/pos = Vector2( 399.261, 67.8004 )
 transform/scale = Vector2( 0.35608, 0.333548 )
 z/z = 2
 texture = ExtResource( 23 )
-__meta__ = { "_edit_group_":true }
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="12" type="Label" parent="ui/clock_adn_calander/clock_and_calender"]
 
@@ -1211,7 +1549,7 @@ margin/left = -20.0
 margin/top = -127.0
 margin/right = 25.0
 margin/bottom = -85.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "12"
 percent_visible = 1.0
@@ -1228,7 +1566,7 @@ margin/left = -102.0
 margin/top = -63.0
 margin/right = -57.0
 margin/bottom = -21.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_y = 1
@@ -1258,7 +1596,7 @@ margin/left = 84.0
 margin/top = -20.0
 margin/right = 129.0
 margin/bottom = 22.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "3"
 align = 1
@@ -1276,7 +1614,7 @@ margin/left = -20.0
 margin/top = 74.0
 margin/right = 25.0
 margin/bottom = 116.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "6"
 align = 1
@@ -1294,7 +1632,7 @@ margin/left = -124.0
 margin/top = -20.0
 margin/right = -79.0
 margin/bottom = 22.0
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "9"
 align = 1
@@ -1331,6 +1669,8 @@ margin/bottom = 173.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="on_inactive_hide_ui" type="Timer" parent="ui"]
 
@@ -1347,7 +1687,7 @@ script/script = ExtResource( 24 )
 
 [node name="reminder_palat" type="Sprite" parent="ui/reminder"]
 
-material/material = SubResource( 27 )
+material/material = SubResource( 25 )
 transform/pos = Vector2( 542.25, 455.734 )
 texture = ExtResource( 25 )
 
@@ -1368,7 +1708,7 @@ margin/left = -242.0
 margin/top = -97.0
 margin/right = 238.0
 margin/bottom = 88.0
-custom_fonts/font = SubResource( 28 )
+custom_fonts/font = SubResource( 26 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Reminder"
 align = 1
@@ -1382,10 +1722,9 @@ max_lines_visible = -1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/appear = SubResource( 29 )
-anims/disapear = SubResource( 30 )
-anims/idel = SubResource( 31 )
-next/disapear = ""
+anims/appear = SubResource( 27 )
+anims/disapear = SubResource( 28 )
+anims/idel = SubResource( 29 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]

@@ -2,18 +2,25 @@
 
 [ext_resource path="res://R_and_D/mvp/ui/notepad_word_item.gd" type="Script" id=1]
 [ext_resource path="res://R_and_D/paper_prtotype/img/white_square.png" type="Texture" id=2]
-[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=3]
+[ext_resource path="res://R_and_D/paper_prtotype/img/words_de_que_porfavor_bien_hablas_ingles.png" type="Texture" id=3]
 [ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Regular.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Bold.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://R_and_D/paper_prtotype/img/words_de_que_porfavor_bien_hablas_ingles.png" type="Texture" id=6]
+[ext_resource path="res://R_and_D/paper_prtotype/img/notebook_new_words.png" type="Texture" id=5]
+[ext_resource path="res://R_and_D/paper_prtotype/fonts/Rubik-Bold.ttf" type="DynamicFontData" id=6]
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="DynamicFont" id=1]
 
-atlas = ExtResource( 3 )
+font/size = 20
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 4 )
+
+[sub_resource type="AtlasTexture" id=2]
+
+atlas = ExtResource( 5 )
 region = Rect2( 140, 330, 70, 70 )
 margin = Rect2( 0, 0, 0, 0 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 
 font/size = 20
 extra_spacing/space = 2
@@ -21,19 +28,12 @@ font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 
 font/size = 33
 font/use_mipmaps = false
 font/use_filter = false
-font/font = ExtResource( 5 )
-
-[sub_resource type="DynamicFont" id=4]
-
-font/size = 18
-font/use_mipmaps = false
-font/use_filter = false
-font/font = ExtResource( 4 )
+font/font = ExtResource( 6 )
 
 [node name="word_block" type="Container"]
 
@@ -64,118 +64,31 @@ modulate = Color( 0.784314, 0.733333, 0.733333, 1 )
 expand = true
 stretch_mode = 0
 
-[node name="hbox_contian" type="HBoxContainer" parent="."]
+[node name="center_contain" type="CenterContainer" parent="."]
 
-editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 500.0
+margin/bottom = 70.0
+use_top_left = false
+
+[node name="hbox_contian" type="HBoxContainer" parent="center_contain"]
+
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 40.0
+margin/left = 40.0
+margin/top = 5.0
+margin/right = 459.0
+margin/bottom = 65.0
 alignment = 0
 
-[node name="soud_btn" type="TextureButton" parent="hbox_contian"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 70.0
-margin/bottom = 70.0
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-textures/normal = SubResource( 1 )
-
-[node name="VSeparator1" type="VSeparator" parent="hbox_contian"]
-
-rect/min_size = Vector2( 15, 0 )
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 74.0
-margin/top = 0.0
-margin/right = 89.0
-margin/bottom = 70.0
-
-[node name="CenterContainer" type="CenterContainer" parent="hbox_contian"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 93.0
-margin/top = 0.0
-margin/right = 343.0
-margin/bottom = 70.0
-use_top_left = false
-
-[node name="translation_field" type="LineEdit" parent="hbox_contian/CenterContainer"]
-
-rect/min_size = Vector2( 250, 40 )
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 15.0
-margin/right = 250.0
-margin/bottom = 55.0
-custom_fonts/font = SubResource( 2 )
-placeholder/text = "translation"
-placeholder/alpha = 1.0
-focus_mode = 2
-caret/caret_blink = false
-caret/caret_blink_speed = 0.65
-
-[node name="VSeparator" type="VSeparator" parent="hbox_contian"]
-
-rect/min_size = Vector2( 15, 0 )
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 347.0
-margin/top = 0.0
-margin/right = 362.0
-margin/bottom = 70.0
-
-[node name="check_btn" type="Button" parent="hbox_contian"]
-
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 366.0
-margin/top = 0.0
-margin/right = 395.0
-margin/bottom = 70.0
-custom_fonts/font = SubResource( 3 )
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-text = ">"
-flat = false
-
-[node name="VSeparator2" type="VSeparator" parent="hbox_contian"]
-
-rect/min_size = Vector2( 10, 0 )
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 399.0
-margin/top = 0.0
-margin/right = 409.0
-margin/bottom = 70.0
-
-[node name="spanish_word" type="Patch9Frame" parent="hbox_contian"]
+[node name="spanish_word" type="Patch9Frame" parent="center_contain/hbox_contian"]
 
 editor/display_folded = true
 rect/min_size = Vector2( 80, 60 )
@@ -183,26 +96,26 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 413.0
+margin/left = 0.0
 margin/top = 0.0
-margin/right = 493.0
-margin/bottom = 70.0
-texture = ExtResource( 6 )
-modulate = Color( 0.615686, 0.843137, 0.639216, 1 )
+margin/right = 80.0
+margin/bottom = 60.0
+texture = ExtResource( 3 )
+modulate = Color( 0, 0, 0, 1 )
 region_rect = Rect2( 35, 40, 250, 250 )
 
-[node name="label" type="Label" parent="hbox_contian/spanish_word"]
+[node name="spanish_word_label" type="Label" parent="center_contain/hbox_contian/spanish_word"]
 
 rect/min_size = Vector2( 70, 30 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = -4.0
-margin/top = 16.0
-margin/right = 82.0
-margin/bottom = 46.0
-custom_fonts/font = SubResource( 4 )
+margin/left = -13.0
+margin/top = 5.0
+margin/right = 87.0
+margin/bottom = 55.0
+custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0.023407, 0.230469, 0, 1 )
 custom_constants/shadow_offset_x = 1
@@ -213,5 +126,141 @@ valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="center_sound_btn" type="CenterContainer" parent="center_contain/hbox_contian"]
+
+editor/display_folded = true
+visibility/visible = false
+rect/min_size = Vector2( 70, 70 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 80.0
+margin/bottom = 70.0
+use_top_left = false
+
+[node name="soud_btn" type="TextureButton" parent="center_contain/hbox_contian/center_sound_btn"]
+
+editor/display_folded = true
+rect/min_size = Vector2( 45, 45 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 12.0
+margin/top = 7.0
+margin/right = 68.0
+margin/bottom = 63.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = SubResource( 2 )
+params/scale = Vector2( 0.8, 0.8 )
+
+[node name="shadow" type="TextureButton" parent="center_contain/hbox_contian/center_sound_btn/soud_btn"]
+
+visibility/behind_parent = true
+rect/min_size = Vector2( 45, 45 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -4.0
+margin/top = -4.0
+margin/right = 59.0
+margin/bottom = 59.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = SubResource( 2 )
+params/scale = Vector2( 0.9, 0.9 )
+params/modulate = Color( 0, 0, 0, 1 )
+
+[node name="v_seperator1" type="VSeparator" parent="center_contain/hbox_contian"]
+
+rect/min_size = Vector2( 15, 0 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 84.0
+margin/top = 0.0
+margin/right = 99.0
+margin/bottom = 60.0
+
+[node name="center_trans_field" type="CenterContainer" parent="center_contain/hbox_contian"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 103.0
+margin/top = 0.0
+margin/right = 353.0
+margin/bottom = 60.0
+use_top_left = false
+
+[node name="translation_field" type="LineEdit" parent="center_contain/hbox_contian/center_trans_field"]
+
+rect/min_size = Vector2( 250, 40 )
+focus_neighbour/left = NodePath("../../check_btn")
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 10.0
+margin/right = 250.0
+margin/bottom = 50.0
+custom_fonts/font = SubResource( 3 )
+placeholder/text = "translation"
+placeholder/alpha = 1.0
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="v_seperator3" type="VSeparator" parent="center_contain/hbox_contian"]
+
+rect/min_size = Vector2( 10, 0 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 357.0
+margin/top = 0.0
+margin/right = 367.0
+margin/bottom = 60.0
+
+[node name="check_btn" type="Button" parent="center_contain/hbox_contian"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 371.0
+margin/top = 0.0
+margin/right = 400.0
+margin/bottom = 60.0
+custom_fonts/font = SubResource( 4 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = ">"
+flat = false
+
+[node name="v_seperator2" type="VSeparator" parent="center_contain/hbox_contian"]
+
+rect/min_size = Vector2( 15, 0 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 404.0
+margin/top = 0.0
+margin/right = 419.0
+margin/bottom = 60.0
 
 
