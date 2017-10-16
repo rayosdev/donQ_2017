@@ -1220,6 +1220,7 @@ autostart = false
 
 [node name="notepad_gui" type="Node2D" parent="ui"]
 
+editor/display_folded = true
 transform/pos = Vector2( 15, 0 )
 z/z = 3
 script/script = ExtResource( 16 )
